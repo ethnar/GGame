@@ -19,7 +19,9 @@ module.exports = class extends Plant {
                         node.addStructure(new FelledTree({
                             wood: Math.pow(this.growth, 2) / 100
                         }));
+                        return false;
                     }
+                    return true;
                 }
             }
         };
@@ -34,7 +36,7 @@ module.exports = class extends Plant {
     }
 
     static growthRate() {
-        return 0.1;
+        return 0.01;
     }
 
     static temperatureRange() {

@@ -16,6 +16,16 @@ module.exports = class {
     }
 
     getName() {
-        return this.constructor.name();
+        return this.name || this.constructor.name();
+    }
+
+    hasAvailableAction(action) {
+        const actions = this.constructor.actions && this.constructor.actions();
+        if (actions) {
+            if (actions[action] && actions[action].available) {
+                return actions[action].available.call(this);
+            }
+            return !!actions[action];
+        }
     }
 };

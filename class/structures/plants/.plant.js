@@ -3,7 +3,7 @@ const Utils = require('../../../utils/utils');
 
 module.exports = class extends Structure {
     static growthRate() {
-        return 1;
+        return 0.1;
     }
 
     static temperatureRange() {
@@ -16,12 +16,13 @@ module.exports = class extends Structure {
 
     constructor(args) {
         super(args);
+
+        this.growth = 50;
     }
 
-    cycle() {
-        super.cycle();
-        this.grow();
-        this.wither();
+    die() {
+        console.log(this.getName() + ' died');
+        this.getNode().removeStructure(this);
     }
 
     grow() {
@@ -51,6 +52,16 @@ module.exports = class extends Structure {
             range[0] - temperature,
             temperature - range[1]
         );
-        this.integrity -= damage * damage;
+        this.integrity -= damage;
+
+        if (this.integrity <= 0) {
+            this.die();
+        }
+    }
+
+    cycle() {
+        super.cycle();
+        this.grow();
+        this.wither();
     }
 };

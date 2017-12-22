@@ -18,7 +18,15 @@ module.exports = class extends Entity {
     reduceIntegrity(damage) {
         this.integrity -= damage;
         if (this.integrity <= 0) {
-            // TODO: destroy?
+            this.getNode().removeItem(this);
         }
+    }
+
+    setNode(node) {
+        this.node = node;
+    }
+
+    getNode() {
+        return this.node;
     }
 };

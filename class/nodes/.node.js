@@ -27,6 +27,7 @@ module.exports = class extends Entity {
                             }
                         }
                     }
+                    return true;
                 }
             }
         };
@@ -54,15 +55,26 @@ module.exports = class extends Entity {
 
     addCreature(creature) {
         this.creatures.push(creature);
-        creature.setLocation(this);
+        creature.setNode(this);
     }
 
-    addPath(path) {
-        this.paths.push(path);
+    removeCreature(creature) {
+        const idx = this.creatures.indexOf(creature);
+        this.creatures.splice(idx, 1);
     }
 
     addItem(item) {
         this.items.push(item);
+        item.setNode(this);
+    }
+
+    removeItem(item) {
+        const idx = this.items.indexOf(item);
+        this.items.splice(idx, 1);
+    }
+
+    addPath(path) {
+        this.paths.push(path);
     }
 
     getTemperature() {

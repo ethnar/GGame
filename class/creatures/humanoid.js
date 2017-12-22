@@ -1,6 +1,10 @@
 const Creature = require('./.creature');
 
 module.exports = class extends Creature {
+    static hungerRate() {
+        return 0.1;
+    }
+
     constructor(args) {
         super(args);
         this.hungerRate = 1;
@@ -10,10 +14,6 @@ module.exports = class extends Creature {
         this.knownStructures = [];
     }
 
-    addItem(item) {
-        this.items.push(item);
-    }
-
     knowsStructure(structure) {
         return this.knownStructures.includes(structure);
     }
@@ -21,6 +21,7 @@ module.exports = class extends Creature {
     learnAboutStructure(structure) {
         if (!this.knowsStructure(structure)) {
             this.knownStructures.push(structure);
+            console.log('Learned about:', structure.getName());
         }
     }
 

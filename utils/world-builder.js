@@ -5,6 +5,7 @@ const Stone = require('../class/items/stone');
 const SharpenedStone = require('../class/items/sharpened-stone');
 const Twig = require('../class/items/twig');
 const Tree = require('../class/structures/plants/tree');
+const StrawberryBush = require('../class/structures/plants/herbs/strawberry-bush');
 const Boulder = require('../class/structures/boulder');
 const MountainSide = require('../class/structures/mountain-side');
 const Dwarf = require('../class/creatures/humanoid/dwarf');
@@ -37,13 +38,23 @@ module.exports = {
         }
     },
 
+    addHerbs(node, count) {
+        for (let i = 0; i < count; i++) {
+            node.addStructure(new StrawberryBush({
+                size: Utils.random(60, 90)
+            }));
+        }
+    },
+
     buildNewWorld() {
         const world = new World();
+
         const startingForest = new Outdoor({
             size: 50
         });
         this.addTrees(startingForest, 35);
         this.addBoulders(startingForest, 12);
+        this.addHerbs(startingForest, 30);
 
         const dangerousForest = new Outdoor({
             size: 50
