@@ -50,7 +50,7 @@ module.exports = {
         const world = new World();
 
         const startingForest = new Outdoor({
-            size: 50
+            size: 60
         });
         this.addTrees(startingForest, 35);
         this.addBoulders(startingForest, 12);

@@ -9,9 +9,9 @@ module.exports = class extends Plant {
                 },
                 run(creature) {
                     creature.actionProgress += 1;
-                    if (creature.actionProgress >= 15) {
+                    if (creature.actionProgress >= 4) {
                         creature.addItem(this.constructor.spawnNewBerry());
-                        this.growth -= 15;
+                        this.growth -= 2;
                         return false;
                     }
                     return true;

@@ -25,6 +25,13 @@ module.exports = class extends Creature {
         }
     }
 
+    forgetAboutStructure(structure) {
+        const idx = this.knownStructures.indexOf(structure);
+        if (idx !== -1) {
+            this.knownStructures.splice(idx, 1);
+        }
+    }
+
     knowsItem(item) {
         return this.knownItems.includes(item);
     }
@@ -33,6 +40,13 @@ module.exports = class extends Creature {
         if (!this.knowsItem(item)) {
             this.knownItems.push(item);
             console.log('Learned about:', item.getName());
+        }
+    }
+
+    forgetAboutItem(item) {
+        const idx = this.knownItems.indexOf(item);
+        if (idx !== -1) {
+            this.knownItems.splice(idx, 1);
         }
     }
 };

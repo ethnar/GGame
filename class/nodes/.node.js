@@ -51,16 +51,7 @@ module.exports = class extends Entity {
     removeStructure(structure) {
         const idx = this.structures.indexOf(structure);
         this.structures.splice(idx, 1);
-    }
-
-    addCreature(creature) {
-        this.creatures.push(creature);
-        creature.setNode(this);
-    }
-
-    removeCreature(creature) {
-        const idx = this.creatures.indexOf(creature);
-        this.creatures.splice(idx, 1);
+        this.creatures.forEach(creature => creature.forgetAboutStructure(structure));
     }
 
     addItem(item) {
@@ -71,6 +62,17 @@ module.exports = class extends Entity {
     removeItem(item) {
         const idx = this.items.indexOf(item);
         this.items.splice(idx, 1);
+        this.creatures.forEach(creature => creature.forgetAboutItem(item));
+    }
+
+    addCreature(creature) {
+        this.creatures.push(creature);
+        creature.setNode(this);
+    }
+
+    removeCreature(creature) {
+        const idx = this.creatures.indexOf(creature);
+        this.creatures.splice(idx, 1);
     }
 
     addPath(path) {
@@ -89,6 +91,16 @@ module.exports = class extends Entity {
         return this.size - this.structures.reduce(
             (acc, structure) => acc + structure.getSize(), 0
         );
+    }
+
+    startConstruction(creature, buildingClass) {
+        if (this.getFreeSpace() >= buildingClass.size()) {
+            const building = new buildingClass();
+            this.addStructure(building);
+            creature.learnAboutStructure(building);
+            return true;
+        }
+        return false;
     }
 
     updateTemperature() {

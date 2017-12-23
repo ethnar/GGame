@@ -2,7 +2,7 @@ module.exports = class {
     constructor(args) {
         this.nodes = [];
         this.currentTime = new Date();
-        this.currentTime.setMonth(1);
+        this.currentTime.setMonth(6);
     }
 
     addNode(node) {

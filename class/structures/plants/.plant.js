@@ -22,6 +22,7 @@ module.exports = class extends Structure {
 
     die() {
         console.log(this.getName() + ' died');
+        this.growth = 0;
         this.getNode().removeStructure(this);
     }
 

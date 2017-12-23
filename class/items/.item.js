@@ -1,12 +1,21 @@
 const Entity = require('../.entity');
 
 global.TOOL_UTILS = {
-    CUTTING: 'cuttingTool'
+    CUTTING: 1,
+    HAMMER: 2
+};
+
+global.MATERIALS = {
+    WOOD: 1,
 };
 
 module.exports = class extends Entity {
     static discoverability() {
         return 10;
+    }
+
+    static material() {
+        return [];
     }
 
     constructor(args) {
@@ -15,11 +24,22 @@ module.exports = class extends Entity {
         this.integrity = 100;
     }
 
+    isMaterial(materialType) {
+        return this.constructor.material().includes(materialType);
+    }
+
     reduceIntegrity(damage) {
         this.integrity -= damage;
         if (this.integrity <= 0) {
             this.getNode().removeItem(this);
         }
+    }
+
+    getUtility(utilityType) {
+        if (this.constructor.utility) {
+            return this.constructor.utility()[utilityType] || 0;
+        }
+        return 0;
     }
 
     setNode(node) {

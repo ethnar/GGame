@@ -26,6 +26,16 @@ module.exports = class extends Entity {
         return this.node;
     }
 
+    pickUp(item) {
+        const node = item.getNode();
+        if (node !== this.getNode()) {
+            console.error('Picking item from another node!');
+        }
+        console.log(`${this.getName()} picked up: ${item.getName()}`);
+        node.removeItem(item);
+        this.addItem(item);
+    }
+
     addItem(item) {
         this.items.push(item);
     }
@@ -51,6 +61,11 @@ module.exports = class extends Entity {
 
             if (!actions[action]) {
                 throw new Error(`Action ${action} not found on an entity ${entity.getName()}`);
+            }
+
+            if (actions[action].available && !actions[action].available.call(entity)) {
+                this.currentAction = 0;
+                return;
             }
 
             const result = actions[action].run.call(entity, this, items);

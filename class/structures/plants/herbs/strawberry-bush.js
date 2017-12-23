@@ -7,7 +7,7 @@ module.exports = class extends Herb {
     }
 
     static temperatureRange() {
-        return [4, 23];
+        return [4, 30];
     }
 
     static pollination() {
