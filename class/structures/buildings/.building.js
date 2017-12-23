@@ -6,9 +6,26 @@ module.exports = class extends Structure {
             construct: {
                 requiredTools: this.requiredTools(),
                 run(creature, tool, material) {
-                    creature.actionProgress += 1;
-                    if (creature.actionProgress >= 120) {
-                        this.completness += 10;
+                    const matchingMaterial = material
+                        .getMaterialTypes()
+                        .find(materialType => !!this.remainingMaterialsNeeded[materialType]);
+
+                    if (!matchingMaterial) {
+                        return false;
+                    }
+
+                    creature.actionProgress += tool.getUtility(TOOL_UTILS.HAMMER) * 10;
+
+                    if (creature.actionProgress >= 100) {
+                        this.remainingMaterialsNeeded[matchingMaterial] -= 1;
+                        creature.removeItem(material);
+                        if (this.remainingMaterialsNeeded[matchingMaterial] === 0) {
+                            delete this.remainingMaterialsNeeded[matchingMaterial];
+
+                            if (!Object.keys(this.remainingMaterialsNeeded).length) {
+                                this.constructionFinished();
+                            }
+                        }
                         return false;
                     }
                     return true;
@@ -25,10 +42,20 @@ module.exports = class extends Structure {
 
     constructor(args) {
         super(args);
-        this.completeness = 0;
+
+        this.remainingMaterialsNeeded = {
+            ...this.constructor.materials()
+        }
     }
 
     getCompleteness() {
-        return this.completeness;
+        const stillRequired = Object.values(this.remainingMaterialsNeeded).reduce((acc, item) => acc + item, 0);
+        const totalNeeded = Object.values(this.constructor.materials()).reduce((acc, item) => acc + item, 0);
+
+        return 100 * (totalNeeded - stillRequired) / totalNeeded;
+    }
+
+    constructionFinished() {
+        console.log('DONE!!!');
     }
 };

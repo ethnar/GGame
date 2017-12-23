@@ -28,6 +28,10 @@ module.exports = class extends Entity {
         return this.constructor.material().includes(materialType);
     }
 
+    getMaterialTypes() {
+        return this.constructor.material();
+    }
+
     reduceIntegrity(damage) {
         this.integrity -= damage;
         if (this.integrity <= 0) {

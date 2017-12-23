@@ -8,7 +8,7 @@ module.exports = class extends Entity {
         this.node = null;
     }
 
-    startAction(entity, action, items) {
+    startAction(entity, action, ...items) {
         this.actionProgress = 0;
         console.log(this.getName() + ': ' + action + '!');
         this.currentAction = {
@@ -68,7 +68,7 @@ module.exports = class extends Entity {
                 return;
             }
 
-            const result = actions[action].run.call(entity, this, items);
+            const result = actions[action].run.call(entity, this, ...items);
 
             if (!result) {
                 this.currentAction = null;

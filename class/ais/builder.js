@@ -49,7 +49,7 @@ module.exports = class extends AI {
         const self = this.creature;
         const node = self.getNode();
 
-        const building = self.knownStructures.find(strcuture => strcuture.getCompleteness() < 100);
+        const building = self.knownStructures.find(strcuture => strcuture.getCompleteness && strcuture.getCompleteness() < 100);
 
         if (building) {
             this.continueBuilding(building);
