@@ -1,4 +1,4 @@
-const Humanoid = require('../humanoid/.humanoid');
+const Animal = require('./.animal');
 const predatorAI = require('../../ais/predator');
 
 const claws = {
@@ -6,7 +6,15 @@ const claws = {
     hitChance: 85
 };
 
-module.exports = class extends Humanoid {
+module.exports = class extends Animal {
+    static name() {
+        return 'Wolf';
+    }
+
+    static discoverability() {
+        return 8;
+    }
+
     static stomachSeconds() {
         return 60;
     }

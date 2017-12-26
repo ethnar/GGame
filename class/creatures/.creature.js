@@ -8,11 +8,17 @@ const prod = {
 };
 
 module.exports = class extends Entity {
+    static searchingFor() {
+        return [];
+    }
+
     static actions() {
         return {
             attack: {
                 run(creature) {
                     this.progressAction += 20;
+
+                    this.learnAboutCreature(creature);
 
                     if (this.progressAction >= 100) {
                         const chanceToHit = creature.getHitChance();
@@ -40,6 +46,10 @@ module.exports = class extends Entity {
         return prod;
     }
 
+    getSearchingFor() {
+        return this.constructor.searchingFor();
+    }
+
     constructor(args) {
         super(args);
         this.hitpoints = 100;
@@ -47,6 +57,13 @@ module.exports = class extends Entity {
         this.hunger = 40;
         this.node = null;
         this.skills = {};
+        this.items = [];
+
+        this.known = {
+            items: [],
+            structures: [],
+            creatures: []
+        };
     }
 
     startAction(entity, action, ...items) {
@@ -133,6 +150,53 @@ module.exports = class extends Entity {
     attachAI(ai) {
         this.ai = ai;
         ai.setCreature(this);
+    }
+
+    knowsStructure(structure) {
+        return this.known.structures.includes(structure);
+    }
+
+    learn(kind, thing) {
+        const idx = this.known[kind].indexOf(thing);
+        if (idx === -1) {
+            this.known[kind].push(thing);
+            console.log(this.getName() + ': Learned about [' + kind + ']:', thing.getName());
+        }
+    }
+
+    forget(kind, thing) {
+        const idx = this.known[kind].indexOf(thing);
+        if (idx !== -1) {
+            this.known[kind].splice(idx, 1);
+        }
+    }
+
+    learnAboutStructure(structure) {
+        this.learn('structures', structure);
+    }
+
+    forgetAboutStructure(structure) {
+        this.forget('structures', structure);
+    }
+
+    knowsItem(item) {
+        return this.known.items.includes(item);
+    }
+
+    learnAboutItem(item) {
+        this.learn('items', item);
+    }
+
+    forgetAboutItem(item) {
+        this.forget('items', item);
+    }
+
+    learnAboutCreature(creature) {
+        this.learn('creatures', creature);
+    }
+
+    forgetAboutCreature(creature) {
+        this.forget('creatures', creature);
     }
 
     continueAction() {

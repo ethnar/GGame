@@ -34,7 +34,7 @@ module.exports = class extends AI {
         const node = self.getNode();
 
         if (!self.currentAction || self.currentAction.action === 'search') {
-            const bush = self.knownStructures
+            const bush = self.known.structures
                 .find(structure => structure.hasAvailableAction('gather'));
 
             if (bush) {
@@ -49,7 +49,7 @@ module.exports = class extends AI {
         const self = this.creature;
         const node = self.getNode();
 
-        const building = self.knownStructures.find(strcuture => strcuture.getCompleteness && strcuture.getCompleteness() < 100);
+        const building = self.known.structures.find(strcuture => strcuture.getCompleteness && strcuture.getCompleteness() < 100);
 
         if (building) {
             this.continueBuilding(building);
@@ -79,7 +79,7 @@ module.exports = class extends AI {
                 .find(item => item.getUtility(TOOL_UTILS.HAMMER));
 
             if (!tool) {
-                const item = self.knownItems
+                const item = self.known.items
                     .find(item => item.getUtility(TOOL_UTILS.HAMMER));
 
                 if (item) {
@@ -104,7 +104,7 @@ module.exports = class extends AI {
         const node = self.getNode();
 
         if (!self.currentAction || self.currentAction.action === 'search') {
-            const item = self.knownItems
+            const item = self.known.items
                 .find(item => item.isMaterial(MATERIALS.WOOD));
 
             if (item) {
@@ -119,7 +119,7 @@ module.exports = class extends AI {
                 return;
             }
 
-            const felledTree = self.knownStructures
+            const felledTree = self.known.structures
                 .find(structure => structure.getName() === 'Fallen tree');
 
             if (felledTree) {
@@ -127,7 +127,7 @@ module.exports = class extends AI {
                 return;
             }
 
-            const tree = self.knownStructures
+            const tree = self.known.structures
                 .find(structure => structure.getName() === 'Tree');
 
             if (tree) {

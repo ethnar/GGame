@@ -6,27 +6,19 @@ module.exports = class extends Entity {
         return {
             search: {
                 run(creature) {
-                    if (this.structures.length) {
-                        for (let i = 0; i < 3; i++) {
-                            const idx = Utils.random(0, this.structures.length - 1);
-                            const structure = this.structures[idx];
+                    creature.getSearchingFor().forEach(type => {
+                        if (this[type].length) {
+                            for (let i = 0; i < 3; i++) {
+                                const idx = Utils.random(0, this[type].length - 1);
+                                const thing = this[type][idx];
 
-                            if (structure.getDiscoverability() > Utils.random(1, 100)) {
-                                creature.learnAboutStructure(structure);
+                                if (thing.getDiscoverability() > Utils.random(1, 100)) {
+                                    creature.learn(type, thing);
+                                }
                             }
                         }
-                    }
+                    });
 
-                    if (this.items.length) {
-                        for (let i = 0; i < 3; i++) {
-                            const idx = Utils.random(0, this.items.length - 1);
-                            const item = this.items[idx];
-
-                            if (item.getDiscoverability() > Utils.random(1, 100)) {
-                                creature.learnAboutItem(item);
-                            }
-                        }
-                    }
                     return true;
                 }
             }
