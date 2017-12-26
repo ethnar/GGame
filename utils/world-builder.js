@@ -1,5 +1,5 @@
 const World = require('../class/world');
-const Path = require('../class/path');
+const Path = require('../class/connections/.connection');
 const Outdoor = require('../class/nodes/outdoor');
 const Stone = require('../class/items/stone');
 const SharpenedStone = require('../class/items/sharpened-stone');
@@ -9,6 +9,8 @@ const StrawberryBush = require('../class/structures/plants/herbs/strawberry-bush
 const Boulder = require('../class/structures/boulder');
 const MountainSide = require('../class/structures/mountain-side');
 const Dwarf = require('../class/creatures/humanoid/dwarf');
+const Rabbit = require('../class/creatures/animals/rabbit');
+const Wolf = require('../class/creatures/animals/wolf');
 const Utils = require('./utils');
 
 const builderAI = require('../class/ais/builder.js');
@@ -81,6 +83,13 @@ module.exports = {
         });
 
         startingForest.addCreature(urist);
+
+        for (let i = 0; i < 20; i++) {
+            // startingForest.addCreature(new Rabbit());
+        }
+        for (let i = 0; i < 5; i++) {
+            startingForest.addCreature(new Wolf());
+        }
 
         const stoneTool = new SharpenedStone();
         urist.addItem(stoneTool);

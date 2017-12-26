@@ -7,10 +7,6 @@ module.exports = class {
         Object.assign(this, args);
     }
 
-    setWorld(world) {
-        this.world = world;
-    }
-
     getDiscoverability() {
         return this.constructor.discoverability();
     }

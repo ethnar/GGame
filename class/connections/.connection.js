@@ -1,4 +1,4 @@
-const Entity = require('./.entity');
+const Entity = require('../.entity');
 
 module.exports = class extends Entity {
     constructor(args, nodeA, nodeB) {
@@ -7,7 +7,7 @@ module.exports = class extends Entity {
         this.nodeA = nodeA;
         this.nodeB = nodeB;
 
-        nodeA.addPath(this);
-        nodeB.addPath(this);
+        nodeA.addConnection(this);
+        nodeB.addConnection(this);
     }
 };

@@ -13,8 +13,9 @@ module.exports = class extends Item {
         return {
             eat: {
                 run(creature, item) {
-                    creature.actionProgress += 1;
-                    if (creature.actionProgress >= this.constructor.timeToEat()) {
+                    creature.actionProgress += 100 / this.constructor.timeToEat();
+
+                    if (creature.actionProgress >= 100) {
                         creature.removeItem(item);
                         creature.hunger -= this.constructor.nutrition();
                         return false;

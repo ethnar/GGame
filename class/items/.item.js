@@ -35,7 +35,7 @@ module.exports = class extends Entity {
     reduceIntegrity(damage) {
         this.integrity -= damage;
         if (this.integrity <= 0) {
-            this.getNode().removeItem(this);
+            this.getContainer().removeItem(this);
         }
     }
 
@@ -50,7 +50,11 @@ module.exports = class extends Entity {
         this.node = node;
     }
 
-    getNode() {
-        return this.node;
+    getContainer() {
+        return this.container;
+    }
+
+    setContainer(container) {
+        this.container = container;
     }
 };

@@ -9,12 +9,21 @@ module.exports = class extends Plant {
                     TOOL_UTILS.CUTTING
                 ],
                 run(creature, tool) {
+                    const progress = tool.getUtility(TOOL_UTILS.CUTTING) *
+                                     creature.getSkillMultiplier(SKILLS.WOODCUTTING);
+
+                    creature.actionProgress += progress;
+
+                    tool.reduceIntegrity(0.002);
+                    creature.gainSkill(SKILLS.WOODCUTTING, progress / 100);
+
                     this.chopping = this.chopping || 0;
-                    this.chopping += tool.getUtility(TOOL_UTILS.CUTTING) + 10;
-                    tool.reduceIntegrity(0.1);
+                    this.chopping += tool.getUtility(TOOL_UTILS.CUTTING) *
+                                     creature.getSkillMultiplier(SKILLS.WOODCUTTING);
 
                     if (this.chopping >= 100) {
                         const node = this.getNode();
+
                         node.removeStructure(this);
                         const felledTree = new FelledTree({
                             wood: Math.pow(this.growth, 2) / 100

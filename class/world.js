@@ -19,8 +19,8 @@ module.exports = class {
     }
 
     cycle() {
-        this.currentTime = new Date(this.currentTime.getTime() + 60 * 60 * 1000);
-        console.log('Time is', this.currentTime.toLocaleDateString(), this.currentTime.toLocaleTimeString());
-        this.nodes.forEach(node => node.cycle());
+        this.currentTime = new Date(this.currentTime.getTime() + 1000);
+        console.log('*** Time is', this.currentTime.toLocaleDateString(), this.currentTime.toLocaleTimeString(), '***');
+        [...this.nodes].forEach(node => node.cycle());
     }
 };

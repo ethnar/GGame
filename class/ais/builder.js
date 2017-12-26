@@ -6,7 +6,7 @@ module.exports = class extends AI {
         const self = this.creature;
         const node = self.getNode();
 
-        if (self.hunger > 100000) {
+        if (self.hunger > 40) {
             this.eat();
         } else {
             this.build();

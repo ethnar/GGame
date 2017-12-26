@@ -1,4 +1,6 @@
 const Structure = require('../.structure');
+const Room = require('../../nodes/room');
+const Path = require('../../connections/.connection');
 
 module.exports = class extends Structure {
     static actions() {
@@ -14,11 +16,13 @@ module.exports = class extends Structure {
                         return false;
                     }
 
-                    creature.actionProgress += tool.getUtility(TOOL_UTILS.HAMMER) * 10;
+                    creature.actionProgress += tool.getUtility(TOOL_UTILS.HAMMER) *
+                                               creature.getSkillMultiplier(SKILLS.CONSTRUCTION);
 
                     if (creature.actionProgress >= 100) {
                         this.remainingMaterialsNeeded[matchingMaterial] -= 1;
                         creature.removeItem(material);
+                        creature.gainSkill(SKILLS.CONSTRUCTION);
                         if (this.remainingMaterialsNeeded[matchingMaterial] === 0) {
                             delete this.remainingMaterialsNeeded[matchingMaterial];
 
@@ -56,6 +60,11 @@ module.exports = class extends Structure {
     }
 
     constructionFinished() {
-        console.log('DONE!!!');
+        this.integrity = 100;
+
+        const room = new Room({});
+
+        this.getNode().getWorld().addNode(room);
+        new Path({}, this.getNode(), room);
     }
 };

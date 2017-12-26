@@ -8,8 +8,10 @@ module.exports = class extends Plant {
                     return this.growth > 50;
                 },
                 run(creature) {
-                    creature.actionProgress += 1;
-                    if (creature.actionProgress >= 4) {
+                    creature.actionProgress += creature.getSkillMultiplier(SKILLS.HERBALISM) * 20;
+
+                    if (creature.actionProgress >= 100) {
+                        creature.gainSkill(SKILLS.HERBALISM, 0.1);
                         creature.addItem(this.constructor.spawnNewBerry());
                         this.growth -= 2;
                         return false;
