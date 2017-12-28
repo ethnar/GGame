@@ -16,7 +16,7 @@ module.exports = class extends Animal {
     }
 
     static stomachSeconds() {
-        return 60;
+        return 2 * 24 * 60 * 60;
     }
 
     static weapon() {

@@ -85,10 +85,11 @@ module.exports = {
         startingForest.addCreature(urist);
 
         for (let i = 0; i < 20; i++) {
-            // startingForest.addCreature(new Rabbit());
+            dangerousForest.addCreature(new Rabbit());
+            startingForest.addCreature(new Rabbit());
         }
         for (let i = 0; i < 5; i++) {
-            startingForest.addCreature(new Wolf());
+            dangerousForest.addCreature(new Wolf());
         }
 
         const stoneTool = new SharpenedStone();

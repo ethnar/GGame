@@ -73,6 +73,7 @@ module.exports = class extends Entity {
     removeCreature(creature) {
         const idx = this.creatures.indexOf(creature);
         this.creatures.splice(idx, 1);
+        this.creatures.forEach(creatureIter => creatureIter.forgetAboutCreature(creature));
     }
 
     addConnection(path) {

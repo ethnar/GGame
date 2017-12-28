@@ -16,11 +16,15 @@ module.exports = class extends Entity {
         return {
             attack: {
                 run(creature) {
-                    this.progressAction += 20;
+                    creature.actionProgress += 20;
 
                     this.learnAboutCreature(creature);
 
-                    if (this.progressAction >= 100) {
+                    if (this.health <= 0) {
+                        return false;
+                    }
+
+                    if (creature.actionProgress >= 100) {
                         const chanceToHit = creature.getHitChance();
                         const chanceToDodge = 5;
 
@@ -33,6 +37,8 @@ module.exports = class extends Entity {
                         ) {
                             const damage = creature.getDamageDealt();
                             this.receiveDamage(damage);
+
+                            console.log(this.getName() + ' received ' + damage + ' from ' + creature.getName())
                         }
                         return false;
                     }
@@ -40,6 +46,10 @@ module.exports = class extends Entity {
                 }
             }
         };
+    }
+
+    static maxHealth() {
+        return 100;
     }
 
     static weapon() {
@@ -52,7 +62,7 @@ module.exports = class extends Entity {
 
     constructor(args) {
         super(args);
-        this.hitpoints = 100;
+        this.health = this.constructor.maxHealth();
         this.energy = 100;
         this.hunger = 40;
         this.node = null;
@@ -140,11 +150,21 @@ module.exports = class extends Entity {
         return Utils.random(1, this.getWeapon().damage);
     }
 
+    getArmour() {
+        return 0;
+    }
+
     receiveDamage(damage) {
         this.health -= damage;
         if (this.health <= 0) {
             this.die();
         }
+    }
+
+    getThreat(threat) {
+        const threatResilience = threat.health / Math.max(this.getWeapon().damage - threat.getArmour(), 0.001);
+        const selfResilience = this.health / Math.max(threat.getWeapon().damage - this.getArmour(), 0.001);
+        return 100 * threatResilience / (selfResilience + threatResilience);
     }
 
     attachAI(ai) {
@@ -231,10 +251,21 @@ module.exports = class extends Entity {
 
     die() {
         const node = this.getNode();
-        [...this.items].forEach(item => this.drop(item));
+
+        const allWhoKnow = this
+            .getNode()
+            .creatures.filter(creature => creature.known.creatures.includes(this));
+
         node.removeCreature(this);
 
-        node.addItem(new Corpse());
+        const corpse = new Corpse();
+        node.addItem(corpse);
+        allWhoKnow.forEach(creature => creature.learnAboutItem(corpse));
+
+        [...this.items].forEach(item => {
+            this.drop(item);
+            allWhoKnow.forEach(creature => creature.learnAboutItem(item));
+        });
 
         console.log(this.getName() + ': died');
     }

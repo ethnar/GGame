@@ -18,7 +18,7 @@ module.exports = class extends AI {
         const self = this.creature;
         const node = self.getNode();
 
-        if (self.hunger > 40) {
+        if (self.hunger > 30) {
             this.hunt();
         }
     }
@@ -26,7 +26,26 @@ module.exports = class extends AI {
     hunt() {
         const self = this.creature;
         const node = self.getNode();
+        if (self.currentAction && self.currentAction.action !== 'search') {
+            return;
+        }
 
-        self.startAction(self.getNode(), 'search');
+        // TODO: eat corpses
+
+        const options = self.known.creatures
+            .filter(creature => creature.getName() !== self.getName())
+            .map(creature => ({
+                creature,
+                threat: self.getThreat(creature)
+            }))
+            .sort((a, b) => a.threat - b.threat);
+
+        const bestOption = options.shift();
+
+        if (bestOption && bestOption.threat < self.hunger) {
+            self.startAction(bestOption.creature, 'attack');
+        } else {
+            self.startAction(self.getNode(), 'search');
+        }
     }
 };

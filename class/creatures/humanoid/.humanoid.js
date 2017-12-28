@@ -17,11 +17,15 @@ global.SKILLS = {
 };
 
 const punch = {
-    damage: 1,
+    damage: 3,
     hitChance: 80
 };
 
 module.exports = class extends Creature {
+    static maxHealth() {
+        return 100;
+    }
+
     static searchingFor() {
         return [
             'items',
