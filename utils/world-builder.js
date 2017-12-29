@@ -96,7 +96,7 @@ module.exports = {
         urist.addItem(stoneTool);
 
         const ai = new builderAI();
-        urist.attachAI(ai);
+//        urist.attachAI(ai);
 
         return world;
     },

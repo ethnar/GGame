@@ -11,6 +11,10 @@ module.exports = class extends Animal {
         return 'Wolf';
     }
 
+    static size() {
+        return 0.5;
+    }
+
     static discoverability() {
         return 8;
     }

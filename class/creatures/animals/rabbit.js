@@ -10,6 +10,10 @@ module.exports = class extends Animal {
         return 'Rabbit';
     }
 
+    static size() {
+        return 0.05;
+    }
+
     static maxHealth() {
         return 20;
     }

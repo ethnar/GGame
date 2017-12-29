@@ -18,19 +18,35 @@ module.exports = class extends AI {
         const self = this.creature;
         const node = self.getNode();
 
-        if (self.hunger > 30) {
-            this.hunt();
+        if (self.currentAction && self.currentAction.action !== 'search') {
+            return;
         }
+
+        if (self.hunger > 10) {
+            if (!this.feed()) {
+                if (self.hunger > 40) {
+                    this.hunt();
+                }
+            }
+        }
+    }
+
+    feed() {
+        const self = this.creature;
+        const node = self.getNode();
+
+        const corpse = self.known.items.find(item => !!item.rawMeat);
+
+        if (corpse) {
+            self.startAction(corpse, 'feeding');
+            return true;
+        }
+        return false;
     }
 
     hunt() {
         const self = this.creature;
         const node = self.getNode();
-        if (self.currentAction && self.currentAction.action !== 'search') {
-            return;
-        }
-
-        // TODO: eat corpses
 
         const options = self.known.creatures
             .filter(creature => creature.getName() !== self.getName())

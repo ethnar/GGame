@@ -7,45 +7,52 @@ const prod = {
     hitChance: 10
 };
 
+const actions = {
+    attack: {
+        run(creature) {
+            creature.actionProgress += 20;
+
+            this.learnAboutCreature(creature);
+
+            if (this.health <= 0) {
+                return false;
+            }
+
+            if (creature.actionProgress >= 100) {
+                const chanceToHit = creature.getHitChance();
+                const chanceToDodge = 5;
+
+                creature.gainSkill(SKILLS.FIGHTING, 0.5);
+                this.gainSkill(SKILLS.FIGHTING, 0.1);
+
+                if (
+                    Utils.random(1, 100) <= chanceToHit &&
+                    Utils.random(1, 100) > chanceToDodge
+                ) {
+                    const damage = creature.getDamageDealt();
+                    this.receiveDamage(damage);
+                    this.registerAttacker(creature);
+
+                    console.log(this.getName() + ' received ' + damage + ' from ' + creature.getName())
+                }
+                return false;
+            }
+            return true;
+        }
+    }
+};
+
 module.exports = class extends Entity {
-    static searchingFor() {
-        return [];
+    static actions() {
+        return actions;
     }
 
-    static actions() {
-        return {
-            attack: {
-                run(creature) {
-                    creature.actionProgress += 20;
+    static size() {
+        return 1;
+    }
 
-                    this.learnAboutCreature(creature);
-
-                    if (this.health <= 0) {
-                        return false;
-                    }
-
-                    if (creature.actionProgress >= 100) {
-                        const chanceToHit = creature.getHitChance();
-                        const chanceToDodge = 5;
-
-                        creature.gainSkill(SKILLS.FIGHTING, 0.5);
-                        this.gainSkill(SKILLS.FIGHTING, 0.1);
-
-                        if (
-                            Utils.random(1, 100) <= chanceToHit &&
-                            Utils.random(1, 100) > chanceToDodge
-                        ) {
-                            const damage = creature.getDamageDealt();
-                            this.receiveDamage(damage);
-
-                            console.log(this.getName() + ' received ' + damage + ' from ' + creature.getName())
-                        }
-                        return false;
-                    }
-                    return true;
-                }
-            }
-        };
+    static searchingFor() {
+        return [];
     }
 
     static maxHealth() {
@@ -68,6 +75,7 @@ module.exports = class extends Entity {
         this.node = null;
         this.skills = {};
         this.items = [];
+        this.hostiles = [];
 
         this.known = {
             items: [],
@@ -78,7 +86,7 @@ module.exports = class extends Entity {
 
     startAction(entity, action, ...items) {
         this.actionProgress = 0;
-        console.log(this.getName() + ': ' + action + '!');
+        //console.log(this.getName() + ': ' + action + '!');
         this.currentAction = {
             entity,
             action,
@@ -159,6 +167,17 @@ module.exports = class extends Entity {
         if (this.health <= 0) {
             this.die();
         }
+    }
+
+    registerAttacker(creature) {
+        this.hostiles.push(creature);
+    }
+
+    getHostile() {
+        this.hostiles = this.hostiles
+            .filter(creature => !creature.dead);
+
+        return this.hostiles[0];
     }
 
     getThreat(threat) {
@@ -258,7 +277,9 @@ module.exports = class extends Entity {
 
         node.removeCreature(this);
 
-        const corpse = new Corpse();
+        const corpse = new Corpse({
+            rawMeat: this.constructor.size() * 100
+        });
         node.addItem(corpse);
         allWhoKnow.forEach(creature => creature.learnAboutItem(corpse));
 
@@ -267,11 +288,30 @@ module.exports = class extends Entity {
             allWhoKnow.forEach(creature => creature.learnAboutItem(item));
         });
 
+        this.dead = true;
+
         console.log(this.getName() + ': died');
     }
 
+    selfDefense() {
+        if (
+            this.currentAction &&
+            this.currentAction.action === 'attack'
+        ) {
+            return true;
+        }
+
+        const hostile = this.getHostile();
+
+        if (hostile) {
+            this.startAction(hostile, 'attack');
+            return true;
+        }
+        return false;
+    }
+
     cycle() {
-        if (this.ai) {
+        if (!this.selfDefense() && this.ai) {
             this.ai.decide();
         }
 

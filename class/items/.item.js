@@ -24,6 +24,10 @@ module.exports = class extends Entity {
         this.integrity = 100;
     }
 
+    destroy() {
+        this.getContainer().removeItem(this)
+    }
+
     isMaterial(materialType) {
         return this.constructor.material().includes(materialType);
     }
@@ -35,7 +39,7 @@ module.exports = class extends Entity {
     reduceIntegrity(damage) {
         this.integrity -= damage;
         if (this.integrity <= 0) {
-            this.getContainer().removeItem(this);
+            this.destroy();
         }
     }
 

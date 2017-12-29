@@ -2,46 +2,44 @@ const Structure = require('../.structure');
 const Room = require('../../nodes/room');
 const Path = require('../../connections/.connection');
 
+const actions = {
+    construct: {
+        requiredTools: [
+            TOOL_UTILS.HAMMER
+        ],
+        run(creature, tool, material) {
+            const matchingMaterial = material
+                .getMaterialTypes()
+                .find(materialType => !!this.remainingMaterialsNeeded[materialType]);
+
+            if (!matchingMaterial) {
+                return false;
+            }
+
+            creature.actionProgress += tool.getUtility(TOOL_UTILS.HAMMER) *
+                creature.getSkillMultiplier(SKILLS.CONSTRUCTION);
+
+            if (creature.actionProgress >= 100) {
+                this.remainingMaterialsNeeded[matchingMaterial] -= 1;
+                creature.removeItem(material);
+                creature.gainSkill(SKILLS.CONSTRUCTION);
+                if (this.remainingMaterialsNeeded[matchingMaterial] === 0) {
+                    delete this.remainingMaterialsNeeded[matchingMaterial];
+
+                    if (!Object.keys(this.remainingMaterialsNeeded).length) {
+                        this.constructionFinished();
+                    }
+                }
+                return false;
+            }
+            return true;
+        }
+    }
+};
+
 module.exports = class extends Structure {
     static actions() {
-        return {
-            construct: {
-                requiredTools: this.requiredTools(),
-                run(creature, tool, material) {
-                    const matchingMaterial = material
-                        .getMaterialTypes()
-                        .find(materialType => !!this.remainingMaterialsNeeded[materialType]);
-
-                    if (!matchingMaterial) {
-                        return false;
-                    }
-
-                    creature.actionProgress += tool.getUtility(TOOL_UTILS.HAMMER) *
-                                               creature.getSkillMultiplier(SKILLS.CONSTRUCTION);
-
-                    if (creature.actionProgress >= 100) {
-                        this.remainingMaterialsNeeded[matchingMaterial] -= 1;
-                        creature.removeItem(material);
-                        creature.gainSkill(SKILLS.CONSTRUCTION);
-                        if (this.remainingMaterialsNeeded[matchingMaterial] === 0) {
-                            delete this.remainingMaterialsNeeded[matchingMaterial];
-
-                            if (!Object.keys(this.remainingMaterialsNeeded).length) {
-                                this.constructionFinished();
-                            }
-                        }
-                        return false;
-                    }
-                    return true;
-                }
-            }
-        };
-    }
-
-    static requiredTools() {
-        return [
-            TOOL_UTILS.HAMMER
-        ]
+        return actions;
     }
 
     constructor(args) {

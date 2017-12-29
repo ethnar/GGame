@@ -1,41 +1,43 @@
 const Plant = require('./.plant');
 const FelledTree = require('../felled-tree');
 
+const actions = {
+    chopDown: {
+        requiredTools: [
+            TOOL_UTILS.CUTTING
+        ],
+        run(creature, tool) {
+            const progress = tool.getUtility(TOOL_UTILS.CUTTING) *
+                creature.getSkillMultiplier(SKILLS.WOODCUTTING);
+
+            creature.actionProgress += progress;
+
+            tool.reduceIntegrity(0.002);
+            creature.gainSkill(SKILLS.WOODCUTTING, progress / 100);
+
+            this.chopping = this.chopping || 0;
+            this.chopping += tool.getUtility(TOOL_UTILS.CUTTING) *
+                creature.getSkillMultiplier(SKILLS.WOODCUTTING);
+
+            if (this.chopping >= 100) {
+                const node = this.getNode();
+
+                node.removeStructure(this);
+                const felledTree = new FelledTree({
+                    wood: Math.pow(this.growth, 2) / 100
+                });
+                node.addStructure(felledTree);
+                creature.learnAboutStructure(felledTree);
+                return false;
+            }
+            return true;
+        }
+    }
+};
+
 module.exports = class extends Plant {
     static actions() {
-        return {
-            chopDown: {
-                requiredTools: [
-                    TOOL_UTILS.CUTTING
-                ],
-                run(creature, tool) {
-                    const progress = tool.getUtility(TOOL_UTILS.CUTTING) *
-                                     creature.getSkillMultiplier(SKILLS.WOODCUTTING);
-
-                    creature.actionProgress += progress;
-
-                    tool.reduceIntegrity(0.002);
-                    creature.gainSkill(SKILLS.WOODCUTTING, progress / 100);
-
-                    this.chopping = this.chopping || 0;
-                    this.chopping += tool.getUtility(TOOL_UTILS.CUTTING) *
-                                     creature.getSkillMultiplier(SKILLS.WOODCUTTING);
-
-                    if (this.chopping >= 100) {
-                        const node = this.getNode();
-
-                        node.removeStructure(this);
-                        const felledTree = new FelledTree({
-                            wood: Math.pow(this.growth, 2) / 100
-                        });
-                        node.addStructure(felledTree);
-                        creature.learnAboutStructure(felledTree);
-                        return false;
-                    }
-                    return true;
-                }
-            }
-        };
+        return actions;
     }
 
     static name() {
@@ -51,6 +53,6 @@ module.exports = class extends Plant {
     }
 
     static temperatureRange() {
-        return [-20, 32];
+        return [-30, 50];
     }
 };

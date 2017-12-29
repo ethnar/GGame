@@ -1,28 +1,30 @@
 const Entity = require('../.entity');
 const Utils = require('../../utils/utils');
 
+const actions = {
+    search: {
+        run(creature) {
+            creature.getSearchingFor().forEach(type => {
+                if (this[type].length) {
+                    for (let i = 0; i < 3; i++) {
+                        const idx = Utils.random(0, this[type].length - 1);
+                        const thing = this[type][idx];
+
+                        if (thing.getDiscoverability() > Utils.random(1, 100)) {
+                            creature.learn(type, thing);
+                        }
+                    }
+                }
+            });
+
+            return true;
+        }
+    }
+};
+
 module.exports = class extends Entity {
     static actions() {
-        return {
-            search: {
-                run(creature) {
-                    creature.getSearchingFor().forEach(type => {
-                        if (this[type].length) {
-                            for (let i = 0; i < 3; i++) {
-                                const idx = Utils.random(0, this[type].length - 1);
-                                const thing = this[type][idx];
-
-                                if (thing.getDiscoverability() > Utils.random(1, 100)) {
-                                    creature.learn(type, thing);
-                                }
-                            }
-                        }
-                    });
-
-                    return true;
-                }
-            }
-        };
+        return actions;
     }
 
     constructor(args) {
