@@ -1,5 +1,5 @@
 const Structure = require('../.structure');
-const Utils = require('../../../utils/utils');
+const Utils = require('../../../singletons/utils');
 
 module.exports = class extends Structure {
     static growthRate() {

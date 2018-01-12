@@ -5,5 +5,10 @@ module.exports = {
 
     logarithm(base, number) {
         return Math.log(number) / Math.log(base);
+    },
+
+    errorResponse(message) {
+        console.error('Responding: ' + message);
+        return { message: message };
     }
 };

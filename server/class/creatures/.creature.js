@@ -1,6 +1,6 @@
 const Entity = require('../.entity');
 const Corpse = require('../items/corpse');
-const Utils = require('../../utils/utils');
+const Utils = require('../../singletons/utils');
 
 const prod = {
     damage: 0.1,
@@ -63,10 +63,6 @@ module.exports = class extends Entity {
         return prod;
     }
 
-    getSearchingFor() {
-        return this.constructor.searchingFor();
-    }
-
     constructor(args) {
         super(args);
         this.health = this.constructor.maxHealth();
@@ -82,6 +78,10 @@ module.exports = class extends Entity {
             structures: [],
             creatures: []
         };
+    }
+
+    getSearchingFor() {
+        return this.constructor.searchingFor();
     }
 
     startAction(entity, action, ...items) {

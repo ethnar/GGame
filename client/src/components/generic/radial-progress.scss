@@ -1,0 +1,61 @@
+.radial-progress {
+  position: relative;
+
+  .radial-progress-wrapper {
+    $full-main-color: black;
+    $empty-color: #ddd;
+    $bg-color: white;
+    $size: 100px;
+    $width: 15px;
+
+    background: $empty-color;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: $size;
+    height: $size;
+    overflow: hidden;
+    transform-origin: 0 0;
+
+    .half {
+      box-sizing: border-box;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+
+      &.first {
+        border-top: $size / 2 solid $full-main-color;
+        z-index: 1;
+      }
+      &.second-overlay {
+        border-top: $size / 2 solid $empty-color;
+        z-index: 2;
+        transform: rotate(-90deg);
+      }
+      &.second {
+        border-top: $size / 2 solid $full-main-color;
+        z-index: 3;
+      }
+    }
+    .mid-cover {
+      position: absolute;
+      left: $width;
+      top: $width;
+      width: $size - 2 * $width;
+      height: $size - 2 * $width;
+      background: $bg-color;
+      border-radius: 50%;
+      z-index: 4;
+    }
+    .outer-cover {
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      width: $size - 2;
+      height: $size - 2;
+      box-shadow: 0 0 0 $size / 2 white;
+      z-index: 5;
+      border-radius: 50%;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+@font-face {
+  font-family: BaseFont;
+  src: url("../.resources/font/IndustriaLTStd-Solid.otf") format("opentype");
+}
+
+body, html {
+  font-family: BaseFont, Arial;
+  font-size: 24px;
+  margin: 0;
+}
+
+button {
+  font-size: inherit;
+  font-family: inherit;
+}

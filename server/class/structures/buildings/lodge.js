@@ -3,12 +3,12 @@ const Building = require('./.building');
 module.exports = class extends Building {
     static materials() {
         return {
-            [MATERIALS.WOOD]: 22,
+            [MATERIALS.WOOD]: 35,
         }
     }
 
     static size() {
-        return 5;
+        return 4;
     }
 
     constructor(args) {

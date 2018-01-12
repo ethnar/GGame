@@ -11,6 +11,7 @@ const MountainSide = require('../class/structures/mountain-side');
 const Dwarf = require('../class/creatures/humanoid/dwarf');
 const Rabbit = require('../class/creatures/animals/rabbit');
 const Wolf = require('../class/creatures/animals/wolf');
+const Player = require('../class/player');
 const Utils = require('./utils');
 
 const builderAI = require('../class/ais/builder.js');
@@ -92,11 +93,13 @@ module.exports = {
             dangerousForest.addCreature(new Wolf());
         }
 
+        const player = new Player('test', 'test');
+
         const stoneTool = new SharpenedStone();
         urist.addItem(stoneTool);
 
         const ai = new builderAI();
-//        urist.attachAI(ai);
+        //urist.attachAI(ai);
 
         return world;
     },

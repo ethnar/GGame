@@ -1,5 +1,5 @@
 const Entity = require('../.entity');
-const Utils = require('../../utils/utils');
+const Utils = require('../../singletons/utils');
 
 const actions = {
     search: {
