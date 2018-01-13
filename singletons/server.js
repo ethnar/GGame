@@ -119,6 +119,7 @@ expressApp.all('/*', function(req, res, next) {
 
 expressApp
     .use(express.static('client'))
+    .use('/node_modules', express.static('node_modules'))
     .post('/api/login', (req, res) => {
         let bodyStr = '';
         req.on('data',function(chunk){
