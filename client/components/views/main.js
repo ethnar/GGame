@@ -1,3 +1,4 @@
+import {ServerService} from '../../services/server.js'
 
 export const MainView = {
     data: () => ({
@@ -7,6 +8,7 @@ export const MainView = {
     }),
 
     created () {
+        ServerService.request('yay?');
     },
 
     template: `
