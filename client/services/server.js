@@ -2,7 +2,8 @@
 const pendingRequests = {};
 const updateHandlers = {};
 const websocketProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-const connection = new WebSocket(`${websocketProtocol}//${window.location.hostname}:8002/game`);
+const domain = `${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}`;
+const connection = new WebSocket(`${websocketProtocol}//${domain}/api/ws`);
 const loginUrl = '/api/login';
 const openPromise = new Promise(resolve => connection.onopen = resolve);
 

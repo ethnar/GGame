@@ -3,8 +3,9 @@ const express = require('express');
 const utils = require('./utils');
 const Player = require('../class/player');
 const crypto = require('crypto');
+const proxy = require('http-proxy-middleware');
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8001;
 
 const expressApp = express();
 
@@ -117,9 +118,12 @@ expressApp.all('/*', function(req, res, next) {
     next();
 });
 
+const wsProxy = proxy('ws://localhost:8002/', { changeOrigin:true });
+
 expressApp
     .use(express.static('client'))
     .use('/node_modules', express.static('node_modules'))
+    .use('/api/ws', wsProxy)
     .post('/api/login', (req, res) => {
         let bodyStr = '';
         req.on('data',function(chunk){
@@ -150,6 +154,7 @@ expressApp
             res.send();
         });
     })
-    .listen(port);
+    .listen(port)
+    .on('upgrade', wsProxy.upgrade);
 
 module.exports = server;

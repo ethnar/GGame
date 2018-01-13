@@ -11,6 +11,7 @@
   "dependencies": {
     "crypto": "^1.0.1",
     "express": "^4.16.2",
+    "http-proxy-middleware": "^0.17.4",
     "nodejs-websocket": "^1.7.1",
     "rxjs": "^5.4.3",
     "vue": "^2.4.2",
