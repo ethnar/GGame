@@ -1,8 +1,10 @@
 const ws = require('nodejs-websocket');
-const express = require('express')();
+const express = require('express');
 const utils = require('./utils');
 const Player = require('../class/player');
 const crypto = require('crypto');
+
+const expressApp = express();
 
 const hash = method => string => crypto.createHash(method).update(string).digest('hex');
 
@@ -106,15 +108,16 @@ const server = new class Server {
     }
 };
 
-express.all('/*', function(req, res, next) {
+expressApp.all('/*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', 'http://localhost');
     res.header('Access-Control-Allow-Credentials', 'true');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With');
     next();
 });
 
-express
-    .post('/login', (req, res) => {
+expressApp
+    .use(express.static('client'))
+    .post('/api/login', (req, res) => {
         let bodyStr = '';
         req.on('data',function(chunk){
             bodyStr += chunk.toString();
