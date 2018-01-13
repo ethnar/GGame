@@ -1,0 +1,7 @@
+{
+  "name": "GGame",
+  "description": "POC",
+  "repository": "https://github.com/ethnar/GGame",
+  "keywords": ["ggame"],
+  "image": "heroku/nodejs"
+}
