@@ -4,6 +4,8 @@ const utils = require('./utils');
 const Player = require('../class/player');
 const crypto = require('crypto');
 
+const port = process.env.PORT || 8080;
+
 const expressApp = express();
 
 const hash = method => string => crypto.createHash(method).update(string).digest('hex');
@@ -147,6 +149,6 @@ expressApp
             res.send();
         });
     })
-    .listen(8001);
+    .listen(port);
 
 module.exports = server;

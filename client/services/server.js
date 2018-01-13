@@ -1,8 +1,8 @@
 
 const pendingRequests = {};
 const updateHandlers = {};
-const connection = new WebSocket('ws://localhost:8002/game');
-const loginUrl = 'http://localhost:8001/api/login';
+const connection = new WebSocket('ws://' + window.location.hostname + ':8002/game');
+const loginUrl = '/api/login';
 const openPromise = new Promise(resolve => connection.onopen = resolve);
 
 let playerId = null;
