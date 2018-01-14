@@ -1,7 +1,7 @@
 const Structure = require('../.structure');
 const Utils = require('../../../singletons/utils');
 
-module.exports = class extends Structure {
+class Plant extends Structure {
     static growthRate() {
         return 0.1;
     }
@@ -65,4 +65,5 @@ module.exports = class extends Structure {
         this.grow();
         this.wither();
     }
-};
+}
+module.exports = global.Plant = Plant;

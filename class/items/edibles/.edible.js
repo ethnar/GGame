@@ -15,7 +15,7 @@ const actions = {
     }
 };
 
-module.exports = class extends Item {
+class Edible extends Item {
     static actions() {
         return actions;
     }
@@ -27,4 +27,5 @@ module.exports = class extends Item {
     static timeToEat() {
         return 1;
     }
-};
+}
+module.exports = global.Edible = Edible;

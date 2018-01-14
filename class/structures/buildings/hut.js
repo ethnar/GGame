@@ -1,6 +1,6 @@
 const Building = require('./.building');
 
-module.exports = class extends Building {
+class Hut extends Building {
     static materials() {
         return {
             [MATERIALS.WOOD]: 15,
@@ -14,4 +14,5 @@ module.exports = class extends Building {
     constructor(args) {
         super(args);
     }
-};
+}
+module.exports = global.Hut = Hut;

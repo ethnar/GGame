@@ -1,5 +1,6 @@
 const Structure = require('./.structure');
 
-module.exports = class extends Structure {
+class MountainSide extends Structure {
 
-};
+}
+module.exports = global.MountainSide = MountainSide;

@@ -1,4 +1,9 @@
-module.exports = class {
+const resurrect = require('resurrect-js');
+const fs = require('fs');
+
+const necro = new resurrect();
+
+class World {
     constructor(args) {
         this.nodes = [];
         this.currentTime = new Date();
@@ -11,7 +16,7 @@ module.exports = class {
     }
 
     run() {
-        setInterval(this.cycle.bind(this), 1000);
+        setTimeout(this.cycle.bind(this), 1000);
     }
 
     getCurrentTime() {
@@ -22,5 +27,12 @@ module.exports = class {
         this.currentTime = new Date(this.currentTime.getTime() + 1000);
         console.log('*** Time is', this.currentTime.toLocaleDateString(), this.currentTime.toLocaleTimeString(), '***');
         [...this.nodes].forEach(node => node.cycle());
+
+        const serialized = necro.stringify(this);
+        fs.writeFileSync('save.data', serialized);
+        const world = necro.resurrect(serialized);
+
+        setTimeout(world.cycle.bind(world), 1000);
     }
-};
+}
+module.exports = global.World = World;

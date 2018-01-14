@@ -5,8 +5,8 @@ const teeth = {
     hitChance: 60
 };
 
-module.exports = class extends Animal {
-    static name() {
+class Rabbit extends Animal {
+    static entityName() {
         return 'Rabbit';
     }
 
@@ -33,4 +33,5 @@ module.exports = class extends Animal {
     constructor(args) {
         super(args);
     }
-};
+}
+module.exports = global.Rabbit = Rabbit;

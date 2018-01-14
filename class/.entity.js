@@ -1,5 +1,5 @@
-module.exports = class {
-    static name() {
+class Entity {
+    static entityName() {
         return '?';
     }
 
@@ -12,7 +12,7 @@ module.exports = class {
     }
 
     getName() {
-        return this.name || this.constructor.name();
+        return this.name || this.constructor.entityName();
     }
 
     hasAvailableAction(action) {
@@ -24,4 +24,5 @@ module.exports = class {
             return !!actions[action];
         }
     }
-};
+}
+module.exports = global.Entity = Entity;

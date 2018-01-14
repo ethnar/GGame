@@ -1,7 +1,7 @@
 const AI = require('./.ai.js');
 const Hut = require('../structures/buildings/hut');
 
-module.exports = class extends AI {
+class BuilderAI extends AI {
     decide() {
         const self = this.creature;
         const node = self.getNode();
@@ -142,4 +142,6 @@ module.exports = class extends AI {
     makeCuttingStone() {
 
     }
-};
+}
+module.exports = global.BuilderAI = BuilderAI;
+

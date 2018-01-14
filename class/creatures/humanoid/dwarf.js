@@ -1,6 +1,6 @@
 const Humanoid = require('./.humanoid');
 
-module.exports = class extends Humanoid {
+class Dwarf extends Humanoid {
     static size() {
         return 0.8;
     }
@@ -8,4 +8,5 @@ module.exports = class extends Humanoid {
     constructor(args) {
         super(args);
     }
-};
+}
+module.exports = global.Dwarf = Dwarf;

@@ -1,4 +1,5 @@
 const Node = require('./.node');
 
-module.exports = class extends Node {
-};
+class Room extends Node {
+}
+module.exports = global.Room = Room;

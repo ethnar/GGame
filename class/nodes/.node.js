@@ -22,7 +22,7 @@ const actions = {
     }
 };
 
-module.exports = class extends Entity {
+class Node extends Entity {
     static actions() {
         return actions;
     }
@@ -100,4 +100,5 @@ module.exports = class extends Entity {
         [...this.structures].forEach(structure => structure.cycle());
         [...this.creatures].forEach(creature => creature.cycle());
     }
-};
+}
+module.exports = global.Node = Node;

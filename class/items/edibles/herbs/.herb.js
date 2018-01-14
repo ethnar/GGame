@@ -1,5 +1,6 @@
 const Edible = require('../.edible');
 
-module.exports = class extends Edible {
+class Herb extends Edible {
 
-};
+}
+module.exports = global.Herb = Herb;

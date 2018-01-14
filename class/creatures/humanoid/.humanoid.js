@@ -21,7 +21,7 @@ const punch = {
     hitChance: 80
 };
 
-module.exports = class extends Creature {
+class Humanoid extends Creature {
     static maxHealth() {
         return 100;
     }
@@ -45,4 +45,5 @@ module.exports = class extends Creature {
     constructor(args) {
         super(args);
     }
-};
+}
+module.exports = global.Humanoid = Humanoid;

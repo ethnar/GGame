@@ -35,12 +35,12 @@ const actions = {
     }
 };
 
-module.exports = class extends Plant {
+class Tree extends Plant {
     static actions() {
         return actions;
     }
 
-    static name() {
+    static entityName() {
         return 'Tree';
     }
 
@@ -55,4 +55,5 @@ module.exports = class extends Plant {
     static temperatureRange() {
         return [-30, 50];
     }
-};
+}
+module.exports = global.Tree = Tree;

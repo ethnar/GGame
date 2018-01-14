@@ -6,8 +6,8 @@ const claws = {
     hitChance: 85
 };
 
-module.exports = class extends Animal {
-    static name() {
+class Wolf extends Animal {
+    static entityName() {
         return 'Wolf';
     }
 
@@ -32,4 +32,5 @@ module.exports = class extends Animal {
 
         this.attachAI(new predatorAI());
     }
-};
+}
+module.exports = global.Wolf = Wolf;

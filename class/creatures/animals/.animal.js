@@ -1,6 +1,6 @@
 const Creature = require('../.creature');
 
-module.exports = class extends Creature {
+class Animal extends Creature {
     static searchingFor() {
         return [];
     }
@@ -12,4 +12,5 @@ module.exports = class extends Creature {
     constructor(args) {
         super(args);
     }
-};
+}
+module.exports = global.Animal = Animal;

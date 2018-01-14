@@ -42,7 +42,7 @@ const actions = {
     }
 };
 
-module.exports = class extends Entity {
+class Creature extends Entity {
     static actions() {
         return actions;
     }
@@ -318,4 +318,5 @@ module.exports = class extends Entity {
         this.gettingHungry();
         this.continueAction();
     }
-};
+}
+module.exports = global.Creature = Creature;

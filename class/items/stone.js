@@ -1,13 +1,14 @@
 const Item = require('./.item');
 
-module.exports = class extends Item {
+class Stone extends Item {
     static utility() {
         return {
             [TOOL_UTILS.HAMMER]: 0.6
         };
     }
 
-    static name() {
+    static entityName() {
         return 'Stone';
     }
-};
+}
+module.exports = global.Stone = Stone;

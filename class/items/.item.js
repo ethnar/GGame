@@ -9,7 +9,7 @@ global.MATERIALS = {
     WOOD: 1,
 };
 
-module.exports = class extends Entity {
+class Item extends Entity {
     static discoverability() {
         return 10;
     }
@@ -61,4 +61,5 @@ module.exports = class extends Entity {
     setContainer(container) {
         this.container = container;
     }
-};
+}
+module.exports = global.Item = Item;

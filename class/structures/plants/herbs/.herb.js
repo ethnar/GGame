@@ -19,12 +19,12 @@ const actions = {
     }
 };
 
-module.exports = class extends Plant {
+class Herb extends Plant {
     static actions() {
         return actions;
     }
 
-    static name() {
+    static entityName() {
         return 'Herb';
     }
 
@@ -35,4 +35,5 @@ module.exports = class extends Plant {
     static size() {
         return 0.01;
     }
-};
+}
+module.exports = global.Herb = Herb;

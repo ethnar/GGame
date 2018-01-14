@@ -37,7 +37,7 @@ const actions = {
     }
 };
 
-module.exports = class extends Structure {
+class Building extends Structure {
     static actions() {
         return actions;
     }
@@ -65,4 +65,5 @@ module.exports = class extends Structure {
         this.getNode().getWorld().addNode(room);
         new Path({}, this.getNode(), room);
     }
-};
+}
+module.exports = global.Building = Building;

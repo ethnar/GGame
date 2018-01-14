@@ -1,7 +1,8 @@
 const Structure = require('./.structure');
 
-module.exports = class extends Structure {
-    static name() {
+class Boulder extends Structure {
+    static entityName() {
         return 'Boulder';
     }
-};
+}
+module.exports = global.Boulder = Boulder;

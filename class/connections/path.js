@@ -1,6 +1,6 @@
 const Connection = require('./.connection');
 
-module.exports = class extends Connection {
+class Path extends Connection {
     static distance() {
         return 60;
     }
@@ -8,4 +8,5 @@ module.exports = class extends Connection {
     constructor(args, nodeA, nodeB) {
         super(args, nodeA, nodeB);
     }
-};
+}
+module.exports = global.Path = Path;

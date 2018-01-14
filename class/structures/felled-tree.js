@@ -29,12 +29,13 @@ const actions = {
     }
 };
 
-module.exports = class extends Structure {
+class FelledTree extends Structure {
     static actions() {
         return actions;
     }
 
-    static name() {
+    static entityName() {
         return 'Fallen tree';
     }
-};
+}
+module.exports = global.FelledTree = FelledTree;

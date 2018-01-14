@@ -1,7 +1,8 @@
 const Item = require('../.item');
 
-module.exports = class extends Item {
+class Resource extends Item {
     constructor(args) {
         super(args);
     }
-};
+}
+module.exports = global.Resource = Resource;

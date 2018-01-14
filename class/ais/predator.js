@@ -4,14 +4,17 @@ const searchingFor = [
     'creatures'
 ];
 
-module.exports = class extends AI {
+class PredatorAI extends AI {
     static searchingFor() {
         return searchingFor;
     }
 
     setCreature(creature) {
         super.setCreature(creature);
-        creature.getSearchingFor = this.constructor.searchingFor;
+    }
+
+    getSearchingFor() {
+        return this.constructor.searchingFor();
     }
 
     decide() {
@@ -64,4 +67,5 @@ module.exports = class extends AI {
             self.startAction(self.getNode(), 'search');
         }
     }
-};
+}
+module.exports = global.PredatorAI = PredatorAI;

@@ -20,7 +20,7 @@ const actions = {
     }
 };
 
-module.exports = class extends Item {
+class Corpse extends Item {
     static actions() {
         return actions;
     }
@@ -34,4 +34,5 @@ module.exports = class extends Item {
 
         this.rawMeat = args.rawMeat || 100;
     }
-};
+}
+module.exports = global.Corpse = Corpse;

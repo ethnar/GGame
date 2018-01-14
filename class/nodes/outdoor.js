@@ -1,6 +1,6 @@
 const Node = require('./.node');
 
-module.exports = class extends Node {
+class Outdoor extends Node {
     constructor(args) {
         super(args);
     }
@@ -35,4 +35,5 @@ module.exports = class extends Node {
         this.updateLightLevels();
         super.cycle();
     }
-};
+}
+module.exports = global.Outdoor = Outdoor;

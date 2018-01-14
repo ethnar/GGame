@@ -1,6 +1,6 @@
 const Resource = require('./.resource');
 
-module.exports = class extends Resource {
+class Log extends Resource {
     static material() {
         return [
             MATERIALS.WOOD
@@ -10,4 +10,5 @@ module.exports = class extends Resource {
     constructor(args) {
         super(args);
     }
-};
+}
+module.exports = global.Log = Log;

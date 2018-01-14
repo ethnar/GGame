@@ -1,7 +1,7 @@
 const Herb = require('./.herb');
-const Strawberry = require('../../../items/edibles/herbs/starberry');
+const Strawberry = require('../../../items/edibles/herbs/strawberry');
 
-module.exports = class extends Herb {
+class StrawberryBush extends Herb {
     static spawnNewBerry() {
         return new Strawberry();
     }
@@ -14,7 +14,8 @@ module.exports = class extends Herb {
         return 0.05;
     }
 
-    static name() {
+    static entityName() {
         return 'Strawberry bush';
     }
-};
+}
+module.exports = global.StrawberryBush = StrawberryBush;

@@ -1,6 +1,6 @@
 const Entity = require('../.entity');
 
-module.exports = class extends Entity {
+class Connection extends Entity {
     constructor(args, nodeA, nodeB) {
         super(args);
 
@@ -10,4 +10,5 @@ module.exports = class extends Entity {
         nodeA.addConnection(this);
         nodeB.addConnection(this);
     }
-};
+}
+module.exports = global.Connection = Connection;

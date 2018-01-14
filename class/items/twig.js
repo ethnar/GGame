@@ -1,7 +1,8 @@
 const Item = require('./.item');
 
-module.exports = class extends Item {
-    static name() {
+class Twig extends Item {
+    static entityName() {
         return 'Twig';
     }
-};
+}
+module.exports = global.Twig = Twig;

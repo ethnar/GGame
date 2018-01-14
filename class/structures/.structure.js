@@ -1,6 +1,6 @@
 const Entity = require('../.entity');
 
-module.exports = class extends Entity {
+class Structure extends Entity {
     static size() {
         return 1;
     }
@@ -29,4 +29,5 @@ module.exports = class extends Entity {
     cycle() {
 
     }
-};
+}
+module.exports = global.Structure = Structure;
