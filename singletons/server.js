@@ -44,6 +44,7 @@ const server = new class Server {
             console.log('New connection');
 
             this.connections.push(conn);
+            this.playerMap.set(conn, player);
 
             conn.on('text', (str) => {
                 let json = JSON.parse(str); // TODO: failsafe
@@ -90,6 +91,17 @@ const server = new class Server {
 
     getPlayer(connection) {
         return this.playerMap.get(connection);
+    }
+
+    updatePlayers() {
+        this.connections.forEach((connection) => {
+            const creature = player.getCreature();
+            const player = this.getPlayer(connection);
+            connection.sendText(JSON.stringify({
+                update: 'playerData',
+                data: creature.getPayload(creature)
+            }));
+        });
     }
 
     sendUpdate(topic, connection, data) {

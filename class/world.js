@@ -16,7 +16,7 @@ class World {
     }
 
     run() {
-        setTimeout(this.cycle.bind(this), 1000);
+        setInterval(this.cycle.bind(this), 1000);
     }
 
     getCurrentTime() {
@@ -30,9 +30,6 @@ class World {
 
         const serialized = necro.stringify(this);
         fs.writeFileSync('save.data', serialized);
-        const world = necro.resurrect(serialized);
-
-        setTimeout(world.cycle.bind(world), 1000);
     }
 }
 module.exports = global.World = World;

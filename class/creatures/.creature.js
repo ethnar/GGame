@@ -1,6 +1,7 @@
 const Entity = require('../.entity');
 const Corpse = require('../items/corpse');
 const Utils = require('../../singletons/utils');
+const server = require('../../singletons/server');
 
 const prod = {
     damage: 0.1,
@@ -9,34 +10,56 @@ const prod = {
 
 const actions = {
     attack: {
-        run(creature) {
-            creature.actionProgress += 20;
+        available(doer) {
+            return this !== doer;
+        },
+        run(doer) {
+            doer.actionProgress += 20;
 
-            this.learnAboutCreature(creature);
+            this.learnAboutCreature(doer);
 
             if (this.health <= 0) {
                 return false;
             }
 
-            if (creature.actionProgress >= 100) {
-                const chanceToHit = creature.getHitChance();
+            if (doer.actionProgress >= 100) {
+                const chanceToHit = doer.getHitChance();
                 const chanceToDodge = 5;
 
-                creature.gainSkill(SKILLS.FIGHTING, 0.5);
+                doer.gainSkill(SKILLS.FIGHTING, 0.5);
                 this.gainSkill(SKILLS.FIGHTING, 0.1);
 
                 if (
                     Utils.random(1, 100) <= chanceToHit &&
                     Utils.random(1, 100) > chanceToDodge
                 ) {
-                    const damage = creature.getDamageDealt();
+                    const damage = doer.getDamageDealt();
                     this.receiveDamage(damage);
-                    this.registerAttacker(creature);
+                    this.registerAttacker(doer);
 
-                    console.log(this.getName() + ' received ' + damage + ' from ' + creature.getName())
+                    console.log(this.getName() + ' received ' + damage + ' from ' + doer.getName())
                 }
                 return false;
             }
+            return true;
+        }
+    },
+    search: {
+        run(doer) {
+            const node = this.getNode();
+            doer.getSearchingFor().forEach(type => {
+                if (node[type].length) {
+                    for (let i = 0; i < 3; i++) {
+                        const idx = Utils.random(0, node[type].length - 1);
+                        const thing = node[type][idx];
+
+                        if (thing.getDiscoverability() > Utils.random(1, 100)) {
+                            doer.learn(type, thing);
+                        }
+                    }
+                }
+            });
+
             return true;
         }
     }
@@ -318,5 +341,17 @@ class Creature extends Entity {
         this.gettingHungry();
         this.continueAction();
     }
+
+    getPayload(creature) {
+        return {
+            name: this.getName(),
+            action: this.currentAction && this.currentAction.action,
+            inventory: this === creature ? this.items.map(item => item.getPayload(creature)) : null,
+        }
+    }
 }
 module.exports = global.Creature = Creature;
+
+server.registerHandler('action', (params) => {
+    console.log(params);
+});

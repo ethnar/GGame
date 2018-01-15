@@ -1,32 +1,7 @@
 const Entity = require('../.entity');
 const Utils = require('../../singletons/utils');
 
-const actions = {
-    search: {
-        run(creature) {
-            creature.getSearchingFor().forEach(type => {
-                if (this[type].length) {
-                    for (let i = 0; i < 3; i++) {
-                        const idx = Utils.random(0, this[type].length - 1);
-                        const thing = this[type][idx];
-
-                        if (thing.getDiscoverability() > Utils.random(1, 100)) {
-                            creature.learn(type, thing);
-                        }
-                    }
-                }
-            });
-
-            return true;
-        }
-    }
-};
-
 class Node extends Entity {
-    static actions() {
-        return actions;
-    }
-
     constructor(args) {
         super(args);
 

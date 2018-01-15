@@ -4,16 +4,27 @@ export const MainView = {
     data: () => ({
     }),
 
-    subscriptions: () => ({
-    }),
+    subscriptions() {
+        return {
+            data: ServerService.getMainStream(),
+        };
+    },
 
     created () {
-        ServerService.request('yay?');
+    },
+
+    methods: {
+        search() {
+            ServerService.request('action', {
+                action: 'search'
+            })
+        }
     },
 
     template: `
 <div>
     Yay, the game!
+    {{data}}
 </div>
 `,
 };

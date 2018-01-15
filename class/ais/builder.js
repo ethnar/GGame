@@ -19,7 +19,7 @@ class BuilderAI extends AI {
 
         if (!self.currentAction || self.currentAction.action === 'search') {
             const item = self.items
-                .find(item => item.hasAvailableAction('eat'));
+                .find(item => item.hasAvailableAction('eat', self));
 
             if (item) {
                 this.creature.startAction(item, 'eat');
@@ -35,7 +35,7 @@ class BuilderAI extends AI {
 
         if (!self.currentAction || self.currentAction.action === 'search') {
             const bush = self.known.structures
-                .find(structure => structure.hasAvailableAction('gather'));
+                .find(structure => structure.hasAvailableAction('gather', self));
 
             if (bush) {
                 this.creature.startAction(bush, 'gather');

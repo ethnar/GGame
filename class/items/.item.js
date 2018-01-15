@@ -61,5 +61,11 @@ class Item extends Entity {
     setContainer(container) {
         this.container = container;
     }
+
+    getPayload(creature) {
+        return {
+            name: this.getName(),
+        }
+    }
 }
 module.exports = global.Item = Item;

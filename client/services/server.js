@@ -45,7 +45,7 @@ const getOpenPromise = () => {
         .then(() => connection);
 };
 
-const streams = {};
+let stream;
 
 export const ServerService = {
     getPlayerId() {
@@ -66,57 +66,15 @@ export const ServerService = {
         });
     },
 
-    getStream (entityType, id) {
-        if (!id) {
-            throw new Error(`Get stream of ${entityType}, but no ID provided: ${id}`);
-        }
-        return this
-            .getListStream(entityType, {id: id})
-            .map(array => (array || [])[0]);
-    },
-
-    getListStream (entityType, filter = {}) {
-        const key = entityType + '__' + JSON.stringify(filter);
-        if (!streams[key]) {
-            streams[key] = {
-                data: [],
-                stream: new Rx.ReplaySubject()
+    getMainStream() {
+        if (!stream) {
+            this.request('init');
+            stream = new Rx.ReplaySubject(1);
+            updateHandlers.playerData = (data) => {
+                stream.next(data);
             };
-            ServerService.request('subscribe', {
-                entity: entityType,
-                filter: filter,
-                key: key,
-            }).then(items => {
-                streams[key].data = items;
-                streams[key].stream.next(items);
-            });
-            ServerService.onUpdate(`update-${key}`, item => {
-                const items = streams[key].data;
-                const existing = items.findIndex(i => i.id === item.id);
-                if (~existing) {
-                    items[existing] = item;
-                } else {
-                    items.push(item);
-                }
-                streams[key].stream.next(items)
-            });
-            ServerService.onUpdate(`remove-${key}`, itemId => {
-                const items = streams[key].data;
-                const existing = items.findIndex(i => i.id === itemId);
-                if (~existing) {
-                    items.splice(existing, 1);
-                }
-                streams[key].stream.next(items)
-            });
         }
-        return streams[key].stream;
-    },
-
-    onUpdate (name, handler) {
-        if (updateHandlers[name]) {
-            throw new Error('Adding handler to replace already existing handler');
-        }
-        updateHandlers[name] = handler;
+        return stream;
     },
 
     authenticate (user, password) {

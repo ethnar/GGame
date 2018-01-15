@@ -6,4 +6,7 @@ global.world = worldBuilder.buildNewWorld();
 
 console.log('*** Start ***');
 
-world.run();
+setInterval(() => {
+    world.cycle();
+    server.updatePlayers();
+}, 1000);

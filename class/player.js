@@ -8,15 +8,20 @@ const shasum = hash('sha1');
 const authTokens = {};
 
 class Player {
-    constructor(name, password) {
+    constructor(name, password, creature) {
         this.name = name;
         this.password = Player.passwordHash(password);
+        this.creature = creature;
 
         Player.list.push(this);
     }
 
     static passwordHash(password) {
         return shasum(password + '-g-the-game');
+    }
+    
+    getCreature() {
+        return this.creature;
     }
 
     getName() {

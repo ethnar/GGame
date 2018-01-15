@@ -93,7 +93,7 @@ module.exports = {
             dangerousForest.addCreature(new Wolf());
         }
 
-        const player = new Player('test', 'test');
+        const player = new Player('test', 'test', urist);
 
         const stoneTool = new SharpenedStone();
         urist.addItem(stoneTool);

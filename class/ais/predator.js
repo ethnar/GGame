@@ -64,7 +64,7 @@ class PredatorAI extends AI {
         if (bestOption && bestOption.threat < self.hunger) {
             self.startAction(bestOption.creature, 'attack');
         } else {
-            self.startAction(self.getNode(), 'search');
+            self.startAction(self, 'search');
         }
     }
 }
