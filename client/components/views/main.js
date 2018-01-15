@@ -16,7 +16,8 @@ export const MainView = {
     methods: {
         search() {
             ServerService.request('action', {
-                action: 'search'
+                action: 'search',
+                entity: this.data.id,
             })
         }
     },
@@ -25,6 +26,7 @@ export const MainView = {
 <div>
     Yay, the game!
     {{data}}
+    <button @click="search();">Search</button>
 </div>
 `,
 };

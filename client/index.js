@@ -16,7 +16,7 @@ window.router = new VueRouter({
         component: MainView
     }, {
         path: '*',
-        redirect: '/main'
+        redirect: '/login'
     }]
 });
 

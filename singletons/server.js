@@ -95,8 +95,8 @@ const server = new class Server {
 
     updatePlayers() {
         this.connections.forEach((connection) => {
-            const creature = player.getCreature();
             const player = this.getPlayer(connection);
+            const creature = player.getCreature();
             connection.sendText(JSON.stringify({
                 update: 'playerData',
                 data: creature.getPayload(creature)

@@ -343,15 +343,37 @@ class Creature extends Entity {
     }
 
     getPayload(creature) {
+        const actions = this.constructor.actions();
         return {
+            id: this.getId(),
             name: this.getName(),
             action: this.currentAction && this.currentAction.action,
             inventory: this === creature ? this.items.map(item => item.getPayload(creature)) : null,
+            actions: Object
+                .keys(actions)
+                .filter(action =>
+                    !actions[action].available ||
+                    actions[action].available(creature)
+                ),
+            structures: this.known.structures
+                .map(structure => structure.getPayload())
         }
     }
 }
 module.exports = global.Creature = Creature;
 
-server.registerHandler('action', (params) => {
+server.registerHandler('action', (params, player) => {
     console.log(params);
+    debugger;
+    const id = params.entity;
+    const action = params.action;
+    const entity = Entity.getById(id);
+    const creature = player.getCreature();
+    if (entity) {
+        const actions = entity.constructor.actions();
+        if (!actions[action].available ||
+            actions[action].available(creature)) {
+            creature.startAction(entity, action);
+        }
+    }
 });

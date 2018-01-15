@@ -26,6 +26,12 @@ class Structure extends Entity {
         return this.constructor.size();
     }
 
+    getPayload() {
+        return {
+            name: this.getName(),
+        };
+    }
+
     cycle() {
 
     }

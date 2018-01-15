@@ -64,6 +64,7 @@ class Item extends Entity {
 
     getPayload(creature) {
         return {
+            id: this.getId(),
             name: this.getName(),
         }
     }

@@ -1,10 +1,24 @@
+let id = 1;
+const entityMap = {};
+
 class Entity {
     static entityName() {
         return '?';
     }
 
+    static getById(id) {
+        return entityMap[id];
+    }
+
     constructor(args) {
+        this.id = id;
+        entityMap[id] = this;
+        id++;
         Object.assign(this, args);
+    }
+
+    getId() {
+        return this.id;
     }
 
     getDiscoverability() {
