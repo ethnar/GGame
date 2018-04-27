@@ -6,6 +6,7 @@ class Node extends Entity {
         super(args);
 
         this.size = this.size || 50;
+        this.resources = [];
         this.structures = [];
         this.creatures = [];
         this.items = [];
@@ -23,6 +24,11 @@ class Node extends Entity {
     addStructure(structure) {
         this.structures.push(structure);
         structure.setNode(this);
+    }
+
+    addResource(resource) {
+        this.resources.push(resource);
+        resource.setNode(this);
     }
 
     removeStructure(structure) {

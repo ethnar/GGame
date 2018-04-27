@@ -15,10 +15,6 @@ class World {
         node.setWorld(this);
     }
 
-    run() {
-        setInterval(this.cycle.bind(this), 1000);
-    }
-
     getCurrentTime() {
         return this.currentTime;
     }

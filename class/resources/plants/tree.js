@@ -1,5 +1,5 @@
 const Plant = require('./.plant');
-const FelledTree = require('../felled-tree');
+const FelledTree = require('../forest');
 
 const actions = {
     chopDown: {

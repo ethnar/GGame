@@ -1,4 +1,4 @@
-const Structure = require('../.structure');
+const Structure = require('../../structures/.structure');
 const Utils = require('../../../singletons/utils');
 
 class Plant extends Structure {

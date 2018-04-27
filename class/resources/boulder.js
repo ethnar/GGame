@@ -1,4 +1,4 @@
-const Structure = require('./.structure');
+const Structure = require('../structures/.structure');
 
 class Boulder extends Structure {
     static entityName() {

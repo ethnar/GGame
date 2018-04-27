@@ -1,7 +1,7 @@
 const Herb = require('./.herb');
 const Strawberry = require('../../../items/edibles/herbs/strawberry');
 
-class StrawberryBush extends Herb {
+class Strawberries extends Herb {
     static spawnNewBerry() {
         return new Strawberry();
     }
@@ -18,4 +18,4 @@ class StrawberryBush extends Herb {
         return 'Strawberry bush';
     }
 }
-module.exports = global.StrawberryBush = StrawberryBush;
+module.exports = global.Strawberries = Strawberries;

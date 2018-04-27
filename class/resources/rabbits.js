@@ -1,4 +1,4 @@
-const Structure = require('./.structure');
+const Structure = require('../structures/.structure');
 const Log = require('../items/resources/log');
 
 const actions = {
@@ -29,13 +29,13 @@ const actions = {
     }
 };
 
-class FelledTree extends Structure {
+class Rabbits extends Structure {
     static actions() {
         return actions;
     }
 
     static entityName() {
-        return 'Fallen tree';
+        return 'Rabbits';
     }
 }
-module.exports = global.FelledTree = FelledTree;
+module.exports = global.Rabbits = Rabbits;
