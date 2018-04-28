@@ -25,10 +25,6 @@ class Corpse extends Item {
         return actions;
     }
 
-    static discoverability() {
-        return 10;
-    }
-
     constructor(args) {
         super(args);
 

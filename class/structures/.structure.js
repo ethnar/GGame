@@ -5,10 +5,6 @@ class Structure extends Entity {
         return 1;
     }
 
-    static discoverability() {
-        return 50;
-    }
-
     constructor(args) {
         super(args);
         this.integrity = 100;

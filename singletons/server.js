@@ -99,7 +99,10 @@ const server = new class Server {
             const creature = player.getCreature();
             connection.sendText(JSON.stringify({
                 update: 'playerData',
-                data: creature.getPayload(creature)
+                data: {
+                    character: creature.getPayload(creature),
+                    node: creature.getNode().getPayload(creature),
+                }
             }));
         });
     }

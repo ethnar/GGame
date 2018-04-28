@@ -1,5 +1,5 @@
-const Structure = require('../structures/.structure');
-const Log = require('../items/resources/log');
+const Resource = require('./.resource');
+const Log = require('../items/log');
 
 const actions = {
     chop: {
@@ -29,7 +29,7 @@ const actions = {
     }
 };
 
-class Rabbits extends Structure {
+class Rabbits extends Resource {
     static actions() {
         return actions;
     }

@@ -1,4 +1,4 @@
-const Herb = require('./.herb');
+const Herb = require('./.edible');
 
 class Strawberry extends Herb {
     static nutrition() {

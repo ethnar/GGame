@@ -1,4 +1,4 @@
-const Resource = require('./.resource');
+const Resource = require('./.item');
 
 class Log extends Resource {
     static material() {

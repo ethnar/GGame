@@ -10,24 +10,14 @@ class Humanoid extends Creature {
         return 100;
     }
 
-    static searchingFor() {
-        return [
-            'items',
-            'structures',
-            'creatures'
-        ];
-    }
-
-    static discoverability() {
-        return 30;
-    }
-
     static stomachSeconds() {
         return 24 * 60 * 60;
     }
 
     constructor(args) {
         super(args);
+
+        this.tool = null;
     }
 }
 module.exports = global.Humanoid = Humanoid;

@@ -1,9 +1,9 @@
-const Item = require('./.item');
+const Item = require('../.item');
 
 class SharpenedStone extends Item {
     static utility() {
         return {
-            [TOOL_UTILS.CUTTING]: 0.5
+            [TOOL_UTILS.CUTTING]: 0.3
         };
     }
 

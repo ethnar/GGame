@@ -47,18 +47,7 @@ const actions = {
     search: {
         run(doer) {
             const node = this.getNode();
-            doer.getSearchingFor().forEach(type => {
-                if (node[type].length) {
-                    for (let i = 0; i < 3; i++) {
-                        const idx = Utils.random(0, node[type].length - 1);
-                        const thing = node[type][idx];
-
-                        if (thing.getDiscoverability() > Utils.random(1, 100)) {
-                            doer.learn(type, thing);
-                        }
-                    }
-                }
-            });
+            doer.actionProgress += 1;
 
             return true;
         }
@@ -72,10 +61,6 @@ class Creature extends Entity {
 
     static size() {
         return 1;
-    }
-
-    static searchingFor() {
-        return [];
     }
 
     static maxHealth() {
@@ -96,15 +81,7 @@ class Creature extends Entity {
         this.items = [];
         this.hostiles = [];
 
-        this.known = {
-            items: [],
-            structures: [],
-            creatures: []
-        };
-    }
-
-    getSearchingFor() {
-        return this.constructor.searchingFor();
+        this.locationKnowledge = new Map();
     }
 
     startAction(entity, action, ...items) {
@@ -153,6 +130,7 @@ class Creature extends Entity {
     removeItem(item) {
         const idx = this.items.indexOf(item);
         this.items.splice(idx, 1);
+        item.setContainer(null);
     }
 
     getHungerRate() {
@@ -212,53 +190,6 @@ class Creature extends Entity {
     attachAI(ai) {
         this.ai = ai;
         ai.setCreature(this);
-    }
-
-    knowsStructure(structure) {
-        return this.known.structures.includes(structure);
-    }
-
-    learn(kind, thing) {
-        const idx = this.known[kind].indexOf(thing);
-        if (idx === -1) {
-            this.known[kind].push(thing);
-            console.log(this.getName() + ': Learned about [' + kind + ']:', thing.getName());
-        }
-    }
-
-    forget(kind, thing) {
-        const idx = this.known[kind].indexOf(thing);
-        if (idx !== -1) {
-            this.known[kind].splice(idx, 1);
-        }
-    }
-
-    learnAboutStructure(structure) {
-        this.learn('structures', structure);
-    }
-
-    forgetAboutStructure(structure) {
-        this.forget('structures', structure);
-    }
-
-    knowsItem(item) {
-        return this.known.items.includes(item);
-    }
-
-    learnAboutItem(item) {
-        this.learn('items', item);
-    }
-
-    forgetAboutItem(item) {
-        this.forget('items', item);
-    }
-
-    learnAboutCreature(creature) {
-        this.learn('creatures', creature);
-    }
-
-    forgetAboutCreature(creature) {
-        this.forget('creatures', creature);
     }
 
     continueAction() {
@@ -355,8 +286,6 @@ class Creature extends Entity {
                     !actions[action].available ||
                     actions[action].available(creature)
                 ),
-            structures: this.known.structures
-                .map(structure => structure.getPayload())
         }
     }
 }

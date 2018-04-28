@@ -1,5 +1,5 @@
-const Structure = require('./.resource');
-const Log = require('../items/resources/log');
+const Resource = require('./.resource');
+const Log = require('../items/log');
 
 class Forest extends Resource {
     static entityName() {

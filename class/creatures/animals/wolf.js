@@ -15,10 +15,6 @@ class Wolf extends Animal {
         return 0.5;
     }
 
-    static discoverability() {
-        return 8;
-    }
-
     static stomachSeconds() {
         return 2 * 24 * 60 * 60;
     }

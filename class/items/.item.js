@@ -10,14 +10,6 @@ global.MATERIALS = {
 };
 
 class Item extends Entity {
-    static discoverability() {
-        return 10;
-    }
-
-    static material() {
-        return [];
-    }
-
     constructor(args) {
         super(args);
 
@@ -26,14 +18,6 @@ class Item extends Entity {
 
     destroy() {
         this.getContainer().removeItem(this)
-    }
-
-    isMaterial(materialType) {
-        return this.constructor.material().includes(materialType);
-    }
-
-    getMaterialTypes() {
-        return this.constructor.material();
     }
 
     reduceIntegrity(damage) {
@@ -62,7 +46,7 @@ class Item extends Entity {
         this.container = container;
     }
 
-    getPayload(creature) {
+    getPayload() {
         return {
             id: this.getId(),
             name: this.getName(),

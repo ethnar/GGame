@@ -21,10 +21,6 @@ class Entity {
         return this.id;
     }
 
-    getDiscoverability() {
-        return this.constructor.discoverability();
-    }
-
     getName() {
         return this.name || this.constructor.entityName();
     }

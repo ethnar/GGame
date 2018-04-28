@@ -17,7 +17,7 @@ class Node extends Entity {
         this.world = world;
     }
 
-    getWorld(world) {
+    getWorld() {
         return this.world;
     }
 
@@ -63,18 +63,12 @@ class Node extends Entity {
         this.paths.push(path);
     }
 
-    getTemperature() {
-        return this.temperature;
-    }
-
-    getLightLevel() {
-        return this.lightLevel;
-    }
-
-    getFreeSpace() {
-        return this.size - this.structures.reduce(
-            (acc, structure) => acc + structure.getSize(), 0
-        );
+    getPayload(creature) {
+        return {
+            resources: this.resources
+                .map(resource => resource.getPayload(creature))
+                .filter(resourcePayload => !!resourcePayload),
+        };
     }
 
     cycle() {
