@@ -8,9 +8,9 @@ class Forest extends Resource {
 }
 Object.assign(Forest.prototype, {
     skill: SKILLS.WOODCUTTING,
-    tool: TOOL_UTILS.CUTTING,
+    toolUtility: TOOL_UTILS.CUTTING,
     produces: Log,
-    baseTime: 120,
+    baseTime: 12, // 120,
 });
 
 module.exports = global.Forest = Forest;

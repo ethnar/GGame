@@ -1,6 +1,10 @@
-const Resource = require('./.item');
+const Item = require('./.item');
 
-class Log extends Resource {
+class Log extends Item {
+    static entityName() {
+        return 'Log';
+    }
+
     static material() {
         return [
             MATERIALS.WOOD

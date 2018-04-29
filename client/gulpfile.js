@@ -6,12 +6,16 @@ var concat = require('gulp-concat');
 var debug = require('gulp-debug');
 
 gulp.task('sass', function () {
-    return gulp.src('./src/**/*.scss')
+    return gulp
+        .src([
+            './**/*.scss',
+            '!./node_modules/**/*.scss'
+        ])
         .pipe(sass().on('error', sass.logError))
         .pipe(concat('all.css'))
-        .pipe(gulp.dest('./src/_css'));
+        .pipe(gulp.dest('./_css'));
 });
 
-gulp.task('sass:watch', function () {
-    gulp.watch('./src/**/*.scss', ['sass']);
+gulp.task('sass:watch', ['sass'], function () {
+    gulp.watch('./**/*.scss', ['sass']);
 });

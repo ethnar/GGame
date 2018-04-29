@@ -1,38 +1,54 @@
 const Entity = require('../.entity');
+const Action = require('../.action');
 
-const actions = {
-    gather: {
-        run(creature) {
-            const tool = creature.getTool(this.tool);
-            const progress = tool.getUtility(TOOL_UTILS.CUTTING) *
-                creature.getSkillMultiplier(SKILLS.WOODCUTTING);
-
-            creature.actionProgress += progress;
-
-            tool.reduceIntegrity(0.002);
-            creature.gainSkill(SKILLS.WOODCUTTING, progress / 100);
-
-            this.chopping = this.chopping || 0;
-            this.chopping += tool.getUtility(TOOL_UTILS.CUTTING) *
-                creature.getSkillMultiplier(SKILLS.WOODCUTTING);
-
-            if (this.chopping >= 100) {
-                const node = this.getNode();
-
-                node.removeStructure(this);
-                const felledTree = new FelledTree({
-                    wood: Math.pow(this.growth, 2) / 100
-                });
-                node.addStructure(felledTree);
-                creature.learnAboutStructure(felledTree);
+const actions = [
+    new Action({
+        name: 'Gather',
+        available(entity, creature) {
+            if (entity.getNode() !== creature.getNode()) {
+                return false;
+            }
+            const tool = creature.getTool();
+            if (entity.toolUtility && (!tool || !tool.getUtility(entity.toolUtility))) {
                 return false;
             }
             return true;
+        },
+        run(entity, creature) {
+            const tool = creature.getTool();
+            let toolMultiplier = 1;
+            if (entity.toolUtility) {
+                if (!tool) {
+                    return false;
+                }
+                toolMultiplier = tool.getUtility(entity.toolUtility);
+            }
+
+            const progress = toolMultiplier *
+                creature.getSkillMultiplier(entity.skill);
+
+            creature.actionProgress += progress  * 100 / entity.baseTime;
+
+            if (tool) {
+                tool.reduceIntegrity(0.002);
+            }
+            creature.gainSkill(entity.skill, progress / 100);
+
+            if (creature.actionProgress >= 100) {
+                creature.addItemByType(entity.produces);
+                creature.actionProgress -= 100;
+                return true;
+            }
+            return true;
         }
-    }
-};
+    }),
+];
 
 class Resource extends Entity {
+    static actions() {
+        return actions;
+    }
+
     constructor(args) {
         super(args);
     }
@@ -47,13 +63,10 @@ class Resource extends Entity {
 
     getPayload(creature) {
         return {
+            id: this.getId(),
             name: this.getName(),
             size: this.size,
-            action: {
-                name: 'Gather',
-                id: 'gather',
-                toolType: this.tool,
-            }
+            actions: this.getActionsPayloads(creature),
         };
     }
 }

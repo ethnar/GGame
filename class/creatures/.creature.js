@@ -2,57 +2,58 @@ const Entity = require('../.entity');
 const Corpse = require('../items/corpse');
 const Utils = require('../../singletons/utils');
 const server = require('../../singletons/server');
+const Action = require('../.action');
 
 const prod = {
     damage: 0.1,
     hitChance: 10
 };
 
-const actions = {
-    attack: {
-        available(doer) {
-            return this !== doer;
+const actions = [
+    new Action({
+        name: 'Attack',
+        available(entity, character) {
+            return entity !== character && entity.getNode() === character.getNode();
         },
-        run(doer) {
-            doer.actionProgress += 20;
+        run(entity, character) {
+            character.actionProgress += 20;
 
-            this.learnAboutCreature(doer);
-
-            if (this.health <= 0) {
+            if (entity.health <= 0) {
                 return false;
             }
 
-            if (doer.actionProgress >= 100) {
-                const chanceToHit = doer.getHitChance();
+            if (character.actionProgress >= 100) {
+                const chanceToHit = character.getHitChance();
                 const chanceToDodge = 5;
 
-                doer.gainSkill(SKILLS.FIGHTING, 0.5);
-                this.gainSkill(SKILLS.FIGHTING, 0.1);
+                character.gainSkill(SKILLS.FIGHTING, 0.5);
+                entity.gainSkill(SKILLS.FIGHTING, 0.1);
 
                 if (
                     Utils.random(1, 100) <= chanceToHit &&
                     Utils.random(1, 100) > chanceToDodge
                 ) {
-                    const damage = doer.getDamageDealt();
-                    this.receiveDamage(damage);
-                    this.registerAttacker(doer);
+                    const damage = character.getDamageDealt();
+                    entity.receiveDamage(damage);
+                    entity.registerAttacker(character);
 
-                    console.log(this.getName() + ' received ' + damage + ' from ' + doer.getName())
+                    console.log(entity.getName() + ' received ' + damage + ' from ' + character.getName())
                 }
                 return false;
             }
             return true;
         }
-    },
-    search: {
-        run(doer) {
-            const node = this.getNode();
-            doer.actionProgress += 1;
+    }),
+    new Action({
+        name: 'Search',
+        run(entity, character) {
+            const node = character.getNode();
+            character.actionProgress += 1;
 
             return true;
         }
-    }
-};
+    }),
+];
 
 class Creature extends Entity {
     static actions() {
@@ -80,18 +81,18 @@ class Creature extends Entity {
         this.skills = {};
         this.items = [];
         this.hostiles = [];
+        this.tool = null;
 
         this.locationKnowledge = new Map();
     }
 
-    startAction(entity, action, ...items) {
+    startAction(entity, action) {
         this.actionProgress = 0;
-        //console.log(this.getName() + ': ' + action + '!');
+        console.log(this.getName() + ': ' + action.getName() + '!');
         this.currentAction = {
-            entity,
-            action,
-            items
-        }
+            entityId: entity.getId(),
+            actionId: action.getId(),
+        };
     }
 
     setNode(node) {
@@ -100,6 +101,14 @@ class Creature extends Entity {
 
     getNode() {
         return this.node;
+    }
+
+    getTool() {
+        return this.tool;
+    }
+
+    equipTool(item) {
+        this.tool = item;
     }
 
     pickUp(item) {
@@ -127,10 +136,24 @@ class Creature extends Entity {
         item.setContainer(this);
     }
 
+    addItemByType(itemType) {
+        const existing = this.items.find(i => i.constructor === itemType);
+        if (existing) {
+            existing.qty += 1;
+        } else {
+            this.addItem(new itemType());
+        }
+    }
+
     removeItem(item) {
-        const idx = this.items.indexOf(item);
-        this.items.splice(idx, 1);
-        item.setContainer(null);
+        item.qty -= 1;
+        if (item.qty === 0) {
+            const idx = this.items.indexOf(item);
+            this.items.splice(idx, 1);
+            item.setContainer(null);
+            return true;
+        }
+        return false;
     }
 
     getHungerRate() {
@@ -181,12 +204,6 @@ class Creature extends Entity {
         return this.hostiles[0];
     }
 
-    getThreat(threat) {
-        const threatResilience = threat.health / Math.max(this.getWeapon().damage - threat.getArmour(), 0.001);
-        const selfResilience = this.health / Math.max(threat.getWeapon().damage - this.getArmour(), 0.001);
-        return 100 * threatResilience / (selfResilience + threatResilience);
-    }
-
     attachAI(ai) {
         this.ai = ai;
         ai.setCreature(this);
@@ -194,22 +211,24 @@ class Creature extends Entity {
 
     continueAction() {
         if (this.currentAction) {
-            const { entity, action, items } = this.currentAction;
-            const actions = entity.constructor.actions();
+            const { entityId, actionId } = this.currentAction;
+            const entity = Entity.getById(entityId);
+            const action = entity.getActionById(actionId);
 
-            if (!actions[action]) {
+            if (!action) {
                 throw new Error(`Action ${action} not found on an entity ${entity.getName()}`);
             }
 
-            if (actions[action].available && !actions[action].available.call(entity)) {
-                this.currentAction = 0;
+            if (!action.isAvailable(entity, this)) {
+                this.currentAction = null;
                 return;
             }
 
-            const result = actions[action].run.call(entity, this, ...items);
+            const result = action.run(entity, this);
 
             if (!result) {
                 this.currentAction = null;
+                this.actionProgress = 0;
             }
         }
     }
@@ -275,34 +294,41 @@ class Creature extends Entity {
 
     getPayload(creature) {
         const actions = this.constructor.actions();
+        const tool = this.getTool();
         return {
             id: this.getId(),
             name: this.getName(),
-            action: this.currentAction && this.currentAction.action,
             inventory: this === creature ? this.items.map(item => item.getPayload(creature)) : null,
-            actions: Object
-                .keys(actions)
-                .filter(action =>
-                    !actions[action].available ||
-                    actions[action].available(creature)
-                ),
+            tool: tool ? tool.getPayload(creature) : null,
+            actions: this.getActionsPayloads(creature),
+            currentAction: this.currentAction,
+            status: {
+                health: this.health,
+                hunger: this.hunger,
+                energy: this.energy,
+                actionProgress: this.actionProgress,
+            },
+            skills: this.skills,
         }
     }
 }
 module.exports = global.Creature = Creature;
 
-server.registerHandler('action', (params, player) => {
-    console.log(params);
-    debugger;
-    const id = params.entity;
-    const action = params.action;
-    const entity = Entity.getById(id);
-    const creature = player.getCreature();
-    if (entity) {
-        const actions = entity.constructor.actions();
-        if (!actions[action].available ||
-            actions[action].available(creature)) {
-            creature.startAction(entity, action);
-        }
+server.registerHandler('action', (params, player, connection) => {
+    const target = Entity.getById(params.target);
+    if (!target) {
+        return false;
     }
+    const actions = target.getActions();
+    const action = Entity.getById(params.action);
+    if (!actions.includes(action)) {
+        return false;
+    }
+
+    const creature = player.getCreature();
+    creature.startAction(target, action);
+
+    server.updatePlayer(connection);
+
+    return true;
 });

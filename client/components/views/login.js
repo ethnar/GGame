@@ -8,8 +8,6 @@ export const LoginView = {
     }),
 
     created() {
-        // this.goToTheGame();
-
         // TODO: remove
         this.user = 'test';
         this.password = 'test';

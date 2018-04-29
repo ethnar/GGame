@@ -1,19 +1,46 @@
 const Entity = require('../.entity');
+const Action = require('../.action');
 
-global.TOOL_UTILS = {
-    CUTTING: 1,
-    HAMMER: 2
-};
-
-global.MATERIALS = {
-    WOOD: 1,
-};
+const actions = [
+    new Action({
+        name: 'Equip as Tool',
+        available(item, creature) {
+            if (creature.getTool() === item) {
+                return false;
+            }
+            if (item.getContainer() !== creature) {
+                return false;
+            }
+            if (item.constructor.utility) {
+                return !!Object.keys(item.constructor.utility()).length;
+            }
+            return false;
+        },
+        run(item, creature) {
+            creature.equipTool(item);
+            return false;
+        }
+    })
+];
 
 class Item extends Entity {
+    static actions() {
+        return actions;
+    }
+
+    static toolTypeLabel(toolType) {
+        const labels = {
+            [TOOL_UTILS.CUTTING]: 'Cutting',
+            [TOOL_UTILS.HAMMER]: 'Hammering',
+        };
+        return labels[toolType];
+    }
+
     constructor(args) {
         super(args);
 
         this.integrity = 100;
+        this.qty = 1;
     }
 
     destroy() {
@@ -46,10 +73,12 @@ class Item extends Entity {
         this.container = container;
     }
 
-    getPayload() {
+    getPayload(creature) {
         return {
             id: this.getId(),
             name: this.getName(),
+            qty: this.qty,
+            actions: this.getActionsPayloads(creature),
         }
     }
 }

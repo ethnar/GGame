@@ -61,6 +61,7 @@ module.exports = {
 
         const stoneTool = new SharpenedStone();
         urist.addItem(stoneTool);
+        urist.addItem(new Stone());
 
         return world;
     },

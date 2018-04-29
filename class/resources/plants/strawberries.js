@@ -6,4 +6,10 @@ class Strawberries extends Resource {
         return 'Strawberries';
     }
 }
+Object.assign(Strawberries.prototype, {
+    skill: SKILLS.FORAGING,
+    produces: Strawberry,
+    baseTime: 10,
+});
+
 module.exports = global.Strawberries = Strawberries;

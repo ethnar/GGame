@@ -1,6 +1,5 @@
 @font-face {
   font-family: BaseFont;
-  src: url("../.resources/font/IndustriaLTStd-Solid.otf") format("opentype");
 }
 
 body, html {
@@ -12,4 +11,29 @@ body, html {
 button {
   font-size: inherit;
   font-family: inherit;
+}
+
+.action {
+  border: 2px solid transparent;
+  background-color: #f8f8f8;
+
+  &:focus {
+    outline: none;
+  }
+  &.current {
+    border: 2px solid orange;
+  }
+}
+
+.meter-bar {
+  display: inline-block;
+  height: 10px;
+  border: 1px solid lightgray;
+  width: 400px;
+  float: right;
+
+  .fill {
+    height: 100%;
+//    transition: width 1s linear;
+  }
 }

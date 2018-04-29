@@ -16,8 +16,6 @@ class Humanoid extends Creature {
 
     constructor(args) {
         super(args);
-
-        this.tool = null;
     }
 }
 module.exports = global.Humanoid = Humanoid;

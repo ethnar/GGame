@@ -65,7 +65,7 @@ export const ServerService = {
 
     getMainStream() {
         if (!stream) {
-            this.request('init');
+            getOpenPromise();
             stream = new Rx.ReplaySubject(1);
             updateHandlers.playerData = (data) => {
                 stream.next(data);

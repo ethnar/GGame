@@ -21,6 +21,23 @@ class Entity {
         return this.id;
     }
 
+    getActions() {
+        return this.constructor.actions ? this.constructor.actions() : [];
+    }
+
+    getActionById(actionId) {
+        return this
+            .getActions()
+            .find(action => action.id === actionId);
+    }
+
+    getActionsPayloads(creature) {
+        return this
+            .getActions()
+            .map(action => action.getPayload(this, creature))
+            .filter(action => !!action);
+    }
+
     getName() {
         return this.name || this.constructor.entityName();
     }

@@ -95,16 +95,20 @@ const server = new class Server {
 
     updatePlayers() {
         this.connections.forEach((connection) => {
-            const player = this.getPlayer(connection);
-            const creature = player.getCreature();
-            connection.sendText(JSON.stringify({
-                update: 'playerData',
-                data: {
-                    character: creature.getPayload(creature),
-                    node: creature.getNode().getPayload(creature),
-                }
-            }));
+            this.updatePlayer(connection);
         });
+    }
+
+    updatePlayer(connection) {
+        const player = this.getPlayer(connection);
+        const creature = player.getCreature();
+        connection.sendText(JSON.stringify({
+            update: 'playerData',
+            data: {
+                character: creature.getPayload(creature),
+                node: creature.getNode().getPayload(creature),
+            }
+        }));
     }
 
     sendUpdate(topic, connection, data) {
