@@ -4,17 +4,23 @@ const Action = require('../.action');
 const actions = [
     new Action({
         name: 'Equip as Tool',
+        valid(item, creature) {
+            if (item.getContainer() !== creature) {
+                return false;
+            }
+            if (
+                !item.constructor.utility ||
+                !Object.keys(item.constructor.utility()).length
+            ) {
+                return false;
+            }
+            return true;
+        },
         available(item, creature) {
             if (creature.getTool() === item) {
                 return false;
             }
-            if (item.getContainer() !== creature) {
-                return false;
-            }
-            if (item.constructor.utility) {
-                return !!Object.keys(item.constructor.utility()).length;
-            }
-            return false;
+            return true;
         },
         run(item, creature) {
             creature.equipTool(item);

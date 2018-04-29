@@ -12,7 +12,7 @@ const prod = {
 const actions = [
     new Action({
         name: 'Attack',
-        available(entity, character) {
+        valid(entity, character) {
             return entity !== character && entity.getNode() === character.getNode();
         },
         run(entity, character) {
