@@ -4,7 +4,6 @@ class Action extends Entity {
     constructor(args) {
         super(args);
         this.name = args.name;
-        this.label = args.label;
         this.validCallback = args.valid;
         this.availableCallback = args.available;
         this.run = args.run;
@@ -25,7 +24,7 @@ class Action extends Entity {
         }
         return {
             id: this.getId(),
-            name: this.name,
+            name: this.getName(),
             available: this.isAvailable(entity, creature),
         }
     }

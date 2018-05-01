@@ -45,7 +45,7 @@ Vue.component('actions', {
             ServerService.request('action', {
                 action: actionId,
                 target: targetId,
-            })
+            });
         }
     },
 
@@ -101,7 +101,7 @@ export const MainView = {
     <div v-for="resource in node.resources">
         {{resource.name}}
         <actions
-            :target="resource" 
+            :target="resource"
         />
     </div>
     <hr/>
@@ -109,6 +109,14 @@ export const MainView = {
         {{item.name}} <span v-if="item.qty > 1">({{item.qty}})</span>
         <actions
             :target="item" 
+        />
+    </div>
+    <hr/>
+    <div v-for="recipe in player.recipes">
+        {{recipe.name}}<br/>
+        Materials: <div v-for="(qty, name) in recipe.materials">{{name}} ({{qty}})</div>
+        <actions
+            :target="recipe" 
         />
     </div>
     <hr/>

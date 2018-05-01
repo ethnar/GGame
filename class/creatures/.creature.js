@@ -2,7 +2,8 @@ const Entity = require('../.entity');
 const Corpse = require('../items/corpse');
 const Utils = require('../../singletons/utils');
 const server = require('../../singletons/server');
-const Action = require('../.action');
+const Action = require('../action');
+const utils = require('../../singletons/utils');
 
 const prod = {
     damage: 0.1,
@@ -82,6 +83,7 @@ class Creature extends Entity {
         this.items = [];
         this.hostiles = [];
         this.tool = null;
+        this.craftingRecipes = [];
 
         this.locationKnowledge = new Map();
     }
@@ -151,6 +153,9 @@ class Creature extends Entity {
             const idx = this.items.indexOf(item);
             this.items.splice(idx, 1);
             item.setContainer(null);
+            if (this.tool === item) {
+                this.tool = null;
+            }
             return true;
         }
         return false;
@@ -292,6 +297,10 @@ class Creature extends Entity {
         this.continueAction();
     }
 
+    learnCrafting(itemType) {
+        this.craftingRecipes.push(itemType);
+    }
+
     getPayload(creature) {
         const actions = this.constructor.actions();
         const tool = this.getTool();
@@ -301,14 +310,15 @@ class Creature extends Entity {
             inventory: this === creature ? this.items.map(item => item.getPayload(creature)) : null,
             tool: tool ? tool.getPayload(creature) : null,
             actions: this.getActionsPayloads(creature),
-            currentAction: this.currentAction,
+            currentAction: utils.cleanup(this.currentAction),
+            recipes: this.craftingRecipes.map(recipe => recipe.getPayload()),
             status: {
                 health: this.health,
                 hunger: this.hunger,
                 energy: this.energy,
                 actionProgress: this.actionProgress,
             },
-            skills: this.skills,
+            skills: utils.cleanup(this.skills),
         }
     }
 }

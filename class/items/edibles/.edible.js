@@ -1,5 +1,5 @@
 const Item = require('../.item');
-const Action = require('../../.action');
+const Action = require('../../action');
 
 const actions = [
     new Action({

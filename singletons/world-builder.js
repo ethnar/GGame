@@ -62,6 +62,7 @@ module.exports = {
         const stoneTool = new SharpenedStone();
         urist.addItem(stoneTool);
         urist.addItem(new Stone());
+        urist.learnCrafting(SharpenedStone.recipeFactory());
 
         return world;
     },

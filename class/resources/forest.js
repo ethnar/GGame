@@ -10,7 +10,7 @@ Object.assign(Forest.prototype, {
     skill: SKILLS.WOODCUTTING,
     toolUtility: TOOL_UTILS.CUTTING,
     produces: Log,
-    baseTime: 12, // 120,
+    baseTime: 80,
 });
 
 module.exports = global.Forest = Forest;

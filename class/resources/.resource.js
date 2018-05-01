@@ -1,5 +1,5 @@
 const Entity = require('../.entity');
-const Action = require('../.action');
+const Action = require('../action');
 
 const actions = [
     new Action({

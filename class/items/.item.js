@@ -1,5 +1,6 @@
 const Entity = require('../.entity');
-const Action = require('../.action');
+const Action = require('../action');
+const Recipe = require('../recipe');
 
 const actions = [
     new Action({
@@ -86,6 +87,13 @@ class Item extends Entity {
             qty: this.qty,
             actions: this.getActionsPayloads(creature),
         }
+    }
+
+    static recipeFactory() {
+        return new Recipe({
+            name: 'Craft ' + this.entityName(),
+            ...this.crafting(),
+        });
     }
 }
 module.exports = global.Item = Item;

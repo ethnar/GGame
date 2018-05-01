@@ -10,5 +10,18 @@ module.exports = {
     errorResponse(message) {
         console.error('Responding: ' + message);
         return { message: message };
+    },
+
+    cleanup(object) {
+        if (!object) {
+            return object;
+        }
+        return Object
+            .keys(object)
+            .filter(key => key !== '#id')
+            .reduce((acc, item) => ({
+                ...acc,
+                [item]: object[item],
+            }), {});
     }
 };
