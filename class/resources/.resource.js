@@ -16,10 +16,6 @@ const actions = [
         run(entity, creature) {
             const toolMultiplier = creature.getToolMultiplier(entity.toolUtility);
 
-            if (!toolMultiplier) {
-                return false;
-            }
-
             const progress = toolMultiplier *
                 creature.getSkillMultiplier(entity.skill);
 

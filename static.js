@@ -6,13 +6,12 @@ global.STATS = {
 };
 
 global.SKILLS = {
-    CONSTRUCTION: 1,
+    CRAFTING: 1,
     FORAGING: 2,
     MINING: 3,
     SMITHING: 4,
     FIGHTING: 5,
     WOODCUTTING: 6,
-    CRAFTING: 7,
 };
 
 global.TOOL_UTILS = {

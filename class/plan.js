@@ -1,0 +1,101 @@
+const Entity = require('./.entity');
+const Action = require('./action');
+const utils = require('../singletons/utils');
+
+const actions = [
+    new Action({
+        name: 'Erect',
+        available(entity, creature) {
+            // TODO: must be their own recipe!
+            if (!creature.getToolMultiplier(TOOL_UTILS.HAMMER)) {
+                return false;
+            }
+
+            const materials = entity.getMaterials();
+            const availableMaterials = creature.getMaterials(materials);
+            const anyAvailable = Object.keys(availableMaterials).find(material => {
+                return (
+                    availableMaterials[material] &&
+                    availableMaterials[material].qty >= materials[material]
+                );
+            });
+            if (!anyAvailable) {
+                return false;
+            }
+
+            return true;
+        },
+        run(entity, creature) {
+            const toolMultiplier = creature.getToolMultiplier(TOOL_UTILS.HAMMER);
+
+            const progress = toolMultiplier;
+
+            creature.actionProgress += progress  * 100 / entity.getBaseTime();
+
+            const tool = creature.getTool();
+            tool.reduceIntegrity(0.002);
+
+            if (creature.actionProgress >= 100) {
+                // add resulting items
+                const construct = entity.getConstructor();
+                const structure = new construct();
+                creature.getNode().addStructure(structure);
+
+                // remove the materials
+                const materials = entity.getMaterials();
+                const availableMaterials = creature.getMaterials(materials);
+                const materialUsed = Object
+                    .keys(availableMaterials)
+                    .pop();
+                creature.removeItem(availableMaterials[materialUsed]);
+
+                // reduce materials needed
+                structure.remainingMaterialsNeeded[materialUsed] -= 1;
+                if (structure.remainingMaterialsNeeded[materialUsed] === 0) {
+                    delete structure.remainingMaterialsNeeded[materialUsed];
+                }
+
+                return false;
+            }
+            return true;
+        }
+    }),
+];
+
+class Plan extends Entity {
+    static entityName() {
+        return 'Plan?';
+    }
+
+    static actions() {
+        return actions;
+    }
+
+    constructor(args) {
+        super(args);
+        this.name = args.name;
+        this.buildClassName = args.buildClassName;
+    }
+
+    getConstructor() {
+        return global[this.buildClassName];
+    }
+
+    getMaterials() {
+        return this.getConstructor().prototype.materials;
+    }
+
+    getBaseTime() {
+        return this.getConstructor().prototype.baseTime;
+    }
+
+    getPayload(creature) {
+        return {
+            id: this.getId(),
+            name: this.getName(),
+            materials: this.getMaterials(),
+            actions: this.getActionsPayloads(creature),
+        }
+    }
+}
+module.exports = global.Plan = Plan;

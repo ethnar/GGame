@@ -98,13 +98,6 @@ export const MainView = {
         />
     </div>
     <hr/>
-    <div v-for="resource in node.resources">
-        {{resource.name}}
-        <actions
-            :target="resource"
-        />
-    </div>
-    <hr/>
     <div v-for="item in player.inventory">
         {{item.name}} <span v-if="item.qty > 1">({{item.qty}})</span>
         <actions
@@ -120,10 +113,32 @@ export const MainView = {
         />
     </div>
     <hr/>
+    <div v-for="plan in player.buildingPlans">
+        {{plan.name}}<br/>
+        Materials: <div v-for="(qty, name) in plan.materials">{{name}} ({{qty}})</div>
+        <actions
+            :target="plan" 
+        />
+    </div>
     <hr/>
-    {{player}}
+    <div v-for="resource in node.resources">
+        {{resource.name}}
+        <actions
+            :target="resource"
+        />
+    </div>
     <hr/>
-    {{node}}
+    <div v-for="structure in node.structures">
+        {{structure.name}}
+        <actions
+            :target="structure"
+        />
+    </div>
+    <hr/>
+    <hr/>
+    <pre>{{player}}</pre>
+    <hr/>
+    <pre>{{node}}</pre>
 </div>
 `,
 };

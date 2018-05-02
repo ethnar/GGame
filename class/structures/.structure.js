@@ -1,4 +1,5 @@
 const Entity = require('../.entity');
+const utils = require('../../singletons/utils');
 
 class Structure extends Entity {
     static size() {
@@ -22,10 +23,18 @@ class Structure extends Entity {
         return this.constructor.size();
     }
 
-    getPayload() {
+    getNeededMaterials() {
+        return utils.cleanup(this.remainingMaterialsNeeded);
+    }
+
+    getPayload(creature) {
         return {
+            id: this.getId(),
             name: this.getName(),
-        };
+            complete: this.complete,
+            actions: this.getActionsPayloads(creature),
+            materialsNeeded: this.getNeededMaterials(),
+        }
     }
 
     cycle() {

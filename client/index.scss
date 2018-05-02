@@ -6,6 +6,8 @@ body, html {
   font-family: BaseFont, Arial;
   font-size: 24px;
   margin: 0;
+  background: #333;
+  color: #eee;
 }
 
 button {
@@ -36,4 +38,8 @@ button {
     height: 100%;
 //    transition: width 1s linear;
   }
+}
+
+pre {
+  font-size: 60%;
 }

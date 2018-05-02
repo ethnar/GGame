@@ -6,6 +6,7 @@ const actions = [
     new Action({
         name: 'Craft',
         available(entity, creature) {
+            // TODO: must be their own recipe!
             if (!creature.getToolMultiplier(entity.toolUtility)) {
                 return false;
             }
@@ -26,10 +27,6 @@ const actions = [
         },
         run(entity, creature) {
             const toolMultiplier = creature.getToolMultiplier(entity.toolUtility);
-
-            if (!toolMultiplier) {
-                return false;
-            }
 
             const progress = toolMultiplier *
                 creature.getSkillMultiplier(entity.skill);

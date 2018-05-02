@@ -84,6 +84,7 @@ class Creature extends Entity {
         this.hostiles = [];
         this.tool = null;
         this.craftingRecipes = [];
+        this.buildingPlans = [];
 
         this.locationKnowledge = new Map();
     }
@@ -331,6 +332,10 @@ class Creature extends Entity {
         this.craftingRecipes.push(itemType);
     }
 
+    learnBuilding(buildingClassName) {
+        this.buildingPlans.push(buildingClassName);
+    }
+
     getPayload(creature) {
         const actions = this.constructor.actions();
         const tool = this.getTool();
@@ -349,6 +354,7 @@ class Creature extends Entity {
                 actionProgress: this.actionProgress,
             },
             skills: utils.cleanup(this.skills),
+            buildingPlans: this.buildingPlans.map(plan => plan.getPayload(creature)),
         }
     }
 }

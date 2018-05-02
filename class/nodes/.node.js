@@ -68,6 +68,9 @@ class Node extends Entity {
             resources: this.resources
                 .map(resource => resource.getPayload(creature))
                 .filter(resourcePayload => !!resourcePayload),
+            structures: this.structures
+                .map(structure => structure.getPayload(creature))
+                .filter(structurePayload => !!structurePayload),
         };
     }
 
