@@ -5,6 +5,7 @@ const Stone = require('../class/items/tools/stone');
 const SharpenedStone = require('../class/items/tools/sharpened-stone');
 const Twig = require('../class/items/twig');
 const Strawberries = require('../class/resources/plants/strawberries');
+const Pebbles = require('../class/resources/pebbles');
 const Rabbits = require('../class/resources/rabbits');
 const Forest = require('../class/resources/forest');
 const Dwarf = require('../class/creatures/humanoid/dwarf');
@@ -23,6 +24,9 @@ module.exports = {
             size: 1,
         }));
         startingForest.addResource(new Strawberries({
+            size: 1,
+        }));
+        startingForest.addResource(new Pebbles({
             size: 1,
         }));
 
@@ -61,7 +65,9 @@ module.exports = {
 
         const stoneTool = new SharpenedStone();
         urist.addItem(stoneTool);
-        urist.addItem(new Stone());
+        urist.addItem(new Stone({
+            qty: 5,
+        }));
         urist.learnCrafting(SharpenedStone.recipeFactory());
 
         return world;

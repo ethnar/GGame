@@ -8,20 +8,16 @@ const actions = [
             if (entity.getNode() !== creature.getNode()) {
                 return false;
             }
-            const tool = creature.getTool();
-            if (entity.toolUtility && (!tool || !tool.getUtility(entity.toolUtility))) {
+            if (!creature.getToolMultiplier(entity.toolUtility)) {
                 return false;
             }
             return true;
         },
         run(entity, creature) {
-            const tool = creature.getTool();
-            let toolMultiplier = 1;
-            if (entity.toolUtility) {
-                if (!tool) {
-                    return false;
-                }
-                toolMultiplier = tool.getUtility(entity.toolUtility);
+            const toolMultiplier = creature.getToolMultiplier(entity.toolUtility);
+
+            if (!toolMultiplier) {
+                return false;
             }
 
             const progress = toolMultiplier *
@@ -29,6 +25,7 @@ const actions = [
 
             creature.actionProgress += progress  * 100 / entity.baseTime;
 
+            const tool = creature.getTool();
             if (tool) {
                 tool.reduceIntegrity(0.002);
             }

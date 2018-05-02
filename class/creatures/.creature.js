@@ -113,6 +113,35 @@ class Creature extends Entity {
         this.tool = item;
     }
 
+    getMaterials(materials) {
+        return Object
+            .keys(materials)
+            .map(materialClassName => {
+                return [
+                    materialClassName,
+                    this.items.find(item => {
+                        return item.constructor.name === materialClassName;
+                    }),
+                ];
+            })
+            .reduce((acc, [cName, item]) => ({
+                ...acc,
+                [cName]: item,
+            }), {});
+    }
+
+    getToolMultiplier(toolUtility) {
+        const tool = this.getTool();
+        let toolMultiplier = 1;
+        if (toolUtility) {
+            if (!tool) {
+                return 0;
+            }
+            toolMultiplier = tool.getUtility(toolUtility);
+        }
+        return toolMultiplier;
+    }
+
     pickUp(item) {
         const node = item.getContainer();
         if (node !== this.getNode()) {
@@ -226,6 +255,7 @@ class Creature extends Entity {
 
             if (!action.isAvailable(entity, this)) {
                 this.currentAction = null;
+                this.actionProgress = 0;
                 return;
             }
 
@@ -311,7 +341,7 @@ class Creature extends Entity {
             tool: tool ? tool.getPayload(creature) : null,
             actions: this.getActionsPayloads(creature),
             currentAction: utils.cleanup(this.currentAction),
-            recipes: this.craftingRecipes.map(recipe => recipe.getPayload()),
+            recipes: this.craftingRecipes.map(recipe => recipe.getPayload(creature)),
             status: {
                 health: this.health,
                 hunger: this.hunger,

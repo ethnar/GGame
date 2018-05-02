@@ -43,11 +43,11 @@ class Item extends Entity {
         return labels[toolType];
     }
 
-    constructor(args) {
+    constructor(args = {}) {
         super(args);
 
         this.integrity = 100;
-        this.qty = 1;
+        this.qty = args.qty || 1;
     }
 
     destroy() {
@@ -92,6 +92,9 @@ class Item extends Entity {
     static recipeFactory() {
         return new Recipe({
             name: 'Craft ' + this.entityName(),
+            result: {
+                [this.name]: 1,
+            },
             ...this.crafting(),
         });
     }
