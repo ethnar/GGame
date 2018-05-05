@@ -1,5 +1,5 @@
 const World = require('../class/world');
-const Path = require('../class/connections/.connection');
+const Path = require('../class/connections/path');
 const Outdoor = require('../class/nodes/outdoor');
 const Stone = require('../class/items/tools/stone');
 const SharpenedStone = require('../class/items/tools/sharpened-stone');

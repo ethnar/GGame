@@ -11,6 +11,10 @@ const actions = [
                 return false;
             }
 
+            if (!creature.getNode().canBuild) {
+                return false;
+            }
+
             const materials = entity.getMaterials();
             const availableMaterials = creature.getMaterials(materials);
             const anyAvailable = Object.keys(availableMaterials).find(material => {

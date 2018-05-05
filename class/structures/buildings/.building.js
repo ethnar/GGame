@@ -9,7 +9,7 @@ const actions = [
     new Action({
         name: 'Construct',
         valid(entity) {
-            return !entity.complete;
+            return !entity.isComplete();
         },
         available(entity, creature) {
             if (!creature.getToolMultiplier(TOOL_UTILS.HAMMER)) {
@@ -65,6 +65,23 @@ const actions = [
             }
             return true;
         }
+    }),
+    new Action({
+        name: 'Enter',
+        valid(entity, creature) {
+            if (!entity.roomNode) {
+                return false;
+            }
+
+            if (entity.getNode() !== creature.getNode()) {
+                return false;
+            }
+
+            return true;
+        },
+        run(entity, creature) {
+            creature.move(entity.getRoomNode());
+        }
     })
 ];
 
@@ -75,6 +92,8 @@ class Building extends Structure {
 
     constructor(args) {
         super(args);
+
+        this.roomNode = null;
 
         this.complete = false;
         this.remainingMaterialsNeeded = {
@@ -93,11 +112,26 @@ class Building extends Structure {
         return this.materials;
     }
 
+    isComplete() {
+        return this.complete;
+    }
+
+    getRoomNode() {
+        return this.roomNode;
+    }
+
+    setRoomNode(roomNode) {
+        this.roomNode = roomNode;
+    }
+
     constructionFinished() {
         this.complete = true;
         this.integrity = 100;
 
         const room = new Room({});
+
+        this.setRoomNode(room);
+        room.setRoomBuilding(this);
 
         this.getNode().getWorld().addNode(room);
         new Path({}, this.getNode(), room);

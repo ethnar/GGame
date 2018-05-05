@@ -277,6 +277,16 @@ class Creature extends Entity {
         }
     }
 
+    move(toNode) {
+        const fromNode = this.getNode();
+
+        fromNode.removeCreature(this);
+
+        toNode.addCreature(this);
+
+        this.setNode(toNode);
+    }
+
     die() {
         const node = this.getNode();
 

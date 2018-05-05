@@ -121,6 +121,12 @@ export const MainView = {
         />
     </div>
     <hr/>
+    <hr/>
+    {{node.name}}
+    <actions
+        :target="node"
+    />
+    <hr/>
     <div v-for="resource in node.resources">
         {{resource.name}}
         <actions
@@ -135,10 +141,18 @@ export const MainView = {
         />
     </div>
     <hr/>
+    <div v-for="node in node.connectedNodes">
+        {{node.name}}
+        <actions
+            :target="node"
+        />
+    </div>
+    <hr/>
     <hr/>
     <pre>{{player}}</pre>
     <hr/>
     <pre>{{node}}</pre>
+    
 </div>
 `,
 };
