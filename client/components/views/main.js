@@ -134,6 +134,7 @@ export const MainView = {
         />
     </div>
     <hr/>
+    Buildings:
     <div v-for="structure in node.structures">
         {{structure.name}}
         <actions
@@ -141,6 +142,7 @@ export const MainView = {
         />
     </div>
     <hr/>
+    Nodes:
     <div v-for="node in node.connectedNodes">
         {{node.name}}
         <actions

@@ -28,6 +28,10 @@ const actions = [
                 return false;
             }
 
+            if (entity === creature.getNode()) {
+                return false;
+            }
+
             return true;
         },
         run(entity, creature) {
