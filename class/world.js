@@ -7,7 +7,6 @@ class World {
     constructor(args) {
         this.nodes = [];
         this.currentTime = new Date();
-        this.currentTime.setMonth(6);
     }
 
     addNode(node) {
@@ -27,7 +26,7 @@ class World {
         const serialized = necro.stringify(this);
         fs.writeFileSync('save.data', serialized);
         const timeTaken = new Date().getTime() - startTime;
-        console.log('*** Time is', this.currentTime.toLocaleDateString(), this.currentTime.toLocaleTimeString(), '***', 'Cycle took:', timeTaken);
+        //console.log('*** Time is', this.currentTime.toLocaleDateString(), this.currentTime.toLocaleTimeString(), '***', 'Cycle took:', timeTaken);
     }
 }
 module.exports = global.World = World;

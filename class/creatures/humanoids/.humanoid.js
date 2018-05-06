@@ -2,6 +2,7 @@ const Creature = require('../.creature');
 const utils = require('../../../singletons/utils');
 
 const punch = {
+    name: 'Punch',
     damage: 3,
     hitChance: 80
 };
@@ -10,6 +11,11 @@ const actions = [
     new Action({
         name: 'Sneak',
         valid(entity, creature) {
+            if (!creature.stealth) {
+                creature.sneaking = false;
+                return false;
+            }
+
             if (creature.sneaking) {
                 return false;
             }
@@ -41,6 +47,9 @@ const actions = [
             creature.sleeping = true;
             const secondsNeededForGoodSleep = 4 * 60 * 60;
             creature.actionProgress += 100 / secondsNeededForGoodSleep;
+
+            creature.sneaking = false;
+
             return true;
         },
         finally(entity, creature) {
@@ -51,6 +60,10 @@ const actions = [
 ];
 
 class Humanoid extends Creature {
+    static weapon() {
+        return punch;
+    }
+
     static actions() {
         return [
             ...Creature.actions(),
@@ -69,6 +82,12 @@ class Humanoid extends Creature {
     constructor(args) {
         super(args);
 
+        this.energy = 100;
+        this.stamina = 100;
+        this.stealth = 100;
+        this.hunger = 40;
+        this.craftingRecipes = [];
+        this.buildingPlans = [];
         this.map = [];
     }
 
@@ -97,51 +116,14 @@ class Humanoid extends Creature {
     setNode(node) {
         super.setNode(node);
         if (!this.isNodeMapped(node)) {
-            this.mapNode(node)
-        }
-    }
-
-    stopAction() {
-        if (this.currentAction) {
-            const { entityId, actionId } = this.currentAction;
-            const entity = Entity.getById(entityId);
-            const action = entity.getActionById(actionId);
-            if (action.finally) {
-                action.finally(entity, this);
-            }
-        }
-
-        this.currentAction = null;
-        this.actionProgress = 0;
-    }
-
-    continueAction() {
-        if (this.currentAction) {
-            const { entityId, actionId } = this.currentAction;
-            const entity = Entity.getById(entityId);
-            const action = entity.getActionById(actionId);
-
-            if (!action) {
-                throw new Error(`Action ${action} not found on an entity ${entity.getName()}`);
-            }
-
-            if (!action.isAvailable(entity, this)) {
-                this.stopAction();
-                return;
-            }
-
-            const result = action.run(entity, this);
-
-            if (!result) {
-                this.stopAction();
-            }
+            this.mapNode(node);
         }
     }
 
     updateStamina() {
         if (
             this.sneaking &&
-            this.getNode().hasEnemies()
+            this.hasEnemies()
         ) {
             this.stamina -= 100 / (2 * 60 * 60);
         } else {
@@ -156,7 +138,7 @@ class Humanoid extends Creature {
             this.energy += this.actionProgress / sleepNeeded;
         } else {
             const workHours = 16 * 60 * 60;
-            let effort = 0.1;
+            let effort = 0.3;
             if (this.currentAction) {
                 const { entityId, actionId } = this.currentAction;
                 const entity = Entity.getById(entityId);
@@ -166,10 +148,13 @@ class Humanoid extends Creature {
             this.energy -= 100 / workHours * effort;
         }
         this.energy = utils.limit(this.energy, 0, 100);
+        if (this.energy === 0) {
+            this.startAction(this, this.getActionByName('Sleep'));
+        }
     }
 
     updateStealth() {
-        if (this.getNode().hasEnemies()) {
+        if (this.hasEnemies()) {
             if (this.sneaking) {
                 this.stealth -= 100 / (30 * 60);
             } else {
@@ -177,9 +162,9 @@ class Humanoid extends Creature {
             }
         } else {
             if (this.sneaking) {
-                this.stealth += 5;
+                this.stealth += 100 / 60;
             } else {
-                this.stealth += 1;
+                this.stealth += 100 / 300;
             }
         }
         this.stealth = utils.limit(this.stealth, 0, 100);
@@ -189,21 +174,31 @@ class Humanoid extends Creature {
         this.hunger += this.getHungerRate();
 
         if (this.hunger >= 100) {
-            this.die();
+            const timeToDieOfHunger = 24 * 60 * 60;
+            this.receiveDamage(100 / timeToDieOfHunger);
+        } else {
+            const timeToFullyHeal = 4 * 24 * 60 * 60;
+            this.receiveDamage(-100 / timeToFullyHeal);
         }
         this.hunger = utils.limit(this.hunger, 0, 100);
     }
 
     cycle() {
+        if (this.dead) {
+            return;
+        }
         this.updateStamina();
         this.updateEnergy();
         this.gettingHungry();
         this.updateStealth();
-        this.continueAction();
+        super.cycle();
     }
 
     getHungerRate() {
-        return 100 / this.constructor.stomachSeconds();
+        const multiplier = this.sleeping ?
+            0.1 :
+            1;
+        return multiplier * 100 / this.constructor.stomachSeconds();
     }
 
     getSkillMultiplier(skill) {

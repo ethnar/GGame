@@ -5,41 +5,32 @@ const Action = require('../action');
 const utils = require('../../singletons/utils');
 
 const prod = {
-    damage: 0.1,
+    name: 'Prod',
+    damage: 1,
     hitChance: 10
 };
 
 const actions = [
     new Action({
-        name: 'Attack',
+        name: 'Fight',
         valid(entity, character) {
-            return entity !== character && entity.getNode() === character.getNode();
-        },
-        run(entity, character) {
-            character.actionProgress += 20;
-
-            if (entity.health <= 0) {
+            if (entity !== character) {
                 return false;
             }
 
-            if (character.actionProgress >= 100) {
-                const chanceToHit = character.getHitChance();
-                const chanceToDodge = 5;
-
-                character.gainSkill(SKILLS.FIGHTING, 0.5);
-                entity.gainSkill(SKILLS.FIGHTING, 0.1);
-
-                if (
-                    utils.random(1, 100) <= chanceToHit &&
-                    utils.random(1, 100) > chanceToDodge
-                ) {
-                    const damage = character.getDamageDealt();
-                    entity.receiveDamage(damage);
-                    entity.registerAttacker(character);
-
-                    console.log(entity.getName() + ' received ' + damage + ' from ' + character.getName())
-                }
+            if (!character.hasEnemies()) {
                 return false;
+            }
+
+            return true;
+        },
+        run(entity, creature) {
+            creature.actionProgress += 10;
+
+            if (creature.actionProgress >= 100) {
+                creature.actionProgress -= 100;
+                const randomEnemy = creature.getRandomEnemy();
+                creature.exchangeBlows(randomEnemy);
             }
             return true;
         }
@@ -66,22 +57,16 @@ class Creature extends Entity {
     constructor(args) {
         super(args);
         this.health = this.constructor.maxHealth();
-        this.energy = 100;
-        this.stamina = 100;
-        this.stealth = 100;
-        this.hunger = 40;
         this.node = null;
-        this.skills = {};
         this.items = [];
-        this.hostiles = [];
         this.tool = null;
-        this.craftingRecipes = [];
-        this.buildingPlans = [];
-
-        this.locationKnowledge = new Map();
+        this.skills = {};
     }
 
     startAction(entity, action) {
+        if (this.dead) {
+            return;
+        }
         this.actionProgress = 0;
         console.log(this.getName() + ': ' + action.getName() + '!');
         this.stopAction();
@@ -97,6 +82,22 @@ class Creature extends Entity {
 
     getNode() {
         return this.node;
+    }
+
+    hasEnemies() {
+        return !!this
+            .getNode()
+            .getAliveCreatures()
+            .find(creature => creature.faction !== this.faction);
+    }
+
+    getRandomEnemy() {
+        const enemies = this
+            .getNode()
+            .getAliveCreatures()
+            .filter(creature => creature.faction !== this.faction);
+
+        return enemies[utils.random(0, enemies.length - 1)];
     }
 
     getTool() {
@@ -122,6 +123,43 @@ class Creature extends Entity {
                 ...acc,
                 [cName]: item,
             }), {});
+    }
+
+    stopAction() {
+        if (this.currentAction) {
+            const { entityId, actionId } = this.currentAction;
+            const entity = Entity.getById(entityId);
+            const action = entity.getActionById(actionId);
+            if (action.finally) {
+                action.finally(entity, this);
+            }
+        }
+
+        this.currentAction = null;
+        this.actionProgress = 0;
+    }
+
+    continueAction() {
+        if (this.currentAction) {
+            const { entityId, actionId } = this.currentAction;
+            const entity = Entity.getById(entityId);
+            const action = entity.getActionById(actionId);
+
+            if (!action) {
+                throw new Error(`Action ${action} not found on an entity ${entity.getName()}`);
+            }
+
+            if (!action.isAvailable(entity, this)) {
+                this.stopAction();
+                return;
+            }
+
+            const result = action.run(entity, this);
+
+            if (!result) {
+                this.stopAction();
+            }
+        }
     }
 
     getToolMultiplier(toolUtility) {
@@ -184,6 +222,32 @@ class Creature extends Entity {
         return false;
     }
 
+    exchangeBlows(enemy) {
+        this.attack(enemy);
+        enemy.attack(this);
+    }
+
+    attack(enemy) {
+        const chanceToHit = this.getHitChance();
+        const chanceToDodge = 5;
+
+        if (this.gainSkill) {
+            this.gainSkill(SKILLS.FIGHTING, 0.5);
+        }
+
+        if (
+            utils.random(1, 100) <= chanceToHit &&
+            utils.random(1, 100) > chanceToDodge
+        ) {
+            const damage = this.getDamageDealt();
+            enemy.receiveDamage(damage);
+
+            console.log(enemy.getName() + ' received ' + damage + ' damage from ' + this.getName() + '. (' + this.getWeapon().name + ')')
+        } else {
+            console.log(this.getName() + ' missed ' + enemy.getName() + '!' + ' (' + this.getWeapon().name + ')');
+        }
+    }
+
     getWeapon() {
         return this.constructor.weapon();
     }
@@ -193,11 +257,15 @@ class Creature extends Entity {
     }
 
     getDamageDealt() {
-        return utils.random(1, this.getWeapon().damage);
+        return utils.random(1, this.getWeapon().damage) / 10;
     }
 
     getArmour() {
         return 0;
+    }
+
+    getSkillMultiplier() {
+        return 1;
     }
 
     receiveDamage(damage) {
@@ -205,17 +273,8 @@ class Creature extends Entity {
         if (this.health <= 0) {
             this.die();
         }
-    }
 
-    registerAttacker(creature) {
-        this.hostiles.push(creature);
-    }
-
-    getHostile() {
-        this.hostiles = this.hostiles
-            .filter(creature => !creature.dead);
-
-        return this.hostiles[0];
+        this.health = utils.limit(this.health, 0, 100);
     }
 
     move(toNode) {
@@ -226,24 +285,9 @@ class Creature extends Entity {
         toNode.addCreature(this);
 
         this.setNode(toNode);
-
-        this.stealth = 100;
     }
 
     die() {
-        const node = this.getNode();
-
-        const allWhoKnow = this
-            .getNode()
-            .creatures.filter(creature => creature.known.creatures.includes(this));
-
-        node.removeCreature(this);
-
-        const corpse = new Corpse({
-            rawMeat: this.constructor.size() * 100
-        });
-        node.addItem(corpse);
-
         [...this.items].forEach(item => {
             this.drop(item);
         });
@@ -253,24 +297,11 @@ class Creature extends Entity {
         console.log(this.getName() + ': died');
     }
 
-    selfDefense() {
-        if (
-            this.currentAction &&
-            this.currentAction.action === 'attack'
-        ) {
-            return true;
-        }
-
-        const hostile = this.getHostile();
-
-        if (hostile) {
-            this.startAction(hostile, 'attack');
-            return true;
-        }
-        return false;
-    }
-
     cycle() {
+        if (this.dead) {
+            return;
+        }
+        this.continueAction();
     }
 
     learnCrafting(itemType) {
@@ -287,7 +318,10 @@ class Creature extends Entity {
         let result = {
             id: this.getId(),
             name: this.getName(),
-            hostile: this.hostile,
+            faction: this.faction,
+            status: {
+                health: this.health,
+            },
         };
         if (this === creature) {
             result = {
@@ -298,7 +332,7 @@ class Creature extends Entity {
                 currentAction: utils.cleanup(this.currentAction),
                 recipes: this.craftingRecipes.map(recipe => recipe.getPayload(creature)),
                 status: {
-                    health: this.health,
+                    ...result.status,
                     hunger: this.hunger,
                     energy: this.energy,
                     stamina: this.stamina,

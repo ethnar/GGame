@@ -9,8 +9,8 @@ const Pebbles = require('../class/resources/pebbles');
 const Rabbits = require('../class/resources/rabbits');
 const Forest = require('../class/resources/forest');
 const Tent = require('../class/structures/buildings/homes/tent');
-const Dwarf = require('../class/creatures/humanoid/dwarf');
-const Wolf = require('../class/creatures/animals/wolf');
+const Dwarf = require('../class/creatures/humanoids/dwarf');
+const Wolf = require('../class/creatures/monsters/wolf');
 const Player = require('../class/player');
 const Utils = require('./utils');
 

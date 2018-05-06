@@ -136,6 +136,15 @@ class Node extends Entity {
         this.items.splice(idx, 1);
     }
 
+    getCreatures() {
+        return this.creatures;
+    }
+
+    getAliveCreatures() {
+        return this.creatures
+            .filter(c => !c.dead);
+    }
+
     addCreature(creature) {
         this.creatures.push(creature);
         creature.setNode(this);
@@ -144,10 +153,6 @@ class Node extends Entity {
     removeCreature(creature) {
         const idx = this.creatures.indexOf(creature);
         this.creatures.splice(idx, 1);
-    }
-
-    hasEnemies() {
-        return !!this.creatures.find(creature => creature.hostile);
     }
 
     addConnection(path) {

@@ -36,9 +36,9 @@ const actions = [
             if (tool) {
                 tool.reduceIntegrity(0.002);
             }
-            creature.gainSkill(entity.skill, progress / 100);
 
             if (creature.actionProgress >= 100) {
+                creature.gainSkill(entity.skill, 0.1);
                 const result = utils.cleanup(entity.result);
 
                 // add resulting items

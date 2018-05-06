@@ -31,6 +31,12 @@ class Entity {
             .find(action => action.id === actionId);
     }
 
+    getActionByName(actionName) {
+        return this
+            .getActions()
+            .find(action => action.getName() === actionName);
+    }
+
     getActionsPayloads(creature) {
         return this
             .getActions()
