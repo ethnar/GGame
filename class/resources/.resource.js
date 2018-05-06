@@ -38,7 +38,7 @@ const actions = [
             return true;
         },
         getEffort(entity) {
-            return entity.effort;
+            return entity.effort || 1;
         }
     }),
 ];

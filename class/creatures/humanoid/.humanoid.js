@@ -37,10 +37,10 @@ const actions = [
     }),
     new Action({
         name: 'Sleep',
-        run(entity, character) {
-            character.sleeping = true;
+        run(entity, creature) {
+            creature.sleeping = true;
             const secondsNeededForGoodSleep = 4 * 60 * 60;
-            character.currentAction += 100 / secondsNeededForGoodSleep;
+            creature.actionProgress += 100 / secondsNeededForGoodSleep;
             return true;
         },
         finally(entity, creature) {
@@ -153,7 +153,7 @@ class Humanoid extends Creature {
     updateEnergy() {
         if (this.sleeping) {
             const sleepNeeded = 6 * 60 * 60;
-            this.energy += this.currentAction / sleepNeeded;
+            this.energy += this.actionProgress / sleepNeeded;
         } else {
             const workHours = 16 * 60 * 60;
             let effort = 0.1;
@@ -199,9 +199,7 @@ class Humanoid extends Creature {
         this.updateEnergy();
         this.gettingHungry();
         this.updateStealth();
-        for (let i = 0; i < 20; i++) {
-            this.continueAction();
-        }
+        this.continueAction();
     }
 
     getHungerRate() {

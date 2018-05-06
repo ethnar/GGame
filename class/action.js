@@ -22,7 +22,7 @@ class Action extends Entity {
     getEffort(entity) {
         return (
             this.getEffortCallback ?
-            this.getEffortCallback() :
+            this.getEffortCallback(entity) :
             1
         );
     }
