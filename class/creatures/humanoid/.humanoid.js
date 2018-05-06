@@ -143,9 +143,9 @@ class Humanoid extends Creature {
             this.sneaking &&
             this.getNode().hasEnemies()
         ) {
-            this.stamina -= 0.1;
+            this.stamina -= 100 / (2 * 60 * 60);
         } else {
-            this.stamina += 1;
+            this.stamina += 100 / 30;
         }
         this.stamina = utils.limit(this.stamina, 0, 100);
     }
@@ -171,7 +171,7 @@ class Humanoid extends Creature {
     updateStealth() {
         if (this.getNode().hasEnemies()) {
             if (this.sneaking) {
-                this.stealth -= 0.1;
+                this.stealth -= 100 / (30 * 60);
             } else {
                 this.stealth -= 5;
             }
