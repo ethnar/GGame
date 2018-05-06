@@ -4,9 +4,7 @@
 body, html {
   font-family: BaseFont, Arial;
   font-size: 24px;
-  margin: 0;
-  background: #333;
-  color: #eee; }
+  margin: 0; }
 
 button {
   font-size: inherit;

@@ -6,6 +6,7 @@ class Action extends Entity {
         this.name = args.name;
         this.validCallback = args.valid;
         this.availableCallback = args.available;
+        this.getEffortCallback = args.getEffort;
         this.run = args.run;
     }
 
@@ -16,6 +17,14 @@ class Action extends Entity {
     isAvailable(entity, creature) {
         return this.isValid(entity, creature) &&
             (!this.availableCallback || this.availableCallback(entity, creature));
+    }
+
+    getEffort(entity) {
+        return (
+            this.getEffortCallback ?
+            this.getEffortCallback() :
+            1
+        );
     }
 
     getPayload(entity, creature) {

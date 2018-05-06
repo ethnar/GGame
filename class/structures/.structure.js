@@ -27,6 +27,10 @@ class Structure extends Entity {
         return utils.cleanup(this.remainingMaterialsNeeded);
     }
 
+    getRequiredMapping() {
+        return this.requiredMapping || 1;
+    }
+
     getPayload(creature) {
         return {
             id: this.getId(),

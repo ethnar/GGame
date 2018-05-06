@@ -11,6 +11,9 @@ const actions = [
             if (!creature.getToolMultiplier(entity.toolUtility)) {
                 return false;
             }
+            if (!creature.hasRequiredMapping(entity)) {
+                return false;
+            }
             return true;
         },
         run(entity, creature) {
@@ -33,6 +36,9 @@ const actions = [
                 return true;
             }
             return true;
+        },
+        getEffort(entity) {
+            return entity.effort;
         }
     }),
 ];
@@ -52,6 +58,10 @@ class Resource extends Entity {
 
     getNode() {
         return this.node;
+    }
+
+    getRequiredMapping() {
+        return this.requiredMapping || 1;
     }
 
     getPayload(creature) {

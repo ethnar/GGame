@@ -12,6 +12,7 @@ global.SKILLS = {
     SMITHING: 4,
     FIGHTING: 5,
     WOODCUTTING: 6,
+    SCOUTING: 7,
 };
 
 global.TOOL_UTILS = {

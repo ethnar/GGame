@@ -22,11 +22,5 @@ class Wolf extends Animal {
     static weapon() {
         return claws;
     }
-
-    constructor(args) {
-        super(args);
-
-        this.attachAI(new predatorAI());
-    }
 }
 module.exports = global.Wolf = Wolf;

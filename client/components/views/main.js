@@ -90,8 +90,10 @@ export const MainView = {
         Name: {{player.name}}<br/>
         Action: <meter-bar color="magenta" :value="player.status.actionProgress"/><br/>
         Health: <meter-bar color="red" :value="player.status.health"/><br/>
-        Energy: <meter-bar color="lightblue" :value="player.status.energy"/><br/>
+        Stamina: <meter-bar color="limegreen" :value="player.status.stamina"/><br/>
+        Energy: <meter-bar color="dodgerblue" :value="player.status.energy"/><br/>
         Satiated: <meter-bar color="orange" :value="100 - player.status.hunger"/><br/>
+        Stealth: <meter-bar color="gray" :value="player.status.stealth"/><br/>
         Tool: {{player.tool && player.tool.name}}<br/>
         <actions
             :target="player" 

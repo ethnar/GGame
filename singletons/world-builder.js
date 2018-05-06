@@ -19,20 +19,23 @@ module.exports = {
         const world = new World();
 
         const startingForest = new Outdoor({
-            size: 60
+            size: 60,
+            name: 'Starting Forest',
         });
         startingForest.addResource(new Forest({
             size: 1,
         }));
         startingForest.addResource(new Strawberries({
             size: 1,
+            requiredMapping: 2,
         }));
         startingForest.addResource(new Pebbles({
             size: 1,
         }));
 
         const dangerousForest = new Outdoor({
-            size: 50
+            size: 50,
+            name: 'Creepy Forest',
         });
         dangerousForest.addResource(new Forest({
             size: 2,
@@ -42,7 +45,8 @@ module.exports = {
         }));
 
         const mountainSide = new Outdoor({
-            size: 50
+            size: 50,
+            name: 'Mountain side',
         });
 
         new Path({}, startingForest, dangerousForest);
@@ -58,7 +62,7 @@ module.exports = {
 
         startingForest.addCreature(urist);
 
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 2; i++) {
             dangerousForest.addCreature(new Wolf());
         }
 

@@ -11,6 +11,7 @@ Object.assign(Forest.prototype, {
     toolUtility: TOOL_UTILS.CUTTING,
     produces: Log,
     baseTime: 80,
+    effort: 1.5,
 });
 
 module.exports = global.Forest = Forest;

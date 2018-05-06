@@ -41,5 +41,9 @@ class Connection extends Entity {
             0
         );
     }
+
+    getRequiredMapping() {
+        return this.requiredMapping || 1;
+    }
 }
 module.exports = global.Connection = Connection;

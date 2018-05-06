@@ -9,4 +9,7 @@ class Animal extends Creature {
         super(args);
     }
 }
+Object.assign(Animal.prototype, {
+    hostile: true,
+});
 module.exports = global.Animal = Animal;

@@ -23,12 +23,15 @@ const actions = [
     new Action({
         name: 'Travel',
         valid(entity, creature) {
-            // Must also be discovered
+            if (entity === creature.getNode()) {
+                return false;
+            }
+
             if (!entity.hasPath(creature.getNode())) {
                 return false;
             }
 
-            if (entity === creature.getNode()) {
+            if (!creature.hasRequiredMapping(entity.getPath(creature.getNode()))) {
                 return false;
             }
 
@@ -45,6 +48,42 @@ const actions = [
             }
             return true;
         },
+    }),
+    new Action({
+        name: 'Search',
+        valid(entity, character) {
+            if (entity !== character.getNode()) {
+                return false;
+            }
+
+            if (character.getNodeMapping(entity) >= 5) {
+                return false;
+            }
+
+            return true;
+        },
+        run(entity, character) {
+            const currentNodeMapping = character.getNodeMapping(entity);
+
+            const progress = (100 / 240) / Math.pow(2, currentNodeMapping);
+            // 240
+            // 480
+            // 960
+            // 1920
+            // 3840
+
+            character.actionProgress += progress;
+
+            if (character.actionProgress >= 100) {
+                character.actionProgress -= 100;
+
+                character.mapNode(entity, currentNodeMapping + 1);
+
+                return true;
+            }
+
+            return true;
+        }
     }),
 ];
 
@@ -85,7 +124,6 @@ class Node extends Entity {
     removeStructure(structure) {
         const idx = this.structures.indexOf(structure);
         this.structures.splice(idx, 1);
-        this.creatures.forEach(creature => creature.forgetAboutStructure(structure));
     }
 
     addItem(item) {
@@ -96,7 +134,6 @@ class Node extends Entity {
     removeItem(item) {
         const idx = this.items.indexOf(item);
         this.items.splice(idx, 1);
-        this.creatures.forEach(creature => creature.forgetAboutItem(item));
     }
 
     addCreature(creature) {
@@ -107,6 +144,10 @@ class Node extends Entity {
     removeCreature(creature) {
         const idx = this.creatures.indexOf(creature);
         this.creatures.splice(idx, 1);
+    }
+
+    hasEnemies() {
+        return !!this.creatures.find(creature => creature.hostile);
     }
 
     addConnection(path) {
@@ -131,17 +172,26 @@ class Node extends Entity {
         if (creature.getNode() === this) {
             result = {
                 ...result,
+                mapping: creature.getNodeMapping(this),
+                creatures: this.creatures
+                    .filter(c => c !== creature)
+                    .map(c => c.getPayload(creature))
+                    .filter(creaturePayload => !!creaturePayload),
                 resources: this.resources
+                    .filter(resource => creature.hasRequiredMapping(resource))
                     .map(resource => resource.getPayload(creature))
                     .filter(resourcePayload => !!resourcePayload),
                 structures: this.structures
+                    .filter(structure => creature.hasRequiredMapping(structure))
                     .map(structure => structure.getPayload(creature))
                     .filter(structurePayload => !!structurePayload),
-                connectedNodes: this.paths.map(
-                    path => path
-                        .getOtherNode(this)
-                        .getPayload(creature)
-                )
+                connectedNodes: this.paths
+                    .filter(path => creature.hasRequiredMapping(path))
+                    .map(
+                        path => path
+                            .getOtherNode(this)
+                            .getPayload(creature)
+                    )
             }
         }
 

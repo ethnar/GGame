@@ -77,6 +77,10 @@ const actions = [
                 return false;
             }
 
+            if (!creature.hasRequiredMapping(entity)) {
+                return false;
+            }
+
             return true;
         },
         run(entity, creature) {

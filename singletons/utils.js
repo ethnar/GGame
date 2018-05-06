@@ -23,5 +23,9 @@ module.exports = {
                 ...acc,
                 [item]: object[item],
             }), {});
+    },
+
+    limit(value, min, max) {
+        return Math.min(max, Math.max(min, value));
     }
 };
