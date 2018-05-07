@@ -83,5 +83,11 @@ export const ServerService = {
                 password
             })
         });
+    },
+
+    registerHandler(update, callback) {
+        updateHandlers[update] = (data) => {
+            callback(data);
+        };
     }
 };

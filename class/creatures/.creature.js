@@ -12,12 +12,12 @@ const prod = {
 const actions = [
     new Action({
         name: 'Fight',
-        valid(entity, character) {
-            if (entity !== character) {
+        valid(entity, creature) {
+            if (entity !== creature) {
                 return false;
             }
 
-            if (!character.hasEnemies()) {
+            if (!creature.hasEnemies()) {
                 return false;
             }
 
@@ -182,7 +182,7 @@ class Creature extends Entity {
     drop(item) {
         const self = item.getContainer();
         if (self !== this) {
-            console.error('Dropping an items that doesn\'t belong to character');
+            console.error('Dropping an items that doesn\'t belong to creature');
         }
         console.log(`${this.getName()} dropped: ${item.getName()}`);
         this.removeItem(item);

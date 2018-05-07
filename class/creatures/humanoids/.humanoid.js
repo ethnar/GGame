@@ -1,5 +1,6 @@
 const Creature = require('../.creature');
 const utils = require('../../../singletons/utils');
+const server = require('../../../singletons/server');
 
 const punch = {
     name: 'Punch',
@@ -22,8 +23,8 @@ const actions = [
 
             return true;
         },
-        run(entity, character) {
-            character.sneaking = true;
+        run(entity, creature) {
+            creature.sneaking = true;
             return false;
         }
     }),
@@ -36,8 +37,8 @@ const actions = [
 
             return true;
         },
-        run(entity, character) {
-            character.sneaking = false;
+        run(entity, creature) {
+            creature.sneaking = false;
             return false;
         }
     }),
@@ -55,6 +56,40 @@ const actions = [
         finally(entity, creature) {
             creature.sleeping = false;
             return false;
+        }
+    }),
+    new Action({
+        name: 'Search',
+        valid(entity, creature) {
+            if (creature.getNodeMapping(creature.getNode()) >= 5) {
+                return false;
+            }
+
+            return true;
+        },
+        run(entity, creature) {
+            const currentNodeMapping = creature.getNodeMapping(creature.getNode());
+
+            const progress = creature.getEfficiency() * (100 / 240) / Math.pow(2, currentNodeMapping);
+            // 240
+            // 480
+            // 960
+            // 1920
+            // 3840
+
+            creature.actionProgress += progress;
+
+            if (creature.actionProgress >= 100) {
+                creature.actionProgress -= 100;
+
+                creature.mapNode(creature.getNode(), currentNodeMapping + 1);
+
+                creature.updateMap();
+
+                return true;
+            }
+
+            return true;
         }
     }),
 ];
@@ -85,7 +120,14 @@ class Humanoid extends Creature {
         this.mood = 100;
         this.craftingRecipes = [];
         this.buildingPlans = [];
-        this.map = [];
+        this.map = {};
+    }
+
+    getPlayer() {
+        return this.player;
+    }
+    setPlayer(player) {
+        this.player = player;
     }
 
     isNodeMapped(node) {
@@ -96,24 +138,53 @@ class Humanoid extends Creature {
         return this.map[node.getId()];
     }
 
+    getMappedNodes() {
+        return Object
+            .keys(utils.cleanup(this.map))
+            .map(id => Entity.getById(id));
+    }
+
     hasRequiredMapping(entity) {
-        let node;
-        if (entity.getNode){
-            node = entity.getNode();
+        let knownMapping;
+        if (entity.getNode) {
+            knownMapping = this.getNodeMapping(entity.getNode());
         } else {
-            node = this.getNode();
+            // We're dealing with a path
+            knownMapping = Math.max(
+                this.getNodeMapping(entity.getFirstNode()) || 0,
+                this.getNodeMapping(entity.getSecondNode()) || 0,
+            );
         }
-        return entity.getRequiredMapping() <= this.getNodeMapping(node);
+        return entity.getRequiredMapping() <= knownMapping;
     }
 
     mapNode(node, level = 1) {
         this.map[node.getId()] = level;
     }
 
+    getMapPayload() {
+        return this
+            .getMappedNodes()
+            .filter(node => node.x !== undefined)
+            .map(node => node.getMapPayload(this))
+    }
+
+    updateMap() {
+        server.sendToPlayer(
+            this.getPlayer(),
+            'mapData',
+            this.getMapPayload(),
+        );
+    }
+
     setNode(node) {
         super.setNode(node);
         if (!this.isNodeMapped(node)) {
             this.mapNode(node);
+        }
+
+        if (this.getPlayer()) {
+            this.updateMap();
         }
     }
 

@@ -21,6 +21,8 @@ module.exports = {
         const startingForest = new Outdoor({
             size: 60,
             name: 'Starting Forest',
+            x: 0,
+            y: 0,
         });
         startingForest.addResource(new Forest({
             size: 1,
@@ -36,6 +38,8 @@ module.exports = {
         const dangerousForest = new Outdoor({
             size: 50,
             name: 'Creepy Forest',
+            x: 1,
+            y: 1.1
         });
         dangerousForest.addResource(new Forest({
             size: 2,
@@ -47,10 +51,15 @@ module.exports = {
         const mountainSide = new Outdoor({
             size: 50,
             name: 'Mountain side',
+            x: 2,
+            y: 0.2,
         });
 
-        new Path({}, startingForest, dangerousForest);
-        new Path({}, dangerousForest, mountainSide);
+        // new Path({}, startingForest, dangerousForest);
+        new Path({
+            requiredMapping: 2,
+        }, dangerousForest, mountainSide);
+        new Path({}, startingForest, mountainSide);
 
         world.addNode(startingForest);
         world.addNode(dangerousForest);

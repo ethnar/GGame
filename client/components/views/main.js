@@ -1,4 +1,6 @@
-import {ServerService} from '../../services/server.js'
+import {ServerService} from '../../services/server.js';
+import '../game/map.js';
+import '../game/actions.js';
 
 Vue.component('meter-bar', {
     props: [
@@ -16,55 +18,6 @@ Vue.component('meter-bar', {
     `,
 });
 
-Vue.component('actions', {
-    props: [
-        'target',
-    ],
-
-    subscriptions() {
-        const dataStream = ServerService.getMainStream();
-        const targetStream = this.stream('target');
-        return {
-            currentAction: Rx.Observable
-                .combineLatest([
-                    dataStream,
-                    targetStream
-                ])
-                .map(([data, target]) => {
-                    const action = data.character.currentAction;
-
-                    return action &&
-                        action.entityId === target.id &&
-                        target.actions.find(a => a.id === action.actionId);
-                }),
-        };
-    },
-
-    methods: {
-        selectAction(actionId, targetId) {
-            ServerService.request('action', {
-                action: actionId,
-                target: targetId,
-            });
-        }
-    },
-
-    template: `
-<div v-if="target.actions">
-    <div v-for="action in target.actions">
-        <button
-            class="action"
-            @click="selectAction(action.id, target.id);"
-            :disabled="!action.available"
-            :class="{ current: currentAction === action }"
-        >
-            {{action.name}}
-        </button>
-    </div>
-</div>
-    `
-});
-
 export const MainView = {
     data: () => ({
     }),
@@ -72,7 +25,7 @@ export const MainView = {
     subscriptions() {
         const stream = ServerService.getMainStream();
         return {
-            player: stream.pluck('character'),
+            player: stream.pluck('creature'),
             node: stream.pluck('node'),
         };
     },
@@ -85,7 +38,7 @@ export const MainView = {
 
     template: `
 <div v-if="player && node">
-    <hr/>
+    <world-map></world-map>
     <div>
         Name: {{player.name}}<br/>
         Action: <meter-bar color="magenta" :value="player.status.actionProgress"/><br/>
@@ -145,19 +98,6 @@ export const MainView = {
         />
     </div>
     <hr/>
-    Nodes:
-    <div v-for="node in node.connectedNodes">
-        {{node.name}}
-        <actions
-            :target="node"
-        />
-    </div>
-    <hr/>
-    <hr/>
-    <pre>{{player}}</pre>
-    <hr/>
-    <pre>{{node}}</pre>
-    
 </div>
 `,
 };

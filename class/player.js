@@ -14,6 +14,8 @@ class Player {
         this.creature = creature;
 
         Player.list.push(this);
+
+        this.creature.setPlayer(this);
     }
 
     static passwordHash(password) {
@@ -35,4 +37,4 @@ class Player {
 
 Player.list = [];
 
-module.exports = Player;
+module.exports = global.Player = Player;

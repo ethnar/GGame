@@ -1,6 +1,7 @@
 const Entity = require('../.entity');
 const Action = require('../action');
-const Utils = require('../../singletons/utils');
+const utils = require('../../singletons/utils');
+const server = require('../../singletons/server');
 
 const actions = [
     new Action({
@@ -48,42 +49,6 @@ const actions = [
             }
             return true;
         },
-    }),
-    new Action({
-        name: 'Search',
-        valid(entity, character) {
-            if (entity !== character.getNode()) {
-                return false;
-            }
-
-            if (character.getNodeMapping(entity) >= 5) {
-                return false;
-            }
-
-            return true;
-        },
-        run(entity, creature) {
-            const currentNodeMapping = creature.getNodeMapping(entity);
-
-            const progress = creature.getEfficiency() * (100 / 240) / Math.pow(2, currentNodeMapping);
-            // 240
-            // 480
-            // 960
-            // 1920
-            // 3840
-
-            creature.actionProgress += progress;
-
-            if (creature.actionProgress >= 100) {
-                creature.actionProgress -= 100;
-
-                creature.mapNode(entity, currentNodeMapping + 1);
-
-                return true;
-            }
-
-            return true;
-        }
     }),
 ];
 
@@ -196,17 +161,34 @@ class Node extends Entity {
                     .filter(structure => creature.hasRequiredMapping(structure))
                     .map(structure => structure.getPayload(creature))
                     .filter(structurePayload => !!structurePayload),
-                connectedNodes: this.paths
-                    .filter(path => creature.hasRequiredMapping(path))
-                    .map(
-                        path => path
-                            .getOtherNode(this)
-                            .getPayload(creature)
-                    )
             }
         }
 
         return result;
+    }
+
+    getMapPayload(creature, skipConnections = false) {
+        return {
+            id: this.getId(),
+            name: this.getName(),
+            mapping: creature.getNodeMapping(this),
+            actions: this.getActionsPayloads(creature),
+            x: this.x,
+            y: this.y,
+            currentLocation:
+                creature.getNode() === this ?
+                true :
+                undefined,
+            paths: skipConnections ?
+                undefined :
+                this.paths
+                    .filter(path => creature.hasRequiredMapping(path))
+                    .map(
+                        path => path
+                            .getOtherNode(this)
+                            .getMapPayload(creature, true)
+                    )
+        };
     }
 
     cycle() {
@@ -215,3 +197,10 @@ class Node extends Entity {
     }
 }
 module.exports = global.Node = Node;
+
+server.registerHandler('getMap', (params, player, connection) => {
+    const creature = player.getCreature();
+
+    return creature.getMapPayload();
+});
+

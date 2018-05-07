@@ -105,10 +105,22 @@ const server = new class Server {
         connection.sendText(JSON.stringify({
             update: 'playerData',
             data: {
-                character: creature.getPayload(creature),
+                creature: creature.getPayload(creature),
                 node: creature.getNode().getPayload(creature),
             }
         }));
+    }
+
+    sendToPlayer(player, topic, data) {
+        const creature = player.getCreature();
+        this
+            .getConnections(player)
+            .forEach(connection =>
+                connection.sendText(JSON.stringify({
+                    update: topic,
+                    data,
+                }))
+            );
     }
 
     sendUpdate(topic, connection, data) {
@@ -127,6 +139,12 @@ const server = new class Server {
     setPlayer(conn, player) {
         console.log(player.name + ' authenticated');
         this.playerMap.set(conn, player);
+    }
+
+    getConnections(player) {
+        return this
+            .connections
+            .filter(conn => this.playerMap.get(conn) === player);
     }
 };
 

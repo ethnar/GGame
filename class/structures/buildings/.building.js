@@ -132,13 +132,17 @@ class Building extends Structure {
     constructionFinished() {
         this.complete = true;
         this.integrity = 100;
+        const location = this.getNode();
 
-        const room = new Room({});
+        const room = new Room({
+            x: location.x,
+            y: location.y,
+        });
 
         this.setRoomNode(room);
         room.setRoomBuilding(this);
 
-        this.getNode().getWorld().addNode(room);
+        location.getWorld().addNode(room);
         new Path({}, this.getNode(), room);
     }
 
