@@ -2,6 +2,10 @@
   font-family: BaseFont;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body, html {
   font-family: BaseFont, Arial;
   font-size: 24px;
@@ -13,16 +17,19 @@ body, html {
 button {
   font-size: inherit;
   font-family: inherit;
+  padding: 4px 16px;
+  border-radius: 10px;
 }
 
 .action {
-  border: 2px solid transparent;
+  border: 2px solid lightgray;
   background-color: #f8f8f8;
 
   &:focus {
     outline: none;
   }
   &.current {
+    background-color: #f8f8a8;
     border: 2px solid orange;
   }
 }

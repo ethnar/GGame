@@ -1,13 +1,28 @@
 let id = 1;
-const entityMap = {};
+let entityMap = {};
 
 class Entity {
     static entityName() {
         return '?';
     }
 
+    static getEntityMap() {
+        return entityMap;
+    }
+
+    static setEntityMap(eM) {
+        entityMap = {
+            ...entityMap,
+            ...eM,
+        };
+    }
+
     static getById(id) {
         return entityMap[id];
+    }
+
+    static find(callback) {
+        return Object.values(entityMap).find(callback);
     }
 
     constructor(args) {

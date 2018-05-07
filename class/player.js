@@ -1,3 +1,4 @@
+const Entity = require('./.entity');
 const utils = require('../singletons/utils');
 const crypto = require('crypto');
 
@@ -7,8 +8,9 @@ const shasum = hash('sha1');
 
 const authTokens = {};
 
-class Player {
+class Player extends Entity {
     constructor(name, password, creature) {
+        super({});
         this.name = name;
         this.password = Player.passwordHash(password);
         this.creature = creature;

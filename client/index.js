@@ -2,6 +2,7 @@ import {LoginView} from './components/views/login.js'
 import {MainView} from './components/views/main.js'
 
 Vue.use(VueRx, Rx);
+Vue.use(VueTouch);
 
 Vue.prototype.stream = function (prop) {
     return this.$watchAsObservable(prop).pluck('newValue').startWith(this[prop]);

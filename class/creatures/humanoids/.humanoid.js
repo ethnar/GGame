@@ -49,6 +49,8 @@ const actions = [
             const secondsNeededForGoodSleep = 4 * 60 * 60;
             creature.actionProgress += 100 / secondsNeededForGoodSleep;
 
+            creature.actionProgress = Math.min(creature.actionProgress, 100);
+
             creature.sneaking = false;
 
             return true;
@@ -210,6 +212,9 @@ class Humanoid extends Creature {
             if (this.currentAction) {
                 const { entityId, actionId } = this.currentAction;
                 const entity = Entity.getById(entityId);
+                if (!entity) {
+                    debugger;
+                }
                 const action = entity.getActionById(actionId);
                 effort = action.getEffort(entity);
             }
