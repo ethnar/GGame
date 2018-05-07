@@ -1,5 +1,4 @@
 const Entity = require('../.entity');
-const Corpse = require('../items/corpse');
 const server = require('../../singletons/server');
 const Action = require('../action');
 const utils = require('../../singletons/utils');
@@ -25,7 +24,7 @@ const actions = [
             return true;
         },
         run(entity, creature) {
-            creature.actionProgress += 10;
+            creature.actionProgress += 10 * creature.getEfficiency();
 
             if (creature.actionProgress >= 100) {
                 creature.actionProgress -= 100;
@@ -46,17 +45,13 @@ class Creature extends Entity {
         return 1;
     }
 
-    static maxHealth() {
-        return 100;
-    }
-
     static weapon() {
         return prod;
     }
 
     constructor(args) {
         super(args);
-        this.health = this.constructor.maxHealth();
+        this.health = 100;
         this.node = null;
         this.items = [];
         this.tool = null;
@@ -87,14 +82,14 @@ class Creature extends Entity {
     hasEnemies() {
         return !!this
             .getNode()
-            .getAliveCreatures()
+            .getVisibleAliveCreatures()
             .find(creature => creature.faction !== this.faction);
     }
 
     getRandomEnemy() {
         const enemies = this
             .getNode()
-            .getAliveCreatures()
+            .getVisibleAliveCreatures()
             .filter(creature => creature.faction !== this.faction);
 
         return enemies[utils.random(0, enemies.length - 1)];
@@ -248,6 +243,10 @@ class Creature extends Entity {
         }
     }
 
+    getEfficiency() {
+        return 1;
+    }
+
     getWeapon() {
         return this.constructor.weapon();
     }
@@ -333,11 +332,12 @@ class Creature extends Entity {
                 recipes: this.craftingRecipes.map(recipe => recipe.getPayload(creature)),
                 status: {
                     ...result.status,
-                    hunger: this.hunger,
+                    satiated: this.satiated,
                     energy: this.energy,
                     stamina: this.stamina,
                     stealth: this.stealth,
                     actionProgress: this.actionProgress,
+                    mood: this.mood,
                 },
                 skills: utils.cleanup(this.skills),
                 buildingPlans: this.buildingPlans.map(plan => plan.getPayload(creature)),

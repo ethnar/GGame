@@ -71,10 +71,6 @@ class Humanoid extends Creature {
         ]
     }
 
-    static maxHealth() {
-        return 100;
-    }
-
     static stomachSeconds() {
         return 24 * 60 * 60;
     }
@@ -85,7 +81,8 @@ class Humanoid extends Creature {
         this.energy = 100;
         this.stamina = 100;
         this.stealth = 100;
-        this.hunger = 40;
+        this.satiated = 70;
+        this.mood = 100;
         this.craftingRecipes = [];
         this.buildingPlans = [];
         this.map = [];
@@ -154,33 +151,53 @@ class Humanoid extends Creature {
     }
 
     updateStealth() {
+        const timeStayingHidden = 30;
         if (this.hasEnemies()) {
             if (this.sneaking) {
-                this.stealth -= 100 / (30 * 60);
+                const timeStealthyHidden = 60 * 60;
+                const buff = (timeStealthyHidden - timeStayingHidden) * this.getEfficiency() + timeStayingHidden;
+                this.stealth -= (100 / buff);
             } else {
-                this.stealth -= 5;
+                this.stealth -= (100 / timeStayingHidden);
             }
         } else {
             if (this.sneaking) {
-                this.stealth += 100 / 60;
+                this.stealth += (100 / 60) * this.getEfficiency();
             } else {
-                this.stealth += 100 / 300;
+                this.stealth += (100 / 300) * this.getEfficiency();
             }
         }
         this.stealth = utils.limit(this.stealth, 0, 100);
     }
 
     gettingHungry() {
-        this.hunger += this.getHungerRate();
+        this.satiated -= this.getHungerRate();
 
-        if (this.hunger >= 100) {
+        if (this.satiated <= 0) {
             const timeToDieOfHunger = 24 * 60 * 60;
             this.receiveDamage(100 / timeToDieOfHunger);
         } else {
             const timeToFullyHeal = 4 * 24 * 60 * 60;
             this.receiveDamage(-100 / timeToFullyHeal);
         }
-        this.hunger = utils.limit(this.hunger, 0, 100);
+        this.satiated = utils.limit(this.satiated, 0, 100);
+    }
+
+    updateMood() {
+        const factors = [
+            'satiated',
+            'health',
+            'stamina',
+            'energy',
+        ];
+        const base = 3;
+        const multipliers = factors
+            .map(factor => {
+                const value = this[factor] / 100;
+                return ((1 + base) * value) / (1 + base * value)
+            });
+        this.mood = multipliers
+            .reduce((acc, item) => acc * item, 1) * 100;
     }
 
     cycle() {
@@ -191,7 +208,12 @@ class Humanoid extends Creature {
         this.updateEnergy();
         this.gettingHungry();
         this.updateStealth();
+        this.updateMood();
         super.cycle();
+    }
+
+    getEfficiency() {
+        return ((this.mood * 0.75) + 25) / 100;
     }
 
     getHungerRate() {

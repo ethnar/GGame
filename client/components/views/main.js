@@ -92,8 +92,9 @@ export const MainView = {
         Health: <meter-bar color="red" :value="player.status.health"/><br/>
         Stamina: <meter-bar color="limegreen" :value="player.status.stamina"/><br/>
         Energy: <meter-bar color="dodgerblue" :value="player.status.energy"/><br/>
-        Satiated: <meter-bar color="orange" :value="100 - player.status.hunger"/><br/>
+        Satiated: <meter-bar color="orange" :value="player.status.satiated"/><br/>
         Stealth: <meter-bar color="gray" :value="player.status.stealth"/><br/>
+        Mood: <meter-bar color="pink" :value="player.status.mood"/><br/>
         Tool: {{player.tool && player.tool.name}}<br/>
         <actions
             :target="player" 

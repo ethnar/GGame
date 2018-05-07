@@ -39,7 +39,7 @@ const actions = [
         },
         run(entity, creature) {
             const path = creature.getNode().getPath(entity);
-            creature.actionProgress += 100 / path.getDistance();
+            creature.actionProgress += creature.getEfficiency() * 100 / path.getDistance();
 
             if (creature.actionProgress >= 100) {
                 creature.move(entity);
@@ -62,22 +62,22 @@ const actions = [
 
             return true;
         },
-        run(entity, character) {
-            const currentNodeMapping = character.getNodeMapping(entity);
+        run(entity, creature) {
+            const currentNodeMapping = creature.getNodeMapping(entity);
 
-            const progress = (100 / 240) / Math.pow(2, currentNodeMapping);
+            const progress = creature.getEfficiency() * (100 / 240) / Math.pow(2, currentNodeMapping);
             // 240
             // 480
             // 960
             // 1920
             // 3840
 
-            character.actionProgress += progress;
+            creature.actionProgress += progress;
 
-            if (character.actionProgress >= 100) {
-                character.actionProgress -= 100;
+            if (creature.actionProgress >= 100) {
+                creature.actionProgress -= 100;
 
-                character.mapNode(entity, currentNodeMapping + 1);
+                creature.mapNode(entity, currentNodeMapping + 1);
 
                 return true;
             }
@@ -138,6 +138,12 @@ class Node extends Entity {
 
     getCreatures() {
         return this.creatures;
+    }
+
+    getVisibleAliveCreatures() {
+        return this
+            .getAliveCreatures()
+            .filter(creature => !creature.stealth)
     }
 
     getAliveCreatures() {

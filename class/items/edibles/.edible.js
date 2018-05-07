@@ -8,10 +8,10 @@ const actions = [
             creature.actionProgress += 100 / item.constructor.timeToEat();
 
             if (creature.actionProgress >= 100) {
-                creature.hunger -= item.constructor.nutrition();
-                creature.hunger = Math.max(creature.hunger, 0);
+                creature.satiated += item.constructor.nutrition();
+                creature.satiated = Math.min(creature.satiated, 100);
                 const removed = creature.removeItem(item);
-                if (creature.hunger === 0 || removed) {
+                if (creature.satiated >= 100 || removed) {
                     return false;
                 }
                 creature.actionProgress -= 100;
