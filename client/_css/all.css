@@ -7,7 +7,11 @@
 body, html {
   font-family: BaseFont, Arial;
   font-size: 24px;
-  margin: 0; }
+  margin: 0;
+  height: 100%; }
+
+#app {
+  height: 100%; }
 
 button {
   font-size: inherit;
@@ -35,6 +39,28 @@ button {
 
 pre {
   font-size: 60%; }
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%; }
+  .main-container .scrollable-contents {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: auto; }
+  .main-container .section-selector {
+    height: 16.66667vw;
+    border-top: 1px solid gray;
+    display: flex; }
+    .main-container .section-selector .toggle {
+      height: 100%;
+      width: 16.66667vw;
+      font-size: 8.33333vw;
+      line-height: 16.66667vw;
+      text-align: center; }
+      .main-container .section-selector .toggle.active {
+        background: lightgray; }
 
 .container {
   border: 1px solid lightgrey;
