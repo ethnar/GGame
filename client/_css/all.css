@@ -50,7 +50,7 @@ pre {
     flex-direction: column;
     overflow: auto; }
   .main-container .section-selector {
-    height: 16.66667vw;
+    min-height: 16.66667vw;
     border-top: 1px solid gray;
     display: flex; }
     .main-container .section-selector .toggle {
@@ -61,37 +61,6 @@ pre {
       text-align: center; }
       .main-container .section-selector .toggle.active {
         background: lightgray; }
-
-.container {
-  border: 1px solid lightgrey;
-  position: relative;
-  width: 100%;
-  height: 20vh;
-  overflow: hidden; }
-  .container .draggable-map {
-    position: absolute;
-    left: 50%;
-    top: 50%; }
-    .container .draggable-map .node-token {
-      position: absolute;
-      border: 1px solid grey;
-      width: 40px;
-      height: 40px;
-      margin-left: -20px;
-      margin-top: -20px;
-      border-radius: 50%;
-      box-sizing: border-box;
-      z-index: 2;
-      background-color: white; }
-      .container .draggable-map .node-token.current {
-        border-width: 6px;
-        z-index: 3; }
-    .container .draggable-map .path {
-      position: absolute;
-      min-width: 2px;
-      min-height: 2px;
-      background-color: green;
-      z-index: 1; }
 
 .radial-progress {
   position: relative; }
@@ -147,3 +116,34 @@ pre {
     border: 1px solid #aaddff; }
     .tabs .tab-headers > div.active {
       background: lightsteelblue; }
+
+.container {
+  border: 1px solid lightgrey;
+  position: relative;
+  width: 100%;
+  height: 20vh;
+  overflow: hidden; }
+  .container .draggable-map {
+    position: absolute;
+    left: 50%;
+    top: 50%; }
+    .container .draggable-map .node-token {
+      position: absolute;
+      border: 1px solid grey;
+      width: 40px;
+      height: 40px;
+      margin-left: -20px;
+      margin-top: -20px;
+      border-radius: 50%;
+      box-sizing: border-box;
+      z-index: 2;
+      background-color: white; }
+      .container .draggable-map .node-token.current {
+        border-width: 6px;
+        z-index: 3; }
+    .container .draggable-map .path {
+      position: absolute;
+      min-width: 2px;
+      min-height: 2px;
+      background-color: green;
+      z-index: 1; }

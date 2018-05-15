@@ -1,4 +1,4 @@
-module.exports = {
+const utils = {
     random(from, to) {
         return Math.floor(Math.random() * (1 + to - from)) + from;
     },
@@ -12,16 +12,19 @@ module.exports = {
         return { message: message };
     },
 
-    cleanup(object) {
-        if (!object) {
+    cleanup(object, deep = false) {
+        if (!object || typeof object !== 'object') {
             return object;
         }
+
         return Object
             .keys(object)
             .filter(key => key !== '#id')
             .reduce((acc, item) => ({
                 ...acc,
-                [item]: object[item],
+                [item]: deep ?
+                    utils.cleanup(object[item], true) :
+                    object[item],
             }), {});
     },
 
@@ -29,3 +32,4 @@ module.exports = {
         return Math.min(max, Math.max(min, value));
     }
 };
+module.exports = utils;

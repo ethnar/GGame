@@ -120,6 +120,31 @@ class Creature extends Entity {
             }), {});
     }
 
+    hasMaterials(materials) {
+        const availableMaterials = this.getMaterials(materials);
+        return !Object
+            .keys(materials)
+            .find(material => {
+                return (
+                    !availableMaterials[material] ||
+                    availableMaterials[material].qty < materials[material]
+                );
+            });
+    }
+
+    spendMaterials(materials) {
+        const availableMaterials = this.getMaterials(materials);
+        Object
+            .keys(availableMaterials)
+            .forEach(material => {
+                let qty = materials[material];
+                while (qty > 0) {
+                    qty -= 1;
+                    this.removeItem(availableMaterials[material]);
+                }
+            });
+    }
+
     stopAction() {
         if (this.currentAction) {
             const { entityId, actionId } = this.currentAction;
@@ -315,6 +340,7 @@ class Creature extends Entity {
             },
         };
         if (this === creature) {
+            const recentResearches = utils.cleanup(this.recentResearches);
             result = {
                 ...result,
                 inventory: this === creature ? this.items.map(item => item.getPayload(creature)) : null,
@@ -322,7 +348,14 @@ class Creature extends Entity {
                 actions: this.getActionsPayloads(creature),
                 currentAction: utils.cleanup(this.currentAction),
                 recipes: this.craftingRecipes.map(recipe => recipe.getPayload(creature)),
-                researchMaterials: utils.cleanup(this.researchMaterials),
+                researchMaterials: Item.getMaterialsPayload(this.researchMaterials),
+                recentResearches: Object
+                    .keys(recentResearches)
+                    .map(idx => ({
+                        ...utils.cleanup(recentResearches[idx]),
+                        result: recentResearches[idx].result ? global[recentResearches[idx].result].getPayload() : null,
+                        materialsUsed: Item.getMaterialsPayload(recentResearches[idx].materialsUsed),
+                    })),
                 status: {
                     ...result.status,
                     satiated: this.satiated,
@@ -340,22 +373,3 @@ class Creature extends Entity {
     }
 }
 module.exports = global.Creature = Creature;
-
-server.registerHandler('action', (params, player, connection) => {
-    const target = Entity.getById(params.target);
-    if (!target) {
-        return false;
-    }
-    const actions = target.getActions();
-    const action = Entity.getById(params.action);
-    if (!actions.includes(action)) {
-        return false;
-    }
-
-    const creature = player.getCreature();
-    creature.startAction(target, action);
-
-    server.updatePlayer(connection);
-
-    return true;
-});

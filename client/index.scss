@@ -71,7 +71,7 @@ pre {
   .section-selector {
     $buttons: 6;
     $size: 100vw / 6;
-    height: $size;
+    min-height: $size;
     border-top: 1px solid gray;
     display: flex;
 

@@ -1,6 +1,7 @@
 const Entity = require('../.entity');
 const Action = require('../action');
 const Recipe = require('../recipe');
+const utils = require('../../singletons/utils');
 
 const actions = [
     new Action({
@@ -82,11 +83,28 @@ class Item extends Entity {
 
     getPayload(creature) {
         return {
+            ...this.constructor.getPayload(),
             id: this.getId(),
             name: this.getName(),
             qty: this.qty,
             actions: this.getActionsPayloads(creature),
         }
+    }
+
+    static getPayload() {
+        return {
+            name: this.entityName(),
+            itemCode: this.name,
+        };
+    }
+
+    static getMaterialsPayload(materials) {
+        return Object
+            .keys(utils.cleanup(materials))
+            .map(material => ({
+                item: global[material].getPayload(),
+                qty: materials[material],
+            }))
     }
 
     static recipeFactory() {

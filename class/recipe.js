@@ -12,14 +12,7 @@ const actions = [
             }
 
             const materials = entity.getMaterials();
-            const availableMaterials = creature.getMaterials(materials);
-            const missing = Object.keys(availableMaterials).find(material => {
-                return (
-                    !availableMaterials[material] ||
-                    availableMaterials[material].qty < materials[material]
-                );
-            });
-            if (missing) {
+            if (!creature.hasMaterials(materials)) {
                 return false;
             }
 
@@ -50,18 +43,8 @@ const actions = [
 
                 // remove the materials
                 const materials = entity.getMaterials();
-                const availableMaterials = creature.getMaterials(materials);
-                Object
-                    .keys(availableMaterials)
-                    .forEach(material => {
-                        let qty = materials[material];
-                        while (qty > 0) {
-                            qty -= 1;
-                            creature.removeItem(availableMaterials[material]);
-                        }
-                    });
+                creature.spendMaterials(materials);
 
-                //creature.addItemByType(entity.produces);
                 creature.actionProgress -= 100;
                 return true;
             }

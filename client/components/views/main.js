@@ -21,6 +21,7 @@ Vue.component('meter-bar', {
 export const MainView = {
     data: () => ({
         mode: 'stats',
+        selectResearchMaterialIdx: null,
     }),
 
     subscriptions() {
@@ -35,6 +36,31 @@ export const MainView = {
     },
 
     methods: {
+        updateResearchMats() {
+            const payload = {};
+            this.player.researchMaterials
+                .forEach(mats => {
+                    payload[mats.item.itemCode] = +mats.qty;
+                });
+            ServerService.request('updateResearchMaterials', payload);
+        },
+
+        selectResearchMaterial(item) {
+            if (item === null) {
+                delete this.player.researchMaterials[this.selectResearchMaterialIdx];
+            } else {
+                if (this.player.researchMaterials[this.selectResearchMaterialIdx]) {
+                    this.player.researchMaterials[this.selectResearchMaterialIdx].item = item;
+                } else {
+                    this.player.researchMaterials[this.selectResearchMaterialIdx] = {
+                        item,
+                        qty: 1,
+                    }
+                }
+            }
+            this.selectResearchMaterialIdx = null;
+            this.updateResearchMats();
+        }
     },
 
     template: `
@@ -103,6 +129,37 @@ export const MainView = {
                 />
             </div>
         </div>
+        <div :hidden="mode !== 'discovery'">
+            <div v-for="(material, idx) in player.researchMaterials">
+                <span @click="selectResearchMaterialIdx = idx;">{{material.item.name}}</span>
+                <input type="number" v-model="material.qty" @input="updateResearchMats">
+            </div>
+            <div
+                v-if="player.researchMaterials.length < 4"
+                @click="selectResearchMaterialIdx = player.researchMaterials.length;"
+            >
+                +
+            </div>
+            <div v-if="selectResearchMaterialIdx !== null">
+                <div @click="selectResearchMaterial(null)">null</div>
+                <div v-for="item in player.inventory" @click="selectResearchMaterial(item)">
+                    {{item.name}} <span v-if="item.qty > 1">({{item.qty}})</span>
+                </div>
+            </div>
+            <hr/>
+            <div v-for="attempt in player.recentResearches">
+                <div v-for="item in attempt.materialsUsed">
+                    {{item.item.name}} ({{item.qty}})
+                </div>
+                <div v-if="attempt.rightIngredients">
+                    {{attempt.matchingCounts}} / {{attempt.matchesNeeded}}
+                </div>
+                <div v-if="attempt.result">
+                    Result: {{attempt.result.name}}
+                </div>
+                <hr/>
+            </div>
+        </div>
     </div>
     <div class="section-selector">
         <div
@@ -135,6 +192,11 @@ export const MainView = {
             @click="mode = 'mobs'"
             :class="{ active: mode === 'mobs' }"
         >M</div>
+        <div
+            class="toggle"
+            @click="mode = 'discovery'"
+            :class="{ active: mode === 'discovery' }"
+        >D</div>
     </div>
 </div>
 `,

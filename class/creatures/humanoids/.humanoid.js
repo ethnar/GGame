@@ -36,22 +36,28 @@ const actions = [
     }),
     new Action({
         name: 'Research',
-        valid(entity, creature) {
-            // must have materials
-            // materials can't be empty
+        available(entity, creature) {
+            const researchMaterials = utils.cleanup(creature.researchMaterials);
+            if (!Object.keys(researchMaterials).length) {
+                return false;
+            }
+
+            if (!creature.hasMaterials(researchMaterials)) {
+                return false;
+            }
             return true;
         },
         run(entity, creature) {
-            creature.actionProgress += 100 / (60 * 60) * 60;
+            creature.actionProgress += creature.getEfficiency() * 100 / (60 * 60);
 
             if (creature.actionProgress >= 100) {
-
-                // TODO: use materials
 
                 const availableCrafting = craftableItems
                     .filter(contr => !creature.knowsCrafting(contr));
 
                 const researchMaterials = utils.cleanup(creature.researchMaterials);
+
+                creature.spendMaterials(researchMaterials);
 
                 const ingredientsMatch =
                     availableCrafting.find(itemConstr => {
@@ -68,6 +74,7 @@ const actions = [
                     matchingCounts: 0,
                     matchesNeeded: 0,
                     result: null,
+                    materialsUsed: researchMaterials,
                 };
                 if (ingredientsMatch) {
                     const research = ingredientsMatch.research();
@@ -91,8 +98,6 @@ const actions = [
 
                 creature.recentResearches.unshift(researchResult);
                 creature.recentResearches.splice(5);
-
-                console.log(creature.recentResearches);
 
                 return false;
             }
@@ -197,7 +202,7 @@ class Humanoid extends Creature {
         this.map = {};
         this.researchMaterials = {
             'SharpenedStone': 3,
-            'Log': 4,
+            'Log': 2,
         };
         this.recentResearches = [];
     }
@@ -379,7 +384,8 @@ class Humanoid extends Creature {
     }
 
     getEfficiency() {
-        return ((this.mood * 0.75) + 25) / 100;
+        // TODO: remove the 50 multiplier
+        return 50 * ((this.mood * 0.75) + 25) / 100;
     }
 
     getHungerRate() {
@@ -400,3 +406,44 @@ class Humanoid extends Creature {
     }
 }
 module.exports = global.Humanoid = Humanoid;
+
+server.registerHandler('action', (params, player, connection) => {
+    const target = Entity.getById(params.target);
+    if (!target) {
+        return false;
+    }
+    const actions = target.getActions();
+    const action = Entity.getById(params.action);
+    if (!actions.includes(action)) {
+        return false;
+    }
+
+    const creature = player.getCreature();
+    creature.startAction(target, action);
+
+    server.updatePlayer(connection);
+
+    return true;
+});
+
+server.registerHandler('updateResearchMaterials', (params, player, connection) => {
+    if (
+        Object
+            .keys(params)
+            .some(material =>
+                !(global[material].prototype instanceof Item) ||
+                typeof params[material] !== 'number' ||
+                params[material] < 0 ||
+                params[material] > 5
+            )
+    ) {
+        return false;
+    }
+
+    const creature = player.getCreature();
+    creature.researchMaterials = params;
+
+    server.updatePlayer(connection);
+
+    return true;
+});
