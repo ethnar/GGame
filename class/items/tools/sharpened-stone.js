@@ -1,5 +1,4 @@
 const Item = require('../.item');
-const Stone = require('./stone');
 
 class SharpenedStone extends Item {
     static utility() {

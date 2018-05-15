@@ -2,6 +2,12 @@ const Creature = require('../.creature');
 const utils = require('../../../singletons/utils');
 const server = require('../../../singletons/server');
 
+const StoneHatchet = require('../../items/tools/stone-hatchet');
+
+const craftableItems = [
+    StoneHatchet,
+];
+
 const punch = {
     name: 'Punch',
     damage: 3,
@@ -26,6 +32,72 @@ const actions = [
         run(entity, creature) {
             creature.sneaking = true;
             return false;
+        }
+    }),
+    new Action({
+        name: 'Research',
+        valid(entity, creature) {
+            // must have materials
+            // materials can't be empty
+            return true;
+        },
+        run(entity, creature) {
+            creature.actionProgress += 100 / (60 * 60) * 60;
+
+            if (creature.actionProgress >= 100) {
+
+                // TODO: use materials
+
+                const availableCrafting = craftableItems
+                    .filter(contr => !creature.knowsCrafting(contr));
+
+                const researchMaterials = utils.cleanup(creature.researchMaterials);
+
+                const ingredientsMatch =
+                    availableCrafting.find(itemConstr => {
+                        const research = itemConstr.research();
+
+                        const usedMaterials = Object.keys(researchMaterials);
+                        return Object.keys(research.materials)
+                            .every(material => usedMaterials.includes(material)) &&
+                            usedMaterials.length === Object.keys(research.materials).length;
+                    });
+
+                const researchResult = {
+                    rightIngredients: false,
+                    matchingCounts: 0,
+                    matchesNeeded: 0,
+                    result: null,
+                };
+                if (ingredientsMatch) {
+                    const research = ingredientsMatch.research();
+
+                    researchResult.rightIngredients = true;
+                    researchResult.matchesNeeded = Object.keys(research.materials).length;
+
+                    Object.keys(research.materials)
+                        .forEach(material => {
+                            if (researchMaterials[material] === research.materials[material]) {
+                                researchResult.matchingCounts += 1;
+                            }
+                        });
+
+                    if (researchResult.matchingCounts === researchResult.matchesNeeded) {
+                        researchResult.result = ingredientsMatch.name;
+
+                        creature.learnCrafting(ingredientsMatch);
+                    }
+                }
+
+                creature.recentResearches.unshift(researchResult);
+                creature.recentResearches.splice(5);
+
+                console.log(creature.recentResearches);
+
+                return false;
+            }
+
+            return true;
         }
     }),
     new Action({
@@ -123,6 +195,11 @@ class Humanoid extends Creature {
         this.craftingRecipes = [];
         this.buildingPlans = [];
         this.map = {};
+        this.researchMaterials = {
+            'SharpenedStone': 3,
+            'Log': 4,
+        };
+        this.recentResearches = [];
     }
 
     getPlayer() {
@@ -130,6 +207,19 @@ class Humanoid extends Creature {
     }
     setPlayer(player) {
         this.player = player;
+    }
+
+    knowsCrafting(itemType) {
+        return this.craftingRecipes
+            .some(recipe => recipe.itemClass === itemType.name);
+    }
+
+    learnCrafting(itemType) {
+        this.craftingRecipes.push(itemType.recipeFactory());
+    }
+
+    learnBuilding(buildingClassName) {
+        this.buildingPlans.push(buildingClassName);
     }
 
     isNodeMapped(node) {

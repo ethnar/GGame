@@ -85,7 +85,7 @@ module.exports = {
         urist.addItem(new Log({
             qty: 14,
         }));
-        urist.learnCrafting(SharpenedStone.recipeFactory());
+        urist.learnCrafting(SharpenedStone);
         urist.learnBuilding(Tent.planFactory());
 
         return world;

@@ -303,14 +303,6 @@ class Creature extends Entity {
         this.continueAction();
     }
 
-    learnCrafting(itemType) {
-        this.craftingRecipes.push(itemType);
-    }
-
-    learnBuilding(buildingClassName) {
-        this.buildingPlans.push(buildingClassName);
-    }
-
     getPayload(creature) {
         const actions = this.constructor.actions();
         const tool = this.getTool();
@@ -330,6 +322,7 @@ class Creature extends Entity {
                 actions: this.getActionsPayloads(creature),
                 currentAction: utils.cleanup(this.currentAction),
                 recipes: this.craftingRecipes.map(recipe => recipe.getPayload(creature)),
+                researchMaterials: utils.cleanup(this.researchMaterials),
                 status: {
                     ...result.status,
                     satiated: this.satiated,

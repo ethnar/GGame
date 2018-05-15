@@ -5,12 +5,6 @@ class Log extends Item {
         return 'Log';
     }
 
-    static material() {
-        return [
-            MATERIALS.WOOD
-        ];
-    }
-
     constructor(args) {
         super(args);
     }

@@ -92,6 +92,7 @@ class Item extends Entity {
     static recipeFactory() {
         return new Recipe({
             name: 'Craft ' + this.entityName(),
+            itemClass: this.name,
             result: {
                 [this.name]: 1,
             },
