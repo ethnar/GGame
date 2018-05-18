@@ -415,6 +415,9 @@ class Humanoid extends Creature {
             }));
     }
 
+    /**
+     * Returns a value between 0 and 10.
+     */
     getSkillLevel(skill) {
         const skillValue = this.skills[skill] || 0;
         return Math.floor(Math.sqrt(skillValue) / 141);
