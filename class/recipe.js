@@ -32,7 +32,7 @@ const actions = [
             }
 
             if (creature.actionProgress >= 100) {
-                creature.gainSkill(entity.skill, 0.1);
+                creature.gainSkill(entity.skill, entity.level * entity.baseTime);
                 const result = utils.cleanup(entity.result);
 
                 // add resulting items

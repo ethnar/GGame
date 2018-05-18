@@ -4,6 +4,9 @@ const server = require('../../../singletons/server');
 
 const StoneHatchet = require('../../items/tools/stone-hatchet');
 
+const MAX_SKILL = 2000000;
+const MAX_SKILL_SPEED_MULT = 3;
+
 const craftableItems = [
     StoneHatchet,
 ];
@@ -134,7 +137,6 @@ const actions = [
         },
         finally(entity, creature) {
             creature.sleeping = false;
-            return false;
         }
     }),
     new Action({
@@ -148,8 +150,9 @@ const actions = [
         },
         run(entity, creature) {
             const currentNodeMapping = creature.getNodeMapping(creature.getNode());
+            const baseTimeToSearch = 4 * MINUTES;
 
-            const progress = creature.getEfficiency() * (100 / 240) / Math.pow(2, currentNodeMapping);
+            const progress = creature.getEfficiency() * (100 / baseTimeToSearch) / Math.pow(2, currentNodeMapping);
             // 240
             // 480
             // 960
@@ -160,6 +163,8 @@ const actions = [
 
             if (creature.actionProgress >= 100) {
                 creature.actionProgress -= 100;
+
+                creature.gainSkill(SKILLS.SCOUTING, currentNodeMapping * baseTimeToSearch * 5);
 
                 creature.mapNode(creature.getNode(), currentNodeMapping + 1);
 
@@ -286,23 +291,25 @@ class Humanoid extends Creature {
     }
 
     updateStamina() {
-        if (
-            this.sneaking &&
-            this.hasEnemies()
-        ) {
-            this.stamina -= 100 / (2 * 60 * 60);
-        } else {
-            this.stamina += 100 / 30;
+        switch (true) {
+            case this.fighting:
+                this.stamina -= 100 / (30 * MINUTES);
+                break;
+            case this.sneaking && this.hasEnemies():
+                this.stamina -= 100 / ((2 + this.getSkillLevel(SKILLS.SCOUTING)) * HOURS);
+                break;
+            default:
+                this.stamina += 100 / 5 * MINUTES;
         }
         this.stamina = utils.limit(this.stamina, 0, 100);
     }
 
     updateEnergy() {
         if (this.sleeping) {
-            const sleepNeeded = 6 * 60 * 60;
+            const sleepNeeded = 6 * HOURS;
             this.energy += this.actionProgress / sleepNeeded;
         } else {
-            const workHours = 16 * 60 * 60;
+            const workHours = 16 * HOURS;
             let effort = 0.3;
             if (this.currentAction) {
                 const { entityId, actionId } = this.currentAction;
@@ -322,20 +329,23 @@ class Humanoid extends Creature {
     }
 
     updateStealth() {
-        const timeStayingHidden = 30;
+        const timeStayingHidden = 30 * SECONDS;
         if (this.hasEnemies()) {
             if (this.sneaking) {
-                const timeStealthyHidden = 60 * 60;
-                const buff = (timeStealthyHidden - timeStayingHidden) * this.getEfficiency() + timeStayingHidden;
-                this.stealth -= (100 / buff);
+                const maxLevelDiff = 5;
+                const timeStealthyHidden = 20 * MINUTES;
+                const maxFromSkill = timeStealthyHidden * 1.2 * this.getEfficiency() * utils.limit(this.getSkillLevel(SKILLS.SCOUTING) + 1, 0, maxLevelDiff) / maxLevelDiff;
+                const fromSkill = utils.random(0, maxFromSkill);
+                this.stealth -= (100 / (timeStealthyHidden - fromSkill));
+                this.gainSkill(SKILLS.SCOUTING, 1);
             } else {
                 this.stealth -= (100 / timeStayingHidden);
             }
         } else {
             if (this.sneaking) {
-                this.stealth += (100 / 60) * this.getEfficiency();
+                this.stealth += (100 / (1 * MINUTES)) * this.getEfficiency();
             } else {
-                this.stealth += (100 / 300) * this.getEfficiency();
+                this.stealth += (100 / (5 * MINUTES)) * this.getEfficiency();
             }
         }
         this.stealth = utils.limit(this.stealth, 0, 100);
@@ -345,10 +355,10 @@ class Humanoid extends Creature {
         this.satiated -= this.getHungerRate();
 
         if (this.satiated <= 0) {
-            const timeToDieOfHunger = 24 * 60 * 60;
+            const timeToDieOfHunger = 1 * DAYS;
             this.receiveDamage(100 / timeToDieOfHunger);
         } else {
-            const timeToFullyHeal = 4 * 24 * 60 * 60;
+            const timeToFullyHeal = 4 * DAYS;
             this.receiveDamage(-100 / timeToFullyHeal);
         }
         this.satiated = utils.limit(this.satiated, 0, 100);
@@ -395,14 +405,29 @@ class Humanoid extends Creature {
         return multiplier * 100 / this.constructor.stomachSeconds();
     }
 
-    getSkillMultiplier(skill) {
+    getSkillsPayload() {
+        return Object
+            .keys(utils.cleanup(this.skills))
+            .map(skill => ({
+                skill,
+                level: this.getSkillLevel(skill),
+                value: this.skills[skill],
+            }));
+    }
+
+    getSkillLevel(skill) {
         const skillValue = this.skills[skill] || 0;
-        return (utils.logarithm(2, skillValue + 1) + 3) / 8;
+        return Math.floor(Math.sqrt(skillValue) / 141);
+    }
+
+    getSkillMultiplier(skill) {
+        const skillLevel = this.getSkillLevel(skill);
+        return 1 + (MAX_SKILL_SPEED_MULT - 1) * skillLevel / 10;
     }
 
     gainSkill(skill, points = 1) {
         this.skills[skill] = this.skills[skill] || 0;
-        this.skills[skill] += points;
+        this.skills[skill] = Math.min(this.skills[skill] + points, MAX_SKILL);
     }
 }
 module.exports = global.Humanoid = Humanoid;

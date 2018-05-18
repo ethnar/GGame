@@ -2,6 +2,19 @@ import {ServerService} from '../../services/server.js';
 import '../game/map.js';
 import '../game/actions.js';
 
+const skillLevels = {
+    0: 'Dabbling',
+    1: 'Novice',
+    2: 'Competent',
+    3: 'Proficient',
+    4: 'Professional',
+    5: 'Accomplished',
+    6: 'Expert',
+    7: 'Master',
+    8: 'Grand Master',
+    9: 'Legendary',
+};
+
 Vue.component('meter-bar', {
     props: [
         'color',
@@ -80,6 +93,7 @@ export const MainView = {
             <actions
                 :target="player" 
             />
+            {{player.skills}}
         </div>
         <div :hidden="mode !== 'inventory'">
             <div v-for="item in player.inventory">

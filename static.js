@@ -18,6 +18,11 @@ global.SKILLS = {
     CRAFTING: 10,
 };
 
+global.SECONDS = 1;
+global.MINUTES = 60 * SECONDS;
+global.HOURS = 60 * MINUTES;
+global.DAYS = 24 * HOURS;
+
 /*
  gather food
  gather wood

@@ -15,6 +15,7 @@ class StoneHatchet extends Item {
             },
             skill: SKILLS.CRAFTING,
             baseTime: 120,
+            level: 1,
         };
     }
 

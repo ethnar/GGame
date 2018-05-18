@@ -14,6 +14,7 @@ class SharpenedStone extends Item {
             },
             skill: SKILLS.CRAFTING,
             baseTime: 15,
+            level: 1,
         };
     }
 

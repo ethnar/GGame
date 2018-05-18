@@ -3,6 +3,8 @@ const server = require('../../singletons/server');
 const Action = require('../action');
 const utils = require('../../singletons/utils');
 
+const TIME_BETWEEN_BLOWS = 10;
+
 const prod = {
     name: 'Prod',
     damage: 1,
@@ -24,7 +26,9 @@ const actions = [
             return true;
         },
         run(entity, creature) {
-            creature.actionProgress += 10 * creature.getEfficiency();
+            creature.stealth = 0;
+            creature.fighting = true;
+            creature.actionProgress += 100 / TIME_BETWEEN_BLOWS;
 
             if (creature.actionProgress >= 100) {
                 creature.actionProgress -= 100;
@@ -32,6 +36,9 @@ const actions = [
                 creature.exchangeBlows(randomEnemy);
             }
             return true;
+        },
+        finally(entity, creature) {
+            creature.fighting = false;
         }
     }),
 ];
@@ -244,7 +251,9 @@ class Creature extends Entity {
 
     exchangeBlows(enemy) {
         this.attack(enemy);
-        enemy.attack(this);
+        if (!enemy.currentAction || enemy.fighting) {
+            enemy.attack(this);
+        }
     }
 
     attack(enemy) {
@@ -252,7 +261,7 @@ class Creature extends Entity {
         const chanceToDodge = 5;
 
         if (this.gainSkill) {
-            this.gainSkill(SKILLS.FIGHTING, 0.5);
+            this.gainSkill(SKILLS.FIGHTING, TIME_BETWEEN_BLOWS / 2);
         }
 
         if (
@@ -281,7 +290,7 @@ class Creature extends Entity {
     }
 
     getDamageDealt() {
-        return utils.random(1, this.getWeapon().damage) / 10;
+        return this.getEfficiency() * utils.random(1, this.getWeapon().damage) / 10;
     }
 
     getArmour() {
@@ -365,7 +374,7 @@ class Creature extends Entity {
                     actionProgress: this.actionProgress,
                     mood: this.mood,
                 },
-                skills: utils.cleanup(this.skills),
+                skills: this.getSkillsPayload(),
                 buildingPlans: this.buildingPlans.map(plan => plan.getPayload(creature)),
             };
         }

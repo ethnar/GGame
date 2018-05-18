@@ -30,7 +30,7 @@ const actions = [
                 tool.reduceIntegrity(0.002);
             }
             if (creature.actionProgress >= 100) {
-                creature.gainSkill(entity.skill, 0.1);
+                creature.gainSkill(entity.skill, entity.baseTime);
                 creature.addItemByType(entity.produces);
                 creature.actionProgress -= 100;
                 return true;
