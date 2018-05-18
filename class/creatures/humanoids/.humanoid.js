@@ -409,9 +409,9 @@ class Humanoid extends Creature {
         return Object
             .keys(utils.cleanup(this.skills))
             .map(skill => ({
-                skill,
+                id: skill,
                 level: this.getSkillLevel(skill),
-                value: this.skills[skill],
+                // value: this.skills[skill],
             }));
     }
 

@@ -15,6 +15,19 @@ const skillLevels = {
     9: 'Legendary',
 };
 
+const skillNames = {
+    1: 'Carpentry',
+    2: 'Foraging',
+    3: 'Mining',
+    4: 'Smithing',
+    5: 'Fighting',
+    6: 'Ranged',
+    7: 'Woodcutting',
+    8: 'Scouting',
+    9: 'Cooking',
+    10: 'Crafting',
+};
+
 Vue.component('meter-bar', {
     props: [
         'color',
@@ -35,6 +48,8 @@ export const MainView = {
     data: () => ({
         mode: 'stats',
         selectResearchMaterialIdx: null,
+        skillLevels,
+        skillNames,
     }),
 
     subscriptions() {
@@ -81,6 +96,9 @@ export const MainView = {
     <world-map class="world-map-container"></world-map>
     <div class="scrollable-contents">
         <div :hidden="mode !== 'stats'">
+            <actions
+                :target="player" 
+            />
             Name: {{player.name}}<br/>
             Action: <meter-bar color="magenta" :value="player.status.actionProgress"/><br/>
             Health: <meter-bar color="red" :value="player.status.health"/><br/>
@@ -90,10 +108,9 @@ export const MainView = {
             Stealth: <meter-bar color="gray" :value="player.status.stealth"/><br/>
             Mood: <meter-bar color="pink" :value="player.status.mood"/><br/>
             Tool: {{player.tool && player.tool.name}}<br/>
-            <actions
-                :target="player" 
-            />
-            {{player.skills}}
+            <div v-for="skill in player.skills">
+                {{skillNames[skill.id]}}: {{skillLevels[skill.level]}}
+            </div>
         </div>
         <div :hidden="mode !== 'inventory'">
             <div v-for="item in player.inventory">
