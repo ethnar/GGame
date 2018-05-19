@@ -133,6 +133,14 @@ class Node extends Entity {
         this.paths.push(path);
     }
 
+    getConnections() {
+        return this.paths;
+    }
+
+    getConnectedNodes() {
+        return this.paths.map(path => path.getOtherNode(this));
+    }
+
     hasPath(toNode) {
         return !!this.getPath(toNode);
     }

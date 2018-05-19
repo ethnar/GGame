@@ -17,7 +17,6 @@ Object.assign(WolfMother.prototype, {
         creature: 'Wolf',
         limit: 3,
         range: 0,
-        movementDelay: 15 * MINUTES,
         spawnDelay: 15 * MINUTES,
     }],
 });
