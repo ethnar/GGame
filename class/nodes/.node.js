@@ -123,6 +123,9 @@ class Node extends Entity {
 
     removeCreature(creature) {
         const idx = this.creatures.indexOf(creature);
+        if (idx === -1) {
+            throw new Error('Attempting to remove creature not found in the node');
+        }
         this.creatures.splice(idx, 1);
     }
 

@@ -32,6 +32,10 @@ class Entity {
         Object.assign(this, args);
     }
 
+    destroy() {
+        delete entityMap[this.getId()];
+    }
+
     getId() {
         return this.id;
     }

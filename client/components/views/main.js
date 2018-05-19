@@ -155,6 +155,7 @@ export const MainView = {
         <div :hidden="mode !== 'mobs'">
             <div v-for="creature in node.creatures">
                 {{creature.name}}
+                <meter-bar color="red" :value="creature.status.health"/><br/>
                 <actions
                     :target="creature"
                 />

@@ -10,7 +10,7 @@ const Rabbits = require('../class/resources/rabbits');
 const Forest = require('../class/resources/forest');
 const Tent = require('../class/structures/buildings/homes/tent');
 const Dwarf = require('../class/creatures/humanoids/dwarf');
-const Wolf = require('../class/creatures/monsters/wolf');
+const WolfMother = require('../class/creatures/monsters/spawners/wolf-mother');
 const Player = require('../class/player');
 const Utils = require('./utils');
 
@@ -71,9 +71,7 @@ module.exports = {
 
         startingForest.addCreature(urist);
 
-        for (let i = 0; i < 2; i++) {
-            dangerousForest.addCreature(new Wolf());
-        }
+        dangerousForest.addCreature(new WolfMother());
 
         const player = new Player('test', 'test', urist);
 

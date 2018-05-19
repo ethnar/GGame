@@ -330,6 +330,11 @@ class Creature extends Entity {
         console.log(this.getName() + ': died');
     }
 
+    destroy() {
+        this.getNode().removeCreature(this);
+        super.destroy();
+    }
+
     cycle() {
         if (this.dead) {
             return;

@@ -408,10 +408,11 @@ class Humanoid extends Creature {
     getSkillsPayload() {
         return Object
             .keys(utils.cleanup(this.skills))
+            .sort((a, b) => this.skills[b] - this.skills[a])
             .map(skill => ({
                 id: skill,
                 level: this.getSkillLevel(skill),
-                // value: this.skills[skill],
+                value: this.skills[skill],
             }));
     }
 

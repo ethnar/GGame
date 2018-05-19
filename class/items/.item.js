@@ -52,7 +52,8 @@ class Item extends Entity {
     }
 
     destroy() {
-        this.getContainer().removeItem(this)
+        this.getContainer().removeItem(this);
+        super.destroy();
     }
 
     reduceIntegrity(damage) {
