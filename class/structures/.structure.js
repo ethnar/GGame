@@ -2,10 +2,6 @@ const Entity = require('../.entity');
 const utils = require('../../singletons/utils');
 
 class Structure extends Entity {
-    static size() {
-        return 1;
-    }
-
     constructor(args) {
         super(args);
         this.integrity = 100;
@@ -17,10 +13,6 @@ class Structure extends Entity {
 
     getNode() {
         return this.node;
-    }
-
-    getSize() {
-        return this.constructor.size();
     }
 
     getNeededMaterials() {

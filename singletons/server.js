@@ -191,6 +191,63 @@ expressApp
             res.send();
         });
     })
+    .post('/api/register', (req, res) => {
+        let bodyStr = '';
+        req.on('data',function(chunk){
+            bodyStr += chunk.toString();
+        });
+        req.on('end',function(){
+            let params;
+            try {
+                params = JSON.parse(bodyStr);
+                if (typeof params !== 'object') {
+                    throw new Error('Invalid request');
+                }
+            } catch (e) {
+                console.error(e);
+                res.status(400);
+            }
+
+            const startingNodes = world
+                .getNodes()
+                .filter(node => node
+                    .getStructures()
+                    .some(structure => structure.constructor.name === 'Menhir'));
+
+            if (!startingNodes.length) {
+                console.log('No menhirs!');
+                res.status(400);
+                res.send();
+                return;
+            }
+
+            if (
+                !params.name ||
+                !params.password ||
+                typeof params.name !== 'string' ||
+                typeof params.password !== 'string'
+            ) {
+                res.status(400);
+                res.send();
+                return;
+            }
+
+            // TODO: name must be unique
+
+            console.log('New Dwarf!');
+            const startingNode = startingNodes[utils.random(0, startingNodes.length - 1)];
+
+            const dwarf = new Dwarf({
+                name: params.name
+            });
+            startingNode.addCreature(dwarf);
+            dwarf.learnCrafting(SharpenedStone);
+            dwarf.learnBuilding(Tent.planFactory());
+            new Player(params.name, params.password, dwarf);
+
+            res.send();
+        });
+    })
     .listen(port)
     .on('upgrade', wsProxy.upgrade);
 

@@ -1,6 +1,6 @@
 import {ServerService} from '../../services/server.js'
 
-export const LoginView = {
+export const RegisterView = {
     data: () => ({
         user: '',
         password: '',
@@ -14,15 +14,15 @@ export const LoginView = {
     },
 
     methods: {
-        goToTheGame() {
-            window.location.hash = '/main';
+        goToLogin() {
+            window.location.hash = '/login';
         },
 
-        logIn() {
+        register() {
             ServerService
-                .authenticate(this.user, this.password)
+                .register(this.user, this.password)
                 .then(() => {
-                    this.goToTheGame();
+                    this.goToLogin();
                 }).catch((error) => {
                     this.error = error;
                 });
@@ -33,8 +33,7 @@ export const LoginView = {
 <div>
     <input name="user" v-model="user" />
     <input name="password" type="password" v-model="password" />
-    <input type="button" @click="logIn()" value="Log in" />
-    <a href="#/register">Register</a>
+    <input type="button" @click="register()" value="Register" />
     <div>{{error}}</div>
 </div>
 `,

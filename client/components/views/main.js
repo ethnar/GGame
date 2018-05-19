@@ -114,7 +114,7 @@ export const MainView = {
         </div>
         <div :hidden="mode !== 'inventory'">
             <div v-for="item in player.inventory">
-                {{item.name}} <span v-if="item.qty > 1">({{item.qty}})</span>
+                {{item.name}} <span v-if="item.qty > 1">({{item.qty}})</span> <span v-if="item.integrity < 100">[{{item.integrity}}%]</span>
                 <actions
                     :target="item" 
                 />

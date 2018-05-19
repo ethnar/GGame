@@ -4,6 +4,23 @@ const updateHandlers = {};
 const websocketProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
 const domain = `${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}`;
 const loginUrl = '/api/login';
+const registerUrl = '/api/register';
+
+const fetcher = (url, params) =>
+    new Promise((resolve, reject) =>
+        fetch(url, params)
+            .then(function(response) {
+                if (response.ok) {
+                    resolve(response);
+                } else {
+                    reject(response);
+                }
+                return response;
+            })
+            .catch(error => {
+                reject(error);
+            })
+    );
 
 let playerId = null;
 let openPromise;
@@ -74,12 +91,23 @@ export const ServerService = {
         return stream;
     },
 
-    authenticate (user, password) {
-        return fetch(loginUrl, {
+    authenticate(user, password) {
+        return fetcher(loginUrl, {
             method: 'POST',
             credentials: 'include',
             body: JSON.stringify({
                 user,
+                password
+            })
+        });
+    },
+
+    register(name, password) {
+        return fetcher(registerUrl, {
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify({
+                name,
                 password
             })
         });

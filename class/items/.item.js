@@ -56,7 +56,19 @@ class Item extends Entity {
         super.destroy();
     }
 
+    split(qty) {
+        this
+            .getContainer()
+            .addItem(new this.constructor({
+                qty: qty,
+            }));
+        this.qty = this.qty - qty;
+    }
+
     reduceIntegrity(damage) {
+        if (this.qty > 1) {
+            this.split(this.qty - 1);
+        }
         this.integrity -= damage;
         if (this.integrity <= 0) {
             this.destroy();
@@ -82,12 +94,17 @@ class Item extends Entity {
         this.container = container;
     }
 
+    getMaxStack() {
+        return this.maxStack;
+    }
+
     getPayload(creature) {
         return {
             ...this.constructor.getPayload(),
             id: this.getId(),
             name: this.getName(),
             qty: this.qty,
+            integrity: Math.max(Math.floor(this.integrity), 1),
             actions: this.getActionsPayloads(creature),
         }
     }
@@ -119,4 +136,7 @@ class Item extends Entity {
         });
     }
 }
+Object.assign(Item.prototype, {
+    maxStack: 10,
+});
 module.exports = global.Item = Item;

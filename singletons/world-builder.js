@@ -9,9 +9,10 @@ const Pebbles = require('../class/resources/pebbles');
 const Rabbits = require('../class/resources/rabbits');
 const Forest = require('../class/resources/forest');
 const Tent = require('../class/structures/buildings/homes/tent');
-const Dwarf = require('../class/creatures/humanoids/dwarf');
 const WolfMother = require('../class/creatures/monsters/spawners/wolf-mother');
 const Player = require('../class/player');
+const Dwarf = require('../class/creatures/humanoids/dwarf');
+const Menhir = require('../class/structures/menhir');
 const Utils = require('./utils');
 
 module.exports = {
@@ -55,11 +56,10 @@ module.exports = {
             y: 0.2,
         });
 
-        // new Path({}, startingForest, dangerousForest);
-        new Path({
-            requiredMapping: 2,
-        }, dangerousForest, mountainSide);
+        new Path({ requiredMapping: 2 }, dangerousForest, mountainSide);
         new Path({}, startingForest, mountainSide);
+
+        startingForest.addStructure(new Menhir());
 
         world.addNode(startingForest);
         world.addNode(dangerousForest);
@@ -75,14 +75,6 @@ module.exports = {
 
         const player = new Player('test', 'test', urist);
 
-        const stoneTool = new SharpenedStone();
-        urist.addItem(stoneTool);
-        urist.addItem(new Stone({
-            qty: 5,
-        }));
-        urist.addItem(new Log({
-            qty: 14,
-        }));
         urist.learnCrafting(SharpenedStone);
         urist.learnBuilding(Tent.planFactory());
 

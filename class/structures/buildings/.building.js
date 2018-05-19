@@ -21,7 +21,7 @@ const actions = [
             const anyAvailable = Object.keys(availableMaterials).find(material => {
                 return (
                     availableMaterials[material] &&
-                    availableMaterials[material].qty >= materials[material]
+                    availableMaterials[material].qty >= 1
                 );
             });
             if (!anyAvailable) {

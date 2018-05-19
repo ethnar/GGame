@@ -95,10 +95,6 @@ class Spawners extends Monsters {
                     range -= 1;
                 }
 
-                // TODO: now actually move
-
-                console.log(validNodes.map(n => n.name));
-
                 creatureGroup.creatures.forEach(creature => {
                     const validTargets = creature
                         .getNode()

@@ -15,13 +15,17 @@ class World {
         node.setWorld(this);
     }
 
+    getNodes() {
+        return this.nodes;
+    }
+
     getCurrentTime() {
         return this.currentTime;
     }
 
     cycle() {
         this.currentTime = new Date(this.currentTime.getTime() + 1000);
-        [...this.nodes].forEach(node => node.cycle());
+        this.nodes.forEach(node => node.cycle());
 
         this.save('save.data');
     }

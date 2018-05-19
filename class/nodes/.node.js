@@ -76,6 +76,10 @@ class Node extends Entity {
         return this.world;
     }
 
+    getStructures() {
+        return this.structures;
+    }
+
     addStructure(structure) {
         this.structures.push(structure);
         structure.setNode(this);
@@ -203,8 +207,8 @@ class Node extends Entity {
     }
 
     cycle() {
-        [...this.structures].forEach(structure => structure.cycle());
-        [...this.creatures].forEach(creature => creature.cycle());
+        this.structures.forEach(structure => structure.cycle());
+        this.creatures.forEach(creature => creature.cycle());
     }
 }
 module.exports = global.Node = Node;

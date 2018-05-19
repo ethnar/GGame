@@ -227,7 +227,10 @@ class Creature extends Entity {
     }
 
     addItemByType(itemType) {
-        const existing = this.items.find(i => i.constructor === itemType);
+        const existing = this.items.find(i =>
+            i.constructor === itemType &&
+            i.qty < i.getMaxStack()
+        );
         if (existing) {
             existing.qty += 1;
         } else {
@@ -246,6 +249,7 @@ class Creature extends Entity {
             }
             return true;
         }
+        // TODO: re-stack all items
         return false;
     }
 
