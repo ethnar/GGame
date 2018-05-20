@@ -232,7 +232,11 @@ expressApp
                 return;
             }
 
-            // TODO: name must be unique
+            if (Player.list.find(player => player.name === params.name)) {
+                res.status(400);
+                res.send();
+                return;
+            }
 
             console.log('New Dwarf!');
             const startingNode = startingNodes[utils.random(0, startingNodes.length - 1)];
