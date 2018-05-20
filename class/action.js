@@ -16,7 +16,14 @@ class Action extends Entity {
 
     isAvailable(entity, creature) {
         return this.isValid(entity, creature) &&
-            (!this.availableCallback || this.availableCallback(entity, creature));
+            (!this.availableCallback || (this.availableCallback(entity, creature) === true));
+    }
+
+    getAvailabilityMessage(entity, creature) {
+        if (!this.isValid(entity, creature)) {
+            return 'Invalid action';
+        }
+        return this.availableCallback && this.availableCallback(entity, creature);
     }
 
     getEffort(entity) {
@@ -35,6 +42,7 @@ class Action extends Entity {
             id: this.getId(),
             name: this.getName(),
             available: this.isAvailable(entity, creature),
+            message: this.getAvailabilityMessage(entity, creature),
         }
     }
 }

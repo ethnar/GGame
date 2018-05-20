@@ -20,7 +20,7 @@ const actions = [
         },
         available(item, creature) {
             if (creature.getTool() === item) {
-                return false;
+                return 'You already equipped this item as a tool';
             }
             return true;
         },

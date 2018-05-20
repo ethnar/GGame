@@ -12,13 +12,13 @@
     background-image: url('../resources/Arcannan.jpg');
     //background-position: -2060px -2212px;
     //background-size: 5016px;
-    background-position: -1030px -1139px;
-    //background-size: 5016px;
+    background-position: -1000px -1109px;
+    border-radius: 60px;
 
     .node-token {
       $size: 30px;
       position: absolute;
-      border: 1px solid limegreen;
+      border: 1px solid lightgrey;
       width: $size;
       height: $size;
       margin-left: -$size / 2;
@@ -35,10 +35,12 @@
     }
 
     .path {
+      $width: 5px;
       position: absolute;
-      min-width: 2px;
-      min-height: 2px;
-      background-color: green;
+      min-width: 1px;
+      min-height: $width;
+      margin-top: -$width / 2;
+      background-color: lightgrey;
       z-index: 1;
     }
   }

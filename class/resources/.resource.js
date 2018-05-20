@@ -1,18 +1,20 @@
 const Entity = require('../.entity');
 const Action = require('../action');
+const utils = require('../../singletons/utils');
 
 const actions = [
     new Action({
         name: 'Gather',
         available(entity, creature) {
             if (entity.getNode() !== creature.getNode()) {
-                return false;
+                return 'You can only gather resources in your current location';
             }
             if (!creature.getToolMultiplier(entity.toolUtility)) {
-                return false;
+                return 'You need to equip the right tool';
             }
             if (!creature.hasRequiredMapping(entity)) {
-                return false;
+                utils.reportViolation();
+                return 'You can not gather resources you have not yet discovered!';
             }
             return true;
         },
@@ -26,7 +28,7 @@ const actions = [
             creature.actionProgress += progress  * 100 / entity.baseTime;
 
             const tool = creature.getTool();
-            if (tool) {
+            if (tool && entity.toolUtility) {
                 tool.reduceIntegrity(0.002);
             }
             if (creature.actionProgress >= 100) {

@@ -7,12 +7,12 @@ const actions = [
         name: 'Erect',
         available(entity, creature) {
             // TODO: must be their own recipe!
-            if (!creature.getToolMultiplier(TOOL_UTILS.HAMMER)) {
-                return false;
+            if (!creature.getNode().canBuild) {
+                return 'You cannot build in this location';
             }
 
-            if (!creature.getNode().canBuild) {
-                return false;
+            if (!creature.getToolMultiplier(TOOL_UTILS.HAMMER)) {
+                return 'You must have a hammer equipped as a tool';
             }
 
             const materials = entity.getMaterials();
@@ -24,7 +24,7 @@ const actions = [
                 );
             });
             if (!anyAvailable) {
-                return false;
+                return 'You do not have any of the required materials';
             }
 
             return true;

@@ -34,6 +34,10 @@ const utils = {
 
     stackQty(acc, item) {
         return acc + item.qty;
+    },
+
+    reportViolation() {
+
     }
 };
 module.exports = utils;

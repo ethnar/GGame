@@ -13,7 +13,7 @@ const actions = [
         },
         available(entity, creature) {
             if (!creature.getToolMultiplier(TOOL_UTILS.HAMMER)) {
-                return false;
+                return 'You need to equip the right tool';
             }
 
             const materials = entity.getNeededMaterials();
@@ -25,7 +25,7 @@ const actions = [
                 );
             });
             if (!anyAvailable) {
-                return false;
+                return 'You do not have any of the required materials';
             }
 
             return true;

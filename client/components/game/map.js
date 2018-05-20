@@ -41,8 +41,8 @@ Vue.component('world-map', {
             });
         const sizeStream = boxStream
             .map(box => ({
-                width: (box.right - box.left + 1) * NODE_AREA,
-                height: (box.bottom - box.top + 1) * NODE_AREA,
+                width: (box.right - box.left + 2) * NODE_AREA,
+                height: (box.bottom - box.top + 2) * NODE_AREA,
             }));
         const nodeTokensStream = Rx.Observable
             .combineLatest([
@@ -50,8 +50,8 @@ Vue.component('world-map', {
                 boxStream,
             ])
             .map(([ nodes, box ]) => {
-                const offsetX = -box.left * NODE_AREA + NODE_AREA / 2;
-                const offsetY = -box.top * NODE_AREA + NODE_AREA / 2;
+                const offsetX = -box.left * NODE_AREA + NODE_AREA;
+                const offsetY = -box.top * NODE_AREA + NODE_AREA;
                 return nodes.map(node => ({
                     ...node,
                     x: node.x * NODE_AREA + offsetX,
@@ -65,8 +65,8 @@ Vue.component('world-map', {
             ])
             .map(([nodes, box]) => {
                 const paths = {};
-                const offsetX = -box.left * NODE_AREA + NODE_AREA / 2;
-                const offsetY = -box.top * NODE_AREA + NODE_AREA / 2;
+                const offsetX = -box.left * NODE_AREA + NODE_AREA;
+                const offsetY = -box.top * NODE_AREA + NODE_AREA;
 
                 nodes.forEach(node => {
                     node.paths.forEach(travelNode => {

@@ -33,9 +33,12 @@ button {
   &:focus {
     outline: none;
   }
-  &.current {
+  &.current:not(.disabled) {
     background-color: #f8f8a8;
     border: 2px solid orange;
+  }
+  &.disabled {
+    opacity: 0.4;
   }
 }
 

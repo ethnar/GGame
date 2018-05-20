@@ -8,12 +8,12 @@ const actions = [
         available(entity, creature) {
             // TODO: must be their own recipe!
             if (!creature.getToolMultiplier(entity.toolUtility)) {
-                return false;
+                return 'You need to equip the right tool';
             }
 
             const materials = entity.getMaterials();
             if (!creature.hasMaterials(materials)) {
-                return false;
+                return 'You do not have all of the required materials';
             }
 
             return true;

@@ -25,9 +25,12 @@ Vue.component('actions', {
     },
 
     methods: {
-        selectAction(actionId, targetId) {
+        selectAction(action, targetId) {
+            if (!action.available) {
+                console.log(action.message); // TODO: make it a toast
+            }
             ServerService.request('action', {
-                action: actionId,
+                action: action.id,
                 target: targetId,
             });
         }
@@ -38,9 +41,8 @@ Vue.component('actions', {
     <div v-for="action in target.actions">
         <button
             class="action"
-            @click="selectAction(action.id, target.id);"
-            :disabled="!action.available"
-            :class="{ current: currentAction === action }"
+            @click="selectAction(action, target.id);"
+            :class="{ current: currentAction === action, disabled: !action.available }"
         >
             {{action.name}}
         </button>

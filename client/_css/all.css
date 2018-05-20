@@ -24,9 +24,11 @@ button {
   background-color: #f8f8f8; }
   .action:focus {
     outline: none; }
-  .action.current {
+  .action.current:not(.disabled) {
     background-color: #f8f8a8;
     border: 2px solid orange; }
+  .action.disabled {
+    opacity: 0.4; }
 
 .meter-bar {
   display: inline-block;
@@ -73,10 +75,11 @@ pre {
     left: 50%;
     top: 50%;
     background-image: url("../resources/Arcannan.jpg");
-    background-position: -1030px -1106px; }
+    background-position: -1000px -1109px;
+    border-radius: 60px; }
     .container .draggable-map .node-token {
       position: absolute;
-      border: 1px solid limegreen;
+      border: 1px solid lightgrey;
       width: 30px;
       height: 30px;
       margin-left: -15px;
@@ -90,9 +93,10 @@ pre {
         z-index: 3; }
     .container .draggable-map .path {
       position: absolute;
-      min-width: 2px;
-      min-height: 2px;
-      background-color: green;
+      min-width: 1px;
+      min-height: 5px;
+      margin-top: -2.5px;
+      background-color: lightgrey;
       z-index: 1; }
 
 .radial-progress {

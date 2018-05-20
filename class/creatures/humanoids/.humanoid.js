@@ -42,11 +42,11 @@ const actions = [
         available(entity, creature) {
             const researchMaterials = utils.cleanup(creature.researchMaterials);
             if (!Object.keys(researchMaterials).length) {
-                return false;
+                return 'You did not select any materials to use for research';
             }
 
             if (!creature.hasMaterials(researchMaterials)) {
-                return false;
+                return 'You do not have enough resources';
             }
             return true;
         },
