@@ -7,6 +7,9 @@ const actions = [
         name: 'Erect',
         available(entity, creature) {
             // TODO: must be their own recipe!
+            if (creature.isOverburdened()) {
+                return 'You are overburdened!';
+            }
             if (!creature.getNode().canBuild) {
                 return 'You cannot build in this location';
             }
@@ -50,7 +53,7 @@ const actions = [
                 const materialUsed = Object
                     .keys(availableMaterials)
                     .pop();
-                creature.removeItem(availableMaterials[materialUsed].pop());
+                creature.useUpItem(availableMaterials[materialUsed].pop());
 
                 // reduce materials needed
                 structure.remainingMaterialsNeeded[materialUsed] -= 1;

@@ -10,7 +10,7 @@ const actions = [
             if (creature.actionProgress >= 100) {
                 creature.satiated += item.constructor.nutrition();
                 creature.satiated = Math.min(creature.satiated, 100);
-                const removed = creature.removeItem(item);
+                const removed = creature.useUpItem(item);
                 if (creature.satiated >= 100 || removed) {
                     return false;
                 }

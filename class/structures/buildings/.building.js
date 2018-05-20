@@ -12,6 +12,9 @@ const actions = [
             return !entity.isComplete();
         },
         available(entity, creature) {
+            if (creature.isOverburdened()) {
+                return 'You are overburdened!';
+            }
             if (!creature.getToolMultiplier(TOOL_UTILS.HAMMER)) {
                 return 'You need to equip the right tool';
             }
@@ -50,7 +53,7 @@ const actions = [
                 const materialUsed = Object
                     .keys(availableMaterials)
                     .pop();
-                creature.removeItem(availableMaterials[materialUsed].pop());
+                creature.useUpItem(availableMaterials[materialUsed].pop());
 
                 // reduce materials needed
                 entity.remainingMaterialsNeeded[materialUsed] -= 1;

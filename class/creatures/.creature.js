@@ -150,7 +150,7 @@ class Creature extends Entity {
                     qty -= 1;
                     const item = availableMaterials[material]
                         .find(item => item.qty > 0);
-                    this.removeItem(item);
+                    this.useUpItem(item);
                 }
             });
     }
@@ -214,14 +214,15 @@ class Creature extends Entity {
         this.addItem(item);
     }
 
-    drop(item) {
+    drop(item, qty = 1) {
         const self = item.getContainer();
-        if (self !== this) {
-            console.error('Dropping an items that doesn\'t belong to creature');
-        }
+        let toDrop = item;
         console.log(`${this.getName()} dropped: ${item.getName()}`);
-        this.removeItem(item);
-        this.getNode().addItem(item);
+        if (item.qty > qty) {
+            toDrop = item.split(qty);
+        }
+        this.removeItem(toDrop);
+        this.getNode().addItem(toDrop);
     }
 
     addItem(item) {
@@ -242,19 +243,23 @@ class Creature extends Entity {
         }
     }
 
-    removeItem(item) {
+    useUpItem(item) {
         item.qty -= 1;
         if (item.qty === 0) {
-            const idx = this.items.indexOf(item);
-            this.items.splice(idx, 1);
-            item.setContainer(null);
-            if (this.tool === item) {
-                this.tool = null;
-            }
+            this.removeItem(item);
             return true;
         }
         this.reStackItems();
         return false;
+    }
+
+    removeItem(item) {
+        const idx = this.items.indexOf(item);
+        this.items.splice(idx, 1);
+        item.setContainer(null);
+        if (this.tool === item) {
+            this.tool = null;
+        }
     }
 
     reStackItems() {

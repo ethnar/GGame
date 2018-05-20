@@ -28,6 +28,23 @@ const actions = [
             creature.equipTool(item);
             return false;
         }
+    }),
+    new Action({
+        name: 'Drop',
+        valid(item, creature) {
+            if (item.getContainer() !== creature) {
+                return false;
+            }
+            return true;
+        },
+        available(item, creature) {
+            return true;
+        },
+        run(item, creature) {
+            creature.drop(item);
+            creature.reStackItems();
+            return false;
+        }
     })
 ];
 
@@ -57,12 +74,14 @@ class Item extends Entity {
     }
 
     split(qty) {
+        const newStack = new this.constructor({
+            qty: qty,
+        });
         this
             .getContainer()
-            .addItem(new this.constructor({
-                qty: qty,
-            }));
+            .addItem(newStack);
         this.qty = this.qty - qty;
+        return newStack;
     }
 
     reduceIntegrity(damage) {

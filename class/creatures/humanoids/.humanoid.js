@@ -5,7 +5,8 @@ const server = require('../../../singletons/server');
 const StoneHatchet = require('../../items/tools/stone-hatchet');
 
 const MAX_SKILL = 2000000;
-const MAX_SKILL_SPEED_MULT = 3;
+const MAX_SKILL_SPEED_MULTIPLIER = 3;
+const CARRY_CAPACITY = 10;
 
 const craftableItems = [
     StoneHatchet,
@@ -426,12 +427,16 @@ class Humanoid extends Creature {
 
     getSkillMultiplier(skill) {
         const skillLevel = this.getSkillLevel(skill);
-        return 1 + (MAX_SKILL_SPEED_MULT - 1) * skillLevel / 10;
+        return 1 + (MAX_SKILL_SPEED_MULTIPLIER - 1) * skillLevel / 10;
     }
 
     gainSkill(skill, points = 1) {
         this.skills[skill] = this.skills[skill] || 0;
         this.skills[skill] = Math.min(this.skills[skill] + points, MAX_SKILL);
+    }
+
+    isOverburdened() {
+        return this.items.length > CARRY_CAPACITY;
     }
 }
 module.exports = global.Humanoid = Humanoid;

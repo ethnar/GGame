@@ -7,6 +7,10 @@ const actions = [
         name: 'Craft',
         available(entity, creature) {
             // TODO: must be their own recipe!
+            if (creature.isOverburdened()) {
+                return 'You are overburdened!';
+            }
+
             if (!creature.getToolMultiplier(entity.toolUtility)) {
                 return 'You need to equip the right tool';
             }

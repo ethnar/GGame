@@ -6,6 +6,9 @@ const actions = [
     new Action({
         name: 'Gather',
         available(entity, creature) {
+            if (creature.isOverburdened()) {
+                return 'You are overburdened!';
+            }
             if (entity.getNode() !== creature.getNode()) {
                 return 'You can only gather resources in your current location';
             }
