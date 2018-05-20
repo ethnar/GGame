@@ -69,7 +69,7 @@ pre {
   border: 1px solid lightgrey;
   position: relative;
   width: 100%;
-  height: 20vh;
+  height: 60vh;
   overflow: hidden; }
   .container::before {
     content: '';
@@ -88,7 +88,6 @@ pre {
     left: 50%;
     top: 50%;
     background-image: url("../resources/Arcannan.jpg");
-    background-position: -1000px -1109px;
     border-radius: 20px; }
     .container .draggable-map .node-token {
       position: absolute;

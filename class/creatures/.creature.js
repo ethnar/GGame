@@ -335,7 +335,9 @@ class Creature extends Entity {
 
     getHitChance() {
         let missChance = 100 - this.getWeapon().hitChance;
-        missChance -= missChance * (this.getSkillLevel(SKILLS.FIGHTING) / 10) * 0.75;
+        if (this.getSkillLevel) {
+            missChance -= missChance * (this.getSkillLevel(SKILLS.FIGHTING) / 10) * 0.75;
+        }
         return 100 - missChance;
     }
 

@@ -20,50 +20,51 @@ module.exports = {
         const world = new World();
 
         const startingForest = new Outdoor({
-            size: 60,
             name: 'Starting Forest',
             x: 0,
             y: 0,
         });
-        startingForest.addResource(new Forest({
-            size: 1,
-        }));
-        startingForest.addResource(new Strawberries({
-            size: 1,
-            requiredMapping: 2,
-        }));
-        startingForest.addResource(new Pebbles({
-            size: 1,
-        }));
+        // startingForest.addResource(new Forest({
+        //     size: 1,
+        // }));
+        // startingForest.addResource(new Strawberries({
+        //     size: 1,
+        //     requiredMapping: 2,
+        // }));
+        // startingForest.addResource(new Pebbles({
+        //     size: 1,
+        // }));
+        //
+        // const dangerousForest = new Outdoor({
+        //     size: 50,
+        //     name: 'Creepy Forest',
+        //     x: 1,
+        //     y: 1.1
+        // });
+        // dangerousForest.addResource(new Forest({
+        //     size: 2,
+        // }));
+        // dangerousForest.addResource(new Rabbits({
+        //     size: 2,
+        // }));
+        //
+        // const mountainSide = new Outdoor({
+        //     size: 50,
+        //     name: 'Mountain side',
+        //     x: 2,
+        //     y: 0.2,
+        // });
+        //
+        // dangerousForest.addCreature(new WolfMother());
 
-        const dangerousForest = new Outdoor({
-            size: 50,
-            name: 'Creepy Forest',
-            x: 1,
-            y: 1.1
-        });
-        dangerousForest.addResource(new Forest({
-            size: 2,
-        }));
-        dangerousForest.addResource(new Rabbits({
-            size: 2,
-        }));
-
-        const mountainSide = new Outdoor({
-            size: 50,
-            name: 'Mountain side',
-            x: 2,
-            y: 0.2,
-        });
-
-        new Path({ requiredMapping: 2 }, dangerousForest, mountainSide);
-        new Path({}, startingForest, mountainSide);
+        // new Path({ requiredMapping: 2 }, dangerousForest, mountainSide);
+        // new Path({}, startingForest, mountainSide);
 
         startingForest.addStructure(new Menhir());
 
         world.addNode(startingForest);
-        world.addNode(dangerousForest);
-        world.addNode(mountainSide);
+        // world.addNode(dangerousForest);
+        // world.addNode(mountainSide);
 
         const urist = new Dwarf({
             name: 'Urist'
@@ -71,12 +72,24 @@ module.exports = {
 
         startingForest.addCreature(urist);
 
-        dangerousForest.addCreature(new WolfMother());
-
         const player = new Player('test', 'test', urist);
 
         urist.learnCrafting(SharpenedStone);
         urist.learnBuilding(Tent.planFactory());
+
+
+        const topLeft = new Outdoor({
+            x: -17,
+            y: -18,
+        });
+        const bottomRight = new Outdoor({
+            x: 23,
+            y: 12,
+        });
+        world.addNode(topLeft);
+        world.addNode(bottomRight);
+        urist.mapNode(topLeft);
+        urist.mapNode(bottomRight);
 
         return world;
     },

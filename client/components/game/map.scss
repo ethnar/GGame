@@ -2,7 +2,7 @@
   border: 1px solid lightgrey;
   position: relative;
   width: 100%;
-  height: 20vh;
+  height: 60vh;
   overflow: hidden;
 
   &::before {
@@ -27,7 +27,7 @@
     background-image: url('../resources/Arcannan.jpg');
     //background-position: -2060px -2212px;
     //background-size: 5016px;
-    background-position: -1000px -1109px;
+    //background-position: -1000px -1109px;
     border-radius: 20px;
 
     .node-token {

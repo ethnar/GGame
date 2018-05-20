@@ -6,6 +6,7 @@ const NODE_AREA = 60;
 
 Vue.component('world-map', {
     data: () => ({
+        NODE_AREA,
         contextMenuNode: null,
         dragging: false,
         mapOffset: {},
@@ -98,6 +99,11 @@ Vue.component('world-map', {
             .do(position => (this.mapOffset = {
                 ...position,
             }));
+        const backgroundOffsetStream = boxStream
+            .map(box => ({
+                x: -1070 - this.box.left * NODE_AREA + NODE_AREA / 2,
+                y: -1170 - this.box.top * NODE_AREA + NODE_AREA / 2,
+            }));
         return {
             data: mapDataStream,
             box: boxStream,
@@ -105,6 +111,7 @@ Vue.component('world-map', {
             nodeTokens: nodeTokensStream,
             mapCenterOffset: mapOffsetStream,
             paths: pathsStream,
+            backgroundOffset: backgroundOffsetStream,
             player: ServerService.getMainStream().pluck('creature'),
         };
     },
@@ -126,11 +133,11 @@ Vue.component('world-map', {
             this.mapOffset.x = parseInt(this.dragging.x, 10) - event.deltaX;
             this.mapOffset.y = parseInt(this.dragging.y, 10) - event.deltaY;
 
-            this.mapOffset.x = Math.max(this.mapOffset.x, -this.box.left * NODE_AREA + NODE_AREA / 2);
-            this.mapOffset.y = Math.max(this.mapOffset.y, -this.box.top * NODE_AREA + NODE_AREA / 2);
+            this.mapOffset.x = Math.max(this.mapOffset.x, NODE_AREA / 2);
+            this.mapOffset.y = Math.max(this.mapOffset.y, NODE_AREA / 2);
 
-            this.mapOffset.x = Math.min(this.mapOffset.x, this.box.right * NODE_AREA + NODE_AREA / 2);
-            this.mapOffset.y = Math.min(this.mapOffset.y, this.box.bottom * NODE_AREA + NODE_AREA / 2);
+            this.mapOffset.x = Math.min(this.mapOffset.x, (this.box.right - this.box.left) * NODE_AREA + NODE_AREA / 2);
+            this.mapOffset.y = Math.min(this.mapOffset.y, (this.box.bottom - this.box.top) * NODE_AREA + NODE_AREA / 2);
         }
     },
 
@@ -146,7 +153,7 @@ Vue.component('world-map', {
         <div
             v-if="size"
             class="draggable-map"
-            :style="{ width: size.width + 'px', height: size.height + 'px', 'margin-top': -mapOffset.y + 'px', 'margin-left': -mapOffset.x + 'px' }"
+            :style="{ width: size.width + 'px', height: size.height + 'px', 'margin-top': -mapOffset.y + 'px', 'margin-left': -mapOffset.x + 'px', 'background-position': (backgroundOffset.x) + 'px ' + (backgroundOffset.y) + 'px' }"
         >
             <div
                 v-for="nodeToken in nodeTokens"
