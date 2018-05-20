@@ -66,7 +66,7 @@ export const ServerService = {
         return playerId;
     },
 
-    request (name, params) {
+    request(name, params) {
         return getOpenPromise().then((connection) => {
             return new Promise(resolve => {
                 const key = Math.random(); // TODO: improve

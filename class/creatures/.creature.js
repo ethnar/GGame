@@ -295,6 +295,10 @@ class Creature extends Entity {
         this.attack(enemy);
         if (!enemy.currentAction || enemy.fighting) {
             enemy.attack(this);
+        } else {
+            if (enemy.behaviour && !enemy.behaviour.passive) {
+                enemy.startAction(enemy, enemy.getActionByName('Fight'));
+            }
         }
     }
 
@@ -312,9 +316,10 @@ class Creature extends Entity {
             utils.random(1, 100) > chanceToDodge
         ) {
             const damage = this.getDamageDealt();
-            enemy.receiveDamage(damage);
 
             console.log(enemy.getName() + ' received ' + damage + ' damage from ' + this.getName() + '. (' + weaponName + ')')
+
+            enemy.receiveDamage(damage);
         } else {
             console.log(this.getName() + ' missed ' + enemy.getName() + '!' + ' (' + weaponName + ')');
         }
@@ -422,6 +427,7 @@ class Creature extends Entity {
                     actionProgress: this.actionProgress,
                     mood: this.mood,
                 },
+                behaviour: utils.cleanup(this.behaviour),
                 skills: this.getSkillsPayload(),
                 recipes: this.craftingRecipes.map(recipe => recipe.getPayload(creature)),
                 buildingPlans: this.buildingPlans.map(plan => plan.getPayload(creature)),

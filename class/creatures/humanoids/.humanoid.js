@@ -206,6 +206,9 @@ class Humanoid extends Creature {
         this.craftingRecipes = [];
         this.buildingPlans = [];
         this.map = {};
+        this.behaviour = {
+            passive: false,
+        };
         this.researchMaterials = {};
         this.recentResearches = [];
     }
@@ -388,6 +391,7 @@ class Humanoid extends Creature {
         this.gettingHungry();
         this.updateStealth();
         this.updateMood();
+
         super.cycle();
     }
 
@@ -484,6 +488,21 @@ server.registerHandler('updateResearchMaterials', (params, player, connection) =
 
     const creature = player.getCreature();
     creature.researchMaterials = params;
+
+    server.updatePlayer(connection);
+
+    return true;
+});
+
+server.registerHandler('updateBehaviour', (params, player, connection) => {
+    if (typeof params.passive !== 'boolean') {
+        return false;
+    }
+
+    const creature = player.getCreature();
+    creature.behaviour = {
+        passive: params.passive,
+    };
 
     server.updatePlayer(connection);
 

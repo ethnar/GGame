@@ -73,6 +73,12 @@ export const MainView = {
             ServerService.request('updateResearchMaterials', payload);
         },
 
+        toggleBehaviour() {
+            ServerService.request('updateBehaviour', {
+                passive: !this.player.behaviour.passive,
+            });
+        },
+
         selectResearchMaterial(item) {
             if (item === null) {
                 delete this.player.researchMaterials[this.selectResearchMaterialIdx];
@@ -96,6 +102,7 @@ export const MainView = {
     <world-map class="world-map-container"></world-map>
     <div class="scrollable-contents">
         <div :hidden="mode !== 'stats'">
+            Behaviour: <button @click="toggleBehaviour()" class="action">{{player.behaviour.passive ? 'Passive' : 'Defensive'}}</button>
             <actions
                 :target="player" 
             />
