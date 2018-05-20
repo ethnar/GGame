@@ -5,8 +5,13 @@ const utils = require('../singletons/utils');
 const actions = [
     new Action({
         name: 'Craft',
+        valid(entity, creature) {
+            if (!creature.craftingRecipes.includes(entity)) {
+                return false;
+            }
+            return true;
+        },
         available(entity, creature) {
-            // TODO: must be their own recipe!
             if (creature.isOverburdened()) {
                 return 'You are overburdened!';
             }

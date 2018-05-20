@@ -1,4 +1,4 @@
-const Building = require('./.building');
+const Building = require('../.building');
 
 class Hut extends Building {
     static size() {

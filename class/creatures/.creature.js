@@ -403,7 +403,6 @@ class Creature extends Entity {
                 tool: tool ? tool.getPayload(creature) : null,
                 actions: this.getActionsPayloads(creature),
                 currentAction: utils.cleanup(this.currentAction),
-                recipes: this.craftingRecipes.map(recipe => recipe.getPayload(creature)),
                 researchMaterials: Item.getMaterialsPayload(this.researchMaterials),
                 recentResearches: Object
                     .keys(recentResearches)
@@ -422,6 +421,7 @@ class Creature extends Entity {
                     mood: this.mood,
                 },
                 skills: this.getSkillsPayload(),
+                recipes: this.craftingRecipes.map(recipe => recipe.getPayload(creature)),
                 buildingPlans: this.buildingPlans.map(plan => plan.getPayload(creature)),
             };
         }
