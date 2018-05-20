@@ -9,7 +9,7 @@ const fs = require('fs');
 const necro = new resurrect();
 
 global.world = worldBuilder.buildNewWorld();
-// global.world = World.load('save.data');
+// global.world = World.load('save_data.json');
 
 console.log('*** Start ***');
 

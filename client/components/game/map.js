@@ -77,13 +77,15 @@ Vue.component('world-map', {
 
                         paths[`${lowerId}-${higherId}`] = {
                             position: {
-                                x: (node.x + travelNode.x) / 2 * NODE_AREA + offsetX,
-                                y: (node.y + travelNode.y) / 2 * NODE_AREA + offsetY,
+                                x: Math.round((node.x + travelNode.x) / 2 * NODE_AREA + offsetX),
+                                y: Math.round((node.y + travelNode.y) / 2 * NODE_AREA + offsetY),
                             },
-                            length: Math.sqrt(
-                                Math.pow(Math.abs(node.x - travelNode.x), 2) +
-                                Math.pow(Math.abs(node.y - travelNode.y), 2)
-                            ) * NODE_AREA,
+                            length: Math.round(
+                                Math.sqrt(
+                                    Math.pow(Math.abs(node.x - travelNode.x), 2) +
+                                    Math.pow(Math.abs(node.y - travelNode.y), 2)
+                                ) * (NODE_AREA) - 25
+                            ),
                             angle: Math.atan2(
                                 node.y - travelNode.y,
                                 node.x - travelNode.x
@@ -138,13 +140,13 @@ Vue.component('world-map', {
 
             this.mapOffset.x = Math.min(this.mapOffset.x, (this.box.right - this.box.left) * NODE_AREA + NODE_AREA / 2);
             this.mapOffset.y = Math.min(this.mapOffset.y, (this.box.bottom - this.box.top) * NODE_AREA + NODE_AREA / 2);
-        }
+        },
     },
 
     template: `
 <div>
     <v-touch
-        class="container"
+        class="main-map-container"
         :class="{ sneaking: player.sneaking }"
         @panstart="startDrag"
         @panmove="drag"
@@ -153,6 +155,7 @@ Vue.component('world-map', {
         <div
             v-if="size"
             class="draggable-map"
+            :class="{ dragging: dragging }"
             :style="{ width: size.width + 'px', height: size.height + 'px', 'margin-top': -mapOffset.y + 'px', 'margin-left': -mapOffset.x + 'px', 'background-position': (backgroundOffset.x) + 'px ' + (backgroundOffset.y) + 'px' }"
         >
             <div
@@ -161,7 +164,7 @@ Vue.component('world-map', {
                 :class="{ current: nodeToken.currentLocation }"
                 @click="nodeClicked(nodeToken);"
                 :style="{ left: nodeToken.x + 'px', top: nodeToken.y + 'px' }"
-            ></div>
+            >{{nodeToken.icon}}</div>
             <div
                 v-for="path in paths"
                 class="path"

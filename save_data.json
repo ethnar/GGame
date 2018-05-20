@@ -1,0 +1,266 @@
+[
+  {
+    "#": "World",
+    "nodes": {
+      "#": 1
+    },
+    "currentTime": {
+      "#.": "Date",
+      "#v": [
+        "2018-05-20T18:38:23.367Z"
+      ]
+    },
+    "entityMap": {
+      "#": 35
+    }
+  },
+  [
+    {
+      "#": 2
+    },
+    {
+      "#": 23
+    },
+    {
+      "#": 29
+    }
+  ],
+  {
+    "#": "Outdoor",
+    "id": 19,
+    "name": "Starting Forest",
+    "x": 0,
+    "y": 0,
+    "size": 50,
+    "resources": {
+      "#": 3
+    },
+    "structures": {
+      "#": 4
+    },
+    "creatures": {
+      "#": 6
+    },
+    "items": {
+      "#": 21
+    },
+    "paths": {
+      "#": 22
+    },
+    "world": {
+      "#": 0
+    }
+  },
+  [],
+  [
+    {
+      "#": 5
+    }
+  ],
+  {
+    "#": "Menhir",
+    "id": 20,
+    "integrity": {
+      "#.": "Number",
+      "#v": [
+        "Infinity"
+      ]
+    },
+    "node": {
+      "#": 2
+    }
+  },
+  [
+    {
+      "#": 7
+    }
+  ],
+  {
+    "#": "Dwarf",
+    "id": 21,
+    "name": "Urist",
+    "health": 100,
+    "node": {
+      "#": 2
+    },
+    "items": {
+      "#": 8
+    },
+    "tool": null,
+    "skills": {
+      "#": 9
+    },
+    "energy": 98.09218749997571,
+    "stamina": 100,
+    "stealth": 100,
+    "satiated": 65.7604166666763,
+    "mood": 88.05428168667375,
+    "craftingRecipes": {
+      "#": 10
+    },
+    "buildingPlans": {
+      "#": 14
+    },
+    "map": {
+      "#": 16
+    },
+    "behaviour": {
+      "#": 17
+    },
+    "researchMaterials": {
+      "#": 18
+    },
+    "recentResearches": {
+      "#": 19
+    },
+    "player": {
+      "#": 20
+    }
+  },
+  [],
+  {},
+  [
+    {
+      "#": 11
+    }
+  ],
+  {
+    "#": "Recipe",
+    "id": 23,
+    "name": "Craft Sharpened Stone",
+    "itemClass": "SharpenedStone",
+    "result": {
+      "#": 12
+    },
+    "materials": {
+      "#": 13
+    },
+    "skill": 10,
+    "baseTime": 15,
+    "level": 1
+  },
+  {
+    "SharpenedStone": 1
+  },
+  {
+    "Stone": 2
+  },
+  [
+    {
+      "#": 15
+    }
+  ],
+  {
+    "#": "Plan",
+    "id": 24,
+    "name": "Build Tent",
+    "buildClassName": "Tent"
+  },
+  {
+    "19": 1,
+    "25": 1,
+    "26": 1
+  },
+  {
+    "passive": false
+  },
+  {},
+  [],
+  {
+    "#": "Player",
+    "id": 22,
+    "name": "test",
+    "password": "56fde32bee4721d605e2652a99850eb409314e04",
+    "creature": {
+      "#": 7
+    }
+  },
+  [],
+  [],
+  {
+    "#": "Outdoor",
+    "id": 25,
+    "x": -17,
+    "y": -18,
+    "size": 50,
+    "resources": {
+      "#": 24
+    },
+    "structures": {
+      "#": 25
+    },
+    "creatures": {
+      "#": 26
+    },
+    "items": {
+      "#": 27
+    },
+    "paths": {
+      "#": 28
+    },
+    "world": {
+      "#": 0
+    }
+  },
+  [],
+  [],
+  [],
+  [],
+  [],
+  {
+    "#": "Outdoor",
+    "id": 26,
+    "x": 23,
+    "y": 12,
+    "size": 50,
+    "resources": {
+      "#": 30
+    },
+    "structures": {
+      "#": 31
+    },
+    "creatures": {
+      "#": 32
+    },
+    "items": {
+      "#": 33
+    },
+    "paths": {
+      "#": 34
+    },
+    "world": {
+      "#": 0
+    }
+  },
+  [],
+  [],
+  [],
+  [],
+  [],
+  {
+    "19": {
+      "#": 2
+    },
+    "20": {
+      "#": 5
+    },
+    "21": {
+      "#": 7
+    },
+    "22": {
+      "#": 20
+    },
+    "23": {
+      "#": 11
+    },
+    "24": {
+      "#": 15
+    },
+    "25": {
+      "#": 23
+    },
+    "26": {
+      "#": 29
+    }
+  }
+]

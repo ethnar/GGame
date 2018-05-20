@@ -7,10 +7,12 @@ export const LoginView = {
         error: ''
     }),
 
-    created() {
+    mounted() {
         // TODO: remove
         this.user = 'test';
         this.password = 'test';
+
+        this.$el.querySelector('[type="button"]').click();
     },
 
     methods: {

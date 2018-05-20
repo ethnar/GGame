@@ -141,6 +141,25 @@ class Node extends Entity {
         return this.paths.find(path => path.hasNode(toNode));
     }
 
+    getDetailsPayload(creature) {
+        return {
+            mapping: creature.getNodeMapping(this),
+            inventory: this.items.map(item => item.getPayload(creature)),
+            creatures: this.creatures
+                .filter(c => c !== creature)
+                .map(c => c.getPayload(creature))
+                .filter(creaturePayload => !!creaturePayload),
+            resources: this.resources
+                .filter(resource => creature.hasRequiredMapping(resource))
+                .map(resource => resource.getPayload(creature))
+                .filter(resourcePayload => !!resourcePayload),
+            structures: this.structures
+                .filter(structure => creature.hasRequiredMapping(structure))
+                .map(structure => structure.getPayload(creature))
+                .filter(structurePayload => !!structurePayload),
+        }
+    }
+
     getPayload(creature) {
         let result = {
             id: this.getId(),
@@ -151,20 +170,7 @@ class Node extends Entity {
         if (creature.getNode() === this) {
             result = {
                 ...result,
-                mapping: creature.getNodeMapping(this),
-                inventory: this.items.map(item => item.getPayload(creature)),
-                creatures: this.creatures
-                    .filter(c => c !== creature)
-                    .map(c => c.getPayload(creature))
-                    .filter(creaturePayload => !!creaturePayload),
-                resources: this.resources
-                    .filter(resource => creature.hasRequiredMapping(resource))
-                    .map(resource => resource.getPayload(creature))
-                    .filter(resourcePayload => !!resourcePayload),
-                structures: this.structures
-                    .filter(structure => creature.hasRequiredMapping(structure))
-                    .map(structure => structure.getPayload(creature))
-                    .filter(structurePayload => !!structurePayload),
+                ...this.getDetailsPayload(creature),
             }
         }
 
@@ -211,6 +217,39 @@ module.exports = global.Node = Node;
 server.registerHandler('getMap', (params, player, connection) => {
     const creature = player.getCreature();
 
+    if (player.godMode) {
+        return getFullMap(creature);
+    }
     return creature.getMapPayload();
 });
 
+const getFullMap = (creature) => {
+    const start = creature.getNode();
+    const getter = (node, skipConnections = false) => {
+        return {
+            ...node.getDetailsPayload(creature),
+            id: node.getId(),
+            name: node.getName(),
+            icon: node.icon,
+            mapping: creature.getNodeMapping(node),
+            actions: node.getActionsPayloads(creature),
+            x: node.x,
+            y: node.y,
+            currentLocation:
+                creature.getNode() === node ?
+                    true :
+                    undefined,
+            paths: skipConnections ?
+                undefined :
+                node.paths
+                    .map(
+                        path => getter(path.getOtherNode(node), true)
+                    )
+        };
+    };
+
+    return Object
+        .values(Entity.getEntityMap())
+        .filter(entity => entity instanceof Node)
+        .map(node => getter(node));
+};

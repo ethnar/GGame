@@ -1,12 +1,12 @@
 const Resource = require('./.resource');
 const Log = require('../items/log');
 
-class Forest extends Resource {
+class Trees extends Resource {
     static entityName() {
-        return 'Forest';
+        return 'Trees';
     }
 }
-Object.assign(Forest.prototype, {
+Object.assign(Trees.prototype, {
     skill: SKILLS.WOODCUTTING,
     toolUtility: TOOL_UTILS.CUTTING,
     produces: Log,
@@ -14,4 +14,4 @@ Object.assign(Forest.prototype, {
     effort: 1.5,
 });
 
-module.exports = global.Forest = Forest;
+module.exports = global.Trees = Trees;
