@@ -21,7 +21,7 @@ const actions = [
             const anyAvailable = Object.keys(availableMaterials).find(material => {
                 return (
                     availableMaterials[material] &&
-                    availableMaterials[material].qty >= 1
+                    availableMaterials[material].length
                 );
             });
             if (!anyAvailable) {
@@ -50,7 +50,7 @@ const actions = [
                 const materialUsed = Object
                     .keys(availableMaterials)
                     .pop();
-                creature.removeItem(availableMaterials[materialUsed]);
+                creature.removeItem(availableMaterials[materialUsed].pop());
 
                 // reduce materials needed
                 entity.remainingMaterialsNeeded[materialUsed] -= 1;

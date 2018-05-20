@@ -74,7 +74,6 @@ class Spawners extends Monsters {
             if (creatureGroup.movementIn >= spawnGroup.movementDelay) {
                 creatureGroup.movementIn -= spawnGroup.movementDelay;
 
-                console.log('MOVE!');
                 const node = this.getNode();
                 const validNodes = [node];
                 let nextNodes = validNodes;

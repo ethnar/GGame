@@ -8,12 +8,10 @@ const actions = [
         available(entity, creature) {
             // TODO: must be their own recipe!
             if (!creature.getToolMultiplier(TOOL_UTILS.HAMMER)) {
-                console.log('Wrong tool');
                 return false;
             }
 
             if (!creature.getNode().canBuild) {
-                console.log('Can\'t build here');
                 return false;
             }
 
@@ -22,11 +20,10 @@ const actions = [
             const anyAvailable = Object.keys(availableMaterials).find(material => {
                 return (
                     availableMaterials[material] &&
-                    availableMaterials[material].qty >= 1
+                    availableMaterials[material].length
                 );
             });
             if (!anyAvailable) {
-                console.log('No resources');
                 return false;
             }
 
@@ -53,7 +50,7 @@ const actions = [
                 const materialUsed = Object
                     .keys(availableMaterials)
                     .pop();
-                creature.removeItem(availableMaterials[materialUsed]);
+                creature.removeItem(availableMaterials[materialUsed].pop());
 
                 // reduce materials needed
                 structure.remainingMaterialsNeeded[materialUsed] -= 1;

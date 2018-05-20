@@ -27,7 +27,7 @@ const actions = [
 
             creature.actionProgress += progress  * 100 / entity.baseTime;
             const tool = creature.getTool();
-            if (tool) {
+            if (tool && entity.toolUtility) {
                 tool.reduceIntegrity(0.002);
             }
 

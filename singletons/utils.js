@@ -30,6 +30,10 @@ const utils = {
 
     limit(value, min, max) {
         return Math.min(max, Math.max(min, value));
+    },
+
+    stackQty(acc, item) {
+        return acc + item.qty;
     }
 };
 module.exports = utils;

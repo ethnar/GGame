@@ -116,7 +116,7 @@ class Creature extends Entity {
             .map(materialClassName => {
                 return [
                     materialClassName,
-                    this.items.find(item => {
+                    this.items.filter(item => {
                         return item.constructor.name === materialClassName;
                     }),
                 ];
@@ -134,7 +134,8 @@ class Creature extends Entity {
             .find(material => {
                 return (
                     !availableMaterials[material] ||
-                    availableMaterials[material].qty < materials[material]
+                    !availableMaterials[material].length ||
+                    availableMaterials[material].reduce(utils.stackQty, 0) < materials[material]
                 );
             });
     }
@@ -142,12 +143,14 @@ class Creature extends Entity {
     spendMaterials(materials) {
         const availableMaterials = this.getMaterials(materials);
         Object
-            .keys(availableMaterials)
+            .keys(materials)
             .forEach(material => {
                 let qty = materials[material];
                 while (qty > 0) {
                     qty -= 1;
-                    this.removeItem(availableMaterials[material]);
+                    const item = availableMaterials[material]
+                        .find(item => item.qty > 0);
+                    this.removeItem(item);
                 }
             });
     }
@@ -229,6 +232,7 @@ class Creature extends Entity {
     addItemByType(itemType) {
         const existing = this.items.find(i =>
             i.constructor === itemType &&
+            i.integrity === 100 &&
             i.qty < i.getMaxStack()
         );
         if (existing) {
@@ -249,8 +253,37 @@ class Creature extends Entity {
             }
             return true;
         }
-        // TODO: re-stack all items
+        this.reStackItems();
         return false;
+    }
+
+    reStackItems() {
+        this.items.forEach((item1, idx1) => {
+            this.items.forEach((item2, idx2) => {
+                if (
+                    idx1 !== idx2 &&
+                    item1.constructor === item2.constructor &&
+                    item1.integrity === 100 &&
+                    item2.integrity === 100 &&
+                    item1.qty &&
+                    item2.qty &&
+                    item1.qty < item1.getMaxStack() &&
+                    item2.qty < item2.getMaxStack() &&
+                    item2 !== this.tool
+                ) {
+                    const balance = Math.min(item2.qty, item1.getMaxStack() - item1.qty);
+                    item1.qty += balance;
+                    item2.qty -= balance;
+                }
+            });
+        });
+        this.items = this.items.filter((item, idx) => {
+            if (item.qty === 0) {
+                item.setContainer(null);
+                return false;
+            }
+            return true;
+        });
     }
 
     exchangeBlows(enemy) {

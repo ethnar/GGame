@@ -73,6 +73,9 @@ class Item extends Entity {
         if (this.integrity <= 0) {
             this.destroy();
         }
+        if (this.getContainer().reStackItems) {
+            this.getContainer().reStackItems();
+        }
     }
 
     getUtility(utilityType) {
