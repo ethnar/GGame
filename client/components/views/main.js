@@ -32,11 +32,25 @@ Vue.component('meter-bar', {
     props: [
         'color',
         'value',
+        'onlyGrowing'
     ],
+
+    data: () => ({
+        reseter: false,
+    }),
+
+    watch: {
+        value(to, from) {
+            if (from > to && this.onlyGrowing) {
+                this.reseter = !this.reseter;
+            }
+        }
+    },
 
     template: `
 <span class="meter-bar">
     <div
+        :key="reseter"
         class="fill"
         :style="{ 'background-color': color, width: (value || 0) + '%' }"
     ></div>
@@ -107,7 +121,7 @@ export const MainView = {
                 :target="player" 
             />
             Name: {{player.name}}<br/>
-            Action: <meter-bar color="magenta" :value="player.status.actionProgress"/><br/>
+            Action: <meter-bar color="magenta" :value="player.status.actionProgress" :only-growing="true"/><br/>
             Health: <meter-bar color="red" :value="player.status.health"/><br/>
             Stamina: <meter-bar color="limegreen" :value="player.status.stamina"/><br/>
             Energy: <meter-bar color="dodgerblue" :value="player.status.energy"/><br/>

@@ -1,4 +1,5 @@
 import {MapService} from '../../services/map.js'
+import {ServerService} from '../../services/server.js';
 import './actions.js';
 
 const NODE_AREA = 60;
@@ -104,6 +105,7 @@ Vue.component('world-map', {
             nodeTokens: nodeTokensStream,
             mapCenterOffset: mapOffsetStream,
             paths: pathsStream,
+            player: ServerService.getMainStream().pluck('creature'),
         };
     },
 
@@ -134,9 +136,9 @@ Vue.component('world-map', {
 
     template: `
 <div>
-    <!--{{data}}-->
     <v-touch
         class="container"
+        :class="{ sneaking: player.sneaking }"
         @panstart="startDrag"
         @panmove="drag"
         @panend="dragging = false;"

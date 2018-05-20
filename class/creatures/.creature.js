@@ -334,7 +334,9 @@ class Creature extends Entity {
     }
 
     getHitChance() {
-        return this.getWeapon().hitChance + this.getSkillMultiplier(SKILLS.FIGHTING) * 5;
+        let missChance = 100 - this.getWeapon().hitChance;
+        missChance -= missChance * (this.getSkillLevel(SKILLS.FIGHTING) / 10) * 0.75;
+        return 100 - missChance;
     }
 
     getDamageDealt() {
@@ -428,6 +430,7 @@ class Creature extends Entity {
                     mood: this.mood,
                 },
                 behaviour: utils.cleanup(this.behaviour),
+                sneaking: this.sneaking,
                 skills: this.getSkillsPayload(),
                 recipes: this.craftingRecipes.map(recipe => recipe.getPayload(creature)),
                 buildingPlans: this.buildingPlans.map(plan => plan.getPayload(creature)),
