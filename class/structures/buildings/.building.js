@@ -1,8 +1,6 @@
 const Structure = require('../.structure');
 const Action = require('../../action');
 const Plan = require('../../plan');
-const Room = require('../../nodes/room');
-const Path = require('../../connections/.connection');
 const utils = require('../../../singletons/utils');
 
 const actions = [
@@ -70,27 +68,6 @@ const actions = [
             return true;
         }
     }),
-    new Action({
-        name: 'Enter',
-        valid(entity, creature) {
-            if (!entity.roomNode) {
-                return false;
-            }
-
-            if (entity.getNode() !== creature.getNode()) {
-                return false;
-            }
-
-            if (!creature.hasRequiredMapping(entity)) {
-                return false;
-            }
-
-            return true;
-        },
-        run(entity, creature) {
-            creature.move(entity.getRoomNode());
-        }
-    })
 ];
 
 class Building extends Structure {
@@ -135,18 +112,8 @@ class Building extends Structure {
     constructionFinished() {
         this.complete = true;
         this.integrity = 100;
-        const location = this.getNode();
 
-        const room = new Room({
-            x: location.x,
-            y: location.y,
-        });
-
-        this.setRoomNode(room);
-        room.setRoomBuilding(this);
-
-        location.getWorld().addNode(room);
-        new Path({}, this.getNode(), room);
+        // TODO: if upgrade, remove the old
     }
 
     static planFactory() {

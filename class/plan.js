@@ -12,6 +12,32 @@ const actions = [
             return true;
         },
         available(entity, creature) {
+            const node = creature.getNode();
+            const construct = entity.getConstructor();
+
+            if (
+                construct.getHomeLevel() &&
+                node
+                    .getStructures()
+                    .some(structure =>
+                        structure.getOwner() === creature &&
+                        structure.getHomeLevel() >= construct.getHomeLevel()
+                    )
+            ) {
+                return 'You already have a house in this location';
+            }
+
+            if (
+                !construct.getHomeLevel() &&
+                node
+                    .getStructures()
+                    .some(structure =>
+                        structure.constructor === construct
+                    )
+            ) {
+                return 'This building is already present in this location';
+            }
+
             if (creature.isOverburdened()) {
                 return 'You are overburdened!';
             }
@@ -49,7 +75,9 @@ const actions = [
             if (creature.actionProgress >= 100) {
                 // add resulting items
                 const construct = entity.getConstructor();
-                const structure = new construct();
+                const structure = new construct({
+                    owner: creature,
+                });
                 creature.getNode().addStructure(structure);
 
                 // remove the materials

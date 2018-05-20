@@ -5,23 +5,6 @@ const server = require('../../singletons/server');
 
 const actions = [
     new Action({
-        name: 'Exit',
-        valid(entity, creature) {
-            if (entity !== creature.getNode()) {
-                return false;
-            }
-
-            if (!entity.getRoomBuilding || !entity.getRoomBuilding()) {
-                return false;
-            }
-
-            return true;
-        },
-        run(entity, creature) {
-            creature.move(entity.getRoomBuilding().getNode());
-        }
-    }),
-    new Action({
         name: 'Travel',
         valid(entity, creature) {
             if (entity === creature.getNode()) {

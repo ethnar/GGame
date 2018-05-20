@@ -7,4 +7,7 @@ class Home extends Building {
         this.owner = args.owner;
     }
 }
+Object.assign(Home.prototype, {
+    name: '?Home?',
+});
 module.exports = global.Home = Home;

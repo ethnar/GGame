@@ -2,6 +2,14 @@ const Entity = require('../.entity');
 const utils = require('../../singletons/utils');
 
 class Structure extends Entity {
+    static getHomeLevel() {
+        return this.prototype.homeLevel;
+    }
+
+    getHomeLevel() {
+        return this.homeLevel;
+    }
+
     constructor(args) {
         super(args);
         this.integrity = 100;
@@ -21,6 +29,10 @@ class Structure extends Entity {
 
     getRequiredMapping() {
         return this.requiredMapping || 1;
+    }
+
+    getOwner() {
+        return this.owner;
     }
 
     getPayload(creature) {

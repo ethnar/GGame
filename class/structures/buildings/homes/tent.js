@@ -8,6 +8,7 @@ class Tent extends Home {
 Object.assign(Tent.prototype, {
     name: 'Tent',
     baseTime: 120,
+    homeLevel: 1,
     materials: {
         'Log': 15,
     }

@@ -395,8 +395,8 @@ class Humanoid extends Creature {
     }
 
     getEfficiency() {
-        // TODO: remove the 50 multiplier
-        const multiplier = this.sneaking ? 0.7 : 50;
+        // TODO: remove the 200 multiplier
+        const multiplier = this.sneaking ? 0.7 : 1 * 200;
         return multiplier * ((this.mood * 0.75) + 25) / 100;
     }
 
