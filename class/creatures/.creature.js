@@ -52,7 +52,7 @@ class Creature extends Entity {
         return 1;
     }
 
-    static weapon() {
+    static defaultWeapon() {
         return prod;
     }
 
@@ -109,6 +109,11 @@ class Creature extends Entity {
     equipTool(item) {
         this.tool = item;
     }
+
+    equipWeapon(item) {
+        this.weapon = item;
+    }
+
 
     getMaterials(materials) {
         return Object
@@ -206,16 +211,12 @@ class Creature extends Entity {
 
     pickUp(item) {
         const node = item.getContainer();
-        if (node !== this.getNode()) {
-            console.error('Picking item from another node!');
-        }
         console.log(`${this.getName()} picked up: ${item.getName()}`);
         node.removeItem(item);
         this.addItem(item);
     }
 
     drop(item, qty = 1) {
-        const self = item.getContainer();
         let toDrop = item;
         console.log(`${this.getName()} dropped: ${item.getName()}`);
         if (item.qty > qty) {
@@ -223,6 +224,27 @@ class Creature extends Entity {
         }
         this.removeItem(toDrop);
         this.getNode().addItem(toDrop);
+    }
+
+    putToStorage(item, qty = 1) {
+        let toDrop = item;
+        console.log(`${this.getName()} stored: ${item.getName()}`);
+        if (item.qty > qty) {
+            toDrop = item.split(qty);
+        }
+        this.removeItem(toDrop);
+        this.getHome().addItem(toDrop);
+    }
+
+    takeFromStorage(item, qty = 1) {
+        const home = item.getContainer();
+        let toPick = item;
+        console.log(`${this.getName()} stored: ${item.getName()}`);
+        if (item.qty > qty) {
+            toPick = item.split(qty);
+        }
+        this.getHome().removeItem(toPick);
+        this.addItem(toPick);
     }
 
     addItem(item) {
@@ -260,35 +282,13 @@ class Creature extends Entity {
         if (this.tool === item) {
             this.tool = null;
         }
+        if (this.weapon === item) {
+            this.weapon = null;
+        }
     }
 
     reStackItems() {
-        this.items.forEach((item1, idx1) => {
-            this.items.forEach((item2, idx2) => {
-                if (
-                    idx1 !== idx2 &&
-                    item1.constructor === item2.constructor &&
-                    item1.integrity === 100 &&
-                    item2.integrity === 100 &&
-                    item1.qty &&
-                    item2.qty &&
-                    item1.qty < item1.getMaxStack() &&
-                    item2.qty < item2.getMaxStack() &&
-                    item2 !== this.tool
-                ) {
-                    const balance = Math.min(item2.qty, item1.getMaxStack() - item1.qty);
-                    item1.qty += balance;
-                    item2.qty -= balance;
-                }
-            });
-        });
-        this.items = this.items.filter((item, idx) => {
-            if (item.qty === 0) {
-                item.setContainer(null);
-                return false;
-            }
-            return true;
-        });
+        this.items = utils.reStackItems(this.items);
     }
 
     exchangeBlows(enemy) {
@@ -306,6 +306,7 @@ class Creature extends Entity {
             this.gainSkill(SKILLS.FIGHTING, TIME_BETWEEN_BLOWS / 2);
         }
 
+        const weaponName = this.getWeapon().name || this.getWeapon().getName();
         if (
             utils.random(1, 100) <= chanceToHit &&
             utils.random(1, 100) > chanceToDodge
@@ -313,9 +314,9 @@ class Creature extends Entity {
             const damage = this.getDamageDealt();
             enemy.receiveDamage(damage);
 
-            console.log(enemy.getName() + ' received ' + damage + ' damage from ' + this.getName() + '. (' + this.getWeapon().name + ')')
+            console.log(enemy.getName() + ' received ' + damage + ' damage from ' + this.getName() + '. (' + weaponName + ')')
         } else {
-            console.log(this.getName() + ' missed ' + enemy.getName() + '!' + ' (' + this.getWeapon().name + ')');
+            console.log(this.getName() + ' missed ' + enemy.getName() + '!' + ' (' + weaponName + ')');
         }
     }
 
@@ -324,7 +325,7 @@ class Creature extends Entity {
     }
 
     getWeapon() {
-        return this.constructor.weapon();
+        return this.weapon || this.constructor.defaultWeapon();
     }
 
     getHitChance() {
@@ -385,8 +386,6 @@ class Creature extends Entity {
     }
 
     getPayload(creature) {
-        const actions = this.constructor.actions();
-        const tool = this.getTool();
         let result = {
             id: this.getId(),
             name: this.getName(),
@@ -396,11 +395,14 @@ class Creature extends Entity {
             },
         };
         if (this === creature) {
+            const tool = this.getTool();
+            const weapon = this.getWeapon();
             const recentResearches = utils.cleanup(this.recentResearches);
             result = {
                 ...result,
                 inventory: this === creature ? this.items.map(item => item.getPayload(creature)) : null,
                 tool: tool ? tool.getPayload(creature) : null,
+                weapon: weapon.getPayload ? weapon.getPayload(creature) : weapon,
                 actions: this.getActionsPayloads(creature),
                 currentAction: utils.cleanup(this.currentAction),
                 researchMaterials: Item.getMaterialsPayload(this.researchMaterials),

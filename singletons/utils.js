@@ -36,6 +36,34 @@ const utils = {
         return acc + item.qty;
     },
 
+    reStackItems(itemsList) {
+        itemsList.forEach((item1, idx1) => {
+            itemsList.forEach((item2, idx2) => {
+                if (
+                    idx1 !== idx2 &&
+                    item1.constructor === item2.constructor &&
+                    item1.integrity === 100 &&
+                    item2.integrity === 100 &&
+                    item1.qty &&
+                    item2.qty &&
+                    item1.qty < item1.getMaxStack() &&
+                    item2.qty < item2.getMaxStack()
+                ) {
+                    const balance = Math.min(item2.qty, item1.getMaxStack() - item1.qty);
+                    item1.qty += balance;
+                    item2.qty -= balance;
+                }
+            });
+        });
+        return itemsList.filter((item, idx) => {
+            if (item.qty === 0) {
+                item.setContainer(null);
+                return false;
+            }
+            return true;
+        });
+    },
+
     reportViolation() {
 
     }

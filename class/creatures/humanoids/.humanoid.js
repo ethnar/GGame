@@ -180,7 +180,7 @@ const actions = [
 ];
 
 class Humanoid extends Creature {
-    static weapon() {
+    static defaultWeapon() {
         return punch;
     }
 
@@ -206,10 +206,7 @@ class Humanoid extends Creature {
         this.craftingRecipes = [];
         this.buildingPlans = [];
         this.map = {};
-        this.researchMaterials = {
-            'SharpenedStone': 3,
-            'Log': 2,
-        };
+        this.researchMaterials = {};
         this.recentResearches = [];
     }
 
@@ -392,6 +389,16 @@ class Humanoid extends Creature {
         this.updateStealth();
         this.updateMood();
         super.cycle();
+    }
+
+    getHome() {
+        return this
+            .getNode()
+            .getStructures()
+            .find(structure =>
+                structure.getOwner() === this &&
+                structure.isComplete()
+            );
     }
 
     getEfficiency() {

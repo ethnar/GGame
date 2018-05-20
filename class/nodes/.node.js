@@ -88,6 +88,10 @@ class Node extends Entity {
         this.items.splice(idx, 1);
     }
 
+    reStackItems() {
+        this.items = utils.reStackItems(this.items);
+    }
+
     getCreatures() {
         return this.creatures;
     }
@@ -147,6 +151,7 @@ class Node extends Entity {
             result = {
                 ...result,
                 mapping: creature.getNodeMapping(this),
+                inventory: this.items.map(item => item.getPayload(creature)),
                 creatures: this.creatures
                     .filter(c => c !== creature)
                     .map(c => c.getPayload(creature))

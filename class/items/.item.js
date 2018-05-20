@@ -30,7 +30,31 @@ const actions = [
         }
     }),
     new Action({
-        name: 'Drop',
+        name: 'Equip as a Weapon',
+        valid(item, creature) {
+            if (item.getContainer() !== creature) {
+                return false;
+            }
+            if (
+                !item.damage || !item.hitChance
+            ) {
+                return false;
+            }
+            return true;
+        },
+        available(item, creature) {
+            if (creature.getWeapon() === item) {
+                return 'You already equipped this item as a weapon';
+            }
+            return true;
+        },
+        run(item, creature) {
+            creature.equipWeapon(item);
+            return false;
+        }
+    }),
+    new Action({
+        name: 'Drop', // on the ground
         valid(item, creature) {
             if (item.getContainer() !== creature) {
                 return false;
@@ -43,6 +67,80 @@ const actions = [
         run(item, creature) {
             creature.drop(item);
             creature.reStackItems();
+            creature.getNode().reStackItems();
+            return false;
+        }
+    }),
+    new Action({
+        name: 'Pick up', // from the ground
+        valid(item, creature) {
+            if (
+                !item.getContainer() ||
+                item.getContainer() !== creature.getNode()
+            ) {
+                return false;
+            }
+            return true;
+        },
+        available(item, creature) {
+            if (creature.isOverburdened()) {
+                return 'You are overburdened!';
+            }
+            return true;
+        },
+        run(item, creature) {
+            creature.pickUp(item);
+            creature.reStackItems();
+            creature.getNode().reStackItems();
+            return false;
+        }
+    }),
+    new Action({
+        name: 'Store',
+        valid(item, creature) {
+            if (item.getContainer() !== creature) {
+                return false;
+            }
+            return true;
+        },
+        available(item, creature) {
+            const home = creature.getHome();
+            if (!home) {
+                return 'You do not have storage space available in this location';
+            }
+            if (!home.hasStorageSpace()) {
+                return 'You do not have enough space to store items';
+            }
+            return true;
+        },
+        run(item, creature) {
+            creature.putToStorage(item);
+            creature.reStackItems();
+            creature.getHome().reStackItems();
+            return false;
+        }
+    }),
+    new Action({
+        name: 'Take', // out of storage
+        valid(item, creature) {
+            if (
+                !item.getContainer() ||
+                item.getContainer() !== creature.getHome()
+            ) {
+                return false;
+            }
+            return true;
+        },
+        available(item, creature) {
+            if (creature.isOverburdened()) {
+                return 'You are overburdened!';
+            }
+            return true;
+        },
+        run(item, creature) {
+            creature.takeFromStorage(item);
+            creature.reStackItems();
+            creature.getHome().reStackItems();
             return false;
         }
     })

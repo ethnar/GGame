@@ -11,4 +11,8 @@ class Stone extends Item {
         return 'Stone';
     }
 }
+Object.assign(Stone.prototype, {
+    damage: 4,
+    hitChance: 78,
+});
 module.exports = global.Stone = Stone;

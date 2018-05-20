@@ -107,17 +107,40 @@ export const MainView = {
             Satiated: <meter-bar color="orange" :value="player.status.satiated"/><br/>
             Stealth: <meter-bar color="gray" :value="player.status.stealth"/><br/>
             Mood: <meter-bar color="pink" :value="player.status.mood"/><br/>
-            Tool: {{player.tool && player.tool.name}}<br/>
+            <hr/>
             <div v-for="skill in player.skills">
                 {{skillNames[skill.id]}}: {{skillLevels[skill.level]}}
             </div>
         </div>
         <div :hidden="mode !== 'inventory'">
+            Tool: {{player.tool && player.tool.name}}<br/>
+            Weapon: {{player.weapon && player.weapon.name}}<br/>
+            <hr/>
             <div v-for="item in player.inventory">
                 {{item.name}} <span v-if="item.qty > 1">({{item.qty}})</span> <span v-if="item.integrity < 100">[{{item.integrity}}%]</span>
                 <actions
                     :target="item" 
                 />
+            </div>
+            <div v-for="structure in node.structures" v-if="structure.inventory">
+                <hr/>
+                Storage:
+                <div v-for="item in structure.inventory">
+                    {{item.name}} <span v-if="item.qty > 1">({{item.qty}})</span> <span v-if="item.integrity < 100">[{{item.integrity}}%]</span>
+                    <actions
+                        :target="item" 
+                    />
+                </div>
+            </div>
+            <div v-if="node.inventory && node.inventory.length">
+                <hr/>
+                On the ground:
+                <div v-for="item in node.inventory">
+                    {{item.name}} <span v-if="item.qty > 1">({{item.qty}})</span> <span v-if="item.integrity < 100">[{{item.integrity}}%]</span>
+                    <actions
+                        :target="item" 
+                    />
+                </div>
             </div>
         </div>
         <div :hidden="mode !== 'crafting'">
@@ -162,7 +185,7 @@ export const MainView = {
             </div>
         </div>
         <div :hidden="mode !== 'discovery'">
-            <div v-for="(material, idx) in player.researchMaterials">
+            <div v-for="(material, idx) in player.researchMaterials" v-if="material">
                 <span @click="selectResearchMaterialIdx = idx;">{{material.item.name}}</span>
                 <input type="number" v-model="material.qty" @input="updateResearchMats">
             </div>

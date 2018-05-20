@@ -11,7 +11,7 @@ class Wolf extends Animal {
         return 'Wolf';
     }
 
-    static weapon() {
+    static defaultWeapon() {
         return claws;
     }
 }
