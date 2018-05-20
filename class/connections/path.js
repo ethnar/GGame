@@ -2,7 +2,7 @@ const Connection = require('./.connection');
 
 class Path extends Connection {
     static distance() {
-        return 60;
+        return 5 * MINUTES;
     }
 
     constructor(args, nodeA, nodeB) {

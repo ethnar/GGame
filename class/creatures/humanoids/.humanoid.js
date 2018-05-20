@@ -396,7 +396,8 @@ class Humanoid extends Creature {
 
     getEfficiency() {
         // TODO: remove the 50 multiplier
-        return 50 * ((this.mood * 0.75) + 25) / 100;
+        const multiplier = this.sneaking ? 0.7 : 50;
+        return multiplier * ((this.mood * 0.75) + 25) / 100;
     }
 
     getHungerRate() {

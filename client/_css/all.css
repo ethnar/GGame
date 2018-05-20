@@ -76,7 +76,7 @@ pre {
     top: 50%;
     background-image: url("../resources/Arcannan.jpg");
     background-position: -1000px -1109px;
-    border-radius: 60px; }
+    border-radius: 20px; }
     .container .draggable-map .node-token {
       position: absolute;
       border: 1px solid lightgrey;
