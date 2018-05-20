@@ -80,6 +80,7 @@ class Node extends Entity {
 
     addItem(item) {
         this.items.push(item);
+        item.perishing = 15 * MINUTES;
         item.setContainer(this);
     }
 
@@ -197,6 +198,12 @@ class Node extends Entity {
     cycle() {
         this.structures.forEach(structure => structure.cycle());
         this.creatures.forEach(creature => creature.cycle());
+        this.items.forEach(item => {
+            item.perishing -= 1;
+            if (item.perishing === 0) {
+                item.destroy();
+            }
+        })
     }
 }
 module.exports = global.Node = Node;
