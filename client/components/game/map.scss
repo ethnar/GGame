@@ -9,11 +9,16 @@
     position: absolute;
     left: 50%;
     top: 50%;
+    background-image: url('../resources/Arcannan.jpg');
+    //background-position: -2060px -2212px;
+    //background-size: 5016px;
+    background-position: -1030px -1139px;
+    //background-size: 5016px;
 
     .node-token {
-      $size: 40px;
+      $size: 30px;
       position: absolute;
-      border: 1px solid grey;
+      border: 1px solid limegreen;
       width: $size;
       height: $size;
       margin-left: -$size / 2;
