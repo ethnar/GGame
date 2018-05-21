@@ -34,7 +34,7 @@ button {
   display: inline-block;
   height: 10px;
   border: 1px solid lightgray;
-  width: 400px;
+  width: 100%;
   float: right; }
   .meter-bar .fill {
     height: 100%;

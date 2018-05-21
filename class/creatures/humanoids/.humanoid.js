@@ -110,7 +110,7 @@ const actions = [
                     if (researchResult.matchingCounts === researchResult.matchesNeeded) {
                         researchResult.result = ingredientsMatch.name;
 
-                        if (ingredientsMatch instanceof Recipe) {
+                        if (ingredientsMatch.prototype instanceof Item) {
                             creature.learnCrafting(ingredientsMatch);
                         } else {
                             creature.learnBuilding(ingredientsMatch.planFactory());
