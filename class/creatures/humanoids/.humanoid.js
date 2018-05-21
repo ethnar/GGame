@@ -2,6 +2,7 @@ const Creature = require('../.creature');
 const utils = require('../../../singletons/utils');
 const server = require('../../../singletons/server');
 
+const SharpenedStone = require('../../items/equipment/sharpened-stone');
 const StoneHammer = require('../../items/equipment/stone-hammer');
 const StonePick = require('../../items/equipment/stone-pick');
 const StoneHatchet = require('../../items/equipment/stone-hatchet');
@@ -11,6 +12,7 @@ const CookedMeat = require('../../items/edibles/cooked-meat');
 const Fireplace = require('../../structures/buildings/fireplace');
 
 const researchTechs = [
+    SharpenedStone,
     StoneHammer,
     StonePick,
     StoneHatchet,

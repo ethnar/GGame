@@ -1,8 +1,18 @@
 const Home = require('./.home');
+const utils = require('../../../../singletons/utils');
+
+const research = {
+    materials: {
+        'Log': utils.random(1, 5),
+        'Hide': utils.random(1, 5),
+    },
+    skill: SKILLS.CRAFTING,
+    level: 0,
+};
 
 class Tent extends Home {
-    constructor(args) {
-        super(args);
+    static research() {
+        return research;
     }
 }
 Object.assign(Tent.prototype, {
