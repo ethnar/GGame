@@ -1,19 +1,22 @@
 const Building = require('./.building');
+const utils = require('../../../singletons/utils');
+
+const research = {
+    materials: {
+        'Log': utils.random(1, 5),
+    },
+    skill: SKILLS.COOKING,
+    level: 0,
+};
 
 class Fireplace extends Building {
     static research() {
-        return {
-            materials: {
-                'Log': 4,
-            },
-            skill: SKILLS.COOKING,
-            level: 0,
-        };
+        return research;
     }
 }
 Object.assign(Fireplace.prototype, {
     name: 'Fireplace',
-    baseTime: 120,
+    baseTime: 3 * MINUTES,
     materials: {
         'Log': 10,
     }

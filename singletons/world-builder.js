@@ -3,8 +3,8 @@ const Path = require('../class/connections/path');
 const Glade = require('../class/nodes/glade');
 const Cave = require('../class/nodes/cave');
 const Forest = require('../class/nodes/forest');
-const Stone = require('../class/items/tools/stone');
-const SharpenedStone = require('../class/items/tools/sharpened-stone');
+const Stone = require('../class/items/equipment/stone');
+const SharpenedStone = require('../class/items/equipment/sharpened-stone');
 const Twig = require('../class/items/twig');
 const Strawberries = require('../class/resources/plants/strawberries');
 const Pebbles = require('../class/resources/pebbles');
@@ -224,6 +224,14 @@ module.exports = {
         urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log);
         urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log);
         urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log);
+
+        urist.addItemByType(Meat);
+        urist.addItemByType(Meat);
+        urist.addItemByType(Meat);
+        urist.addItemByType(Meat);
+
+        urist.learnCrafting(CookedMeat);
+        urist.learnBuilding(Fireplace.planFactory());
 
         // const topLeft = new Glade({
         //     x: -17,

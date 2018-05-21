@@ -78,6 +78,15 @@ class Node extends Entity {
         this.structures.splice(idx, 1);
     }
 
+    hasStructure(structureName) {
+        return this
+            .getStructures()
+            .some(structure =>
+                structure.getName() === structureName &&
+                structure.isComplete()
+            );
+    }
+
     addItem(item) {
         this.items.push(item);
         item.perishing = 15 * MINUTES;

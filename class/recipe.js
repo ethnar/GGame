@@ -16,6 +16,11 @@ const actions = [
                 return 'You are overburdened!';
             }
 
+            const requiredBuilding = entity.building;
+            if (requiredBuilding && !creature.getNode().hasStructure(requiredBuilding)) {
+                return `You need ${requiredBuilding} to craft this item.`;
+            }
+
             if (!creature.getToolMultiplier(entity.toolUtility)) {
                 return 'You need to equip the right tool';
             }

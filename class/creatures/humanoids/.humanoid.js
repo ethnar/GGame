@@ -2,24 +2,32 @@ const Creature = require('../.creature');
 const utils = require('../../../singletons/utils');
 const server = require('../../../singletons/server');
 
-const StoneHatchet = require('../../items/tools/stone-hatchet');
+const StoneHammer = require('../../items/equipment/stone-hammer');
+const StonePick = require('../../items/equipment/stone-pick');
+const StoneHatchet = require('../../items/equipment/stone-hatchet');
+const StoneKnife = require('../../items/equipment/stone-knife');
+const StoneSpear = require('../../items/equipment/stone-spear');
 const CookedMeat = require('../../items/edibles/cooked-meat');
 const Fireplace = require('../../structures/buildings/fireplace');
+
+const researchTechs = [
+    StoneHammer,
+    StonePick,
+    StoneHatchet,
+    StoneKnife,
+    StoneSpear,
+    CookedMeat,
+    Fireplace,
+];
 
 const MAX_SKILL = 2000000;
 const MAX_SKILL_SPEED_MULTIPLIER = 3;
 const CARRY_CAPACITY = 10;
 
-const researchTechs = [
-    StoneHatchet,
-    CookedMeat,
-    Fireplace,
-];
-
 const punch = {
     name: 'Punch',
     damage: 3,
-    hitChance: 80
+    hitChance: 75
 };
 
 const actions = [

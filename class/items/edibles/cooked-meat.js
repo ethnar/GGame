@@ -1,4 +1,14 @@
 const Edible = require('./.edible');
+const utils = require('../../../singletons/utils');
+
+const research = {
+    materials: {
+        'Meat': utils.random(1, 5),
+        'Log': utils.random(1, 5),
+    },
+    skill: SKILLS.COOKING,
+    level: 0,
+};
 
 class CookedMeat extends Edible {
     static entityName() {
@@ -27,14 +37,7 @@ class CookedMeat extends Edible {
     }
 
     static research() {
-        return {
-            materials: {
-                'Meat': 4,
-                'Log': 2,
-            },
-            skill: SKILLS.CRAFTING,
-            level: 0,
-        };
+        return research;
     }
 }
 module.exports = global.CookedMeat = CookedMeat;

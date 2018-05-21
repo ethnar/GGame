@@ -8,7 +8,7 @@ class Trees extends Resource {
 }
 Object.assign(Trees.prototype, {
     skill: SKILLS.WOODCUTTING,
-    toolUtility: TOOL_UTILS.CUTTING,
+    toolUtility: TOOL_UTILS.WOODCUTTING,
     produces: Log,
     baseTime: 80,
     effort: 1.5,

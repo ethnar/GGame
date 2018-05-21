@@ -65,8 +65,9 @@ global.DAYS = 24 * HOURS;
  */
 
 global.TOOL_UTILS = {
-    CUTTING: 1,
-    HAMMER: 2,
-    HUNTING: 3,
-    MINING: 4,
+    WOODCUTTING: 1,
+    CUTTING: 2,
+    HAMMER: 3,
+    HUNTING: 4,
+    MINING: 5,
 };

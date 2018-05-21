@@ -1,5 +1,5 @@
 const Resource = require('./.resource');
-const Stone = require('../items/tools/stone');
+const Stone = require('../items/equipment/stone');
 
 class Pebbles extends Resource {
     static entityName() {
