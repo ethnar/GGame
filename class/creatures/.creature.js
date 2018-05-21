@@ -56,6 +56,14 @@ class Creature extends Entity {
         return prod;
     }
 
+    /**
+     * Armour can be treated like a multiplier for hitpoints. Minimum 1.
+     * Armor 2 = 200 hitpoints, 10 = 1000 hitpoints
+     */
+    static defaultArmour() {
+        return 1;
+    }
+
     constructor(args) {
         super(args);
         this.health = 100;
@@ -315,7 +323,7 @@ class Creature extends Entity {
             utils.random(1, 100) <= chanceToHit &&
             utils.random(1, 100) > chanceToDodge
         ) {
-            const damage = this.getDamageDealt();
+            const damage = this.getDamageDealt() * (1 / Math.max(enemy.getArmour(), 0.1));
 
             console.log(enemy.getName() + ' received ' + damage + ' damage from ' + this.getName() + '. (' + weaponName + ')')
 
@@ -333,6 +341,10 @@ class Creature extends Entity {
         return this.weapon || this.constructor.defaultWeapon();
     }
 
+    getArmour() {
+        return this.armour || this.constructor.defaultArmour();
+    }
+
     getHitChance() {
         let missChance = 100 - this.getWeapon().hitChance;
         if (this.getSkillLevel) {
@@ -343,10 +355,6 @@ class Creature extends Entity {
 
     getDamageDealt() {
         return this.getEfficiency() * utils.random(1, this.getWeapon().damage) / 10;
-    }
-
-    getArmour() {
-        return 0;
     }
 
     getSkillMultiplier() {

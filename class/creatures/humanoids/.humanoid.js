@@ -3,13 +3,17 @@ const utils = require('../../../singletons/utils');
 const server = require('../../../singletons/server');
 
 const StoneHatchet = require('../../items/tools/stone-hatchet');
+const CookedMeat = require('../../items/edibles/cooked-meat');
+const Fireplace = require('../../structures/buildings/fireplace');
 
 const MAX_SKILL = 2000000;
 const MAX_SKILL_SPEED_MULTIPLIER = 3;
 const CARRY_CAPACITY = 10;
 
-const craftableItems = [
+const researchTechs = [
     StoneHatchet,
+    CookedMeat,
+    Fireplace,
 ];
 
 const punch = {
@@ -52,11 +56,11 @@ const actions = [
             return true;
         },
         run(entity, creature) {
-            creature.actionProgress += creature.getEfficiency() * 100 / (60 * 60);
+            creature.actionProgress += creature.getEfficiency() * 100 / (15 * MINUTES);
 
             if (creature.actionProgress >= 100) {
 
-                const availableCrafting = craftableItems
+                const availableCrafting = researchTechs
                     .filter(contr => !creature.knowsCrafting(contr));
 
                 const researchMaterials = utils.cleanup(creature.researchMaterials);
@@ -96,7 +100,11 @@ const actions = [
                     if (researchResult.matchingCounts === researchResult.matchesNeeded) {
                         researchResult.result = ingredientsMatch.name;
 
-                        creature.learnCrafting(ingredientsMatch);
+                        if (ingredientsMatch instanceof Recipe) {
+                            creature.learnCrafting(ingredientsMatch);
+                        } else {
+                            creature.learnBuilding(ingredientsMatch.planFactory());
+                        }
                     }
                 }
 
@@ -401,6 +409,7 @@ class Humanoid extends Creature {
             .getStructures()
             .find(structure =>
                 structure.getOwner() === this &&
+                structure.isHome() &&
                 structure.isComplete()
             );
     }

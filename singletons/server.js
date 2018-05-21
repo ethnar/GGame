@@ -245,8 +245,7 @@ expressApp
                 name: params.name
             });
             startingNode.addCreature(dwarf);
-            dwarf.learnCrafting(SharpenedStone);
-            dwarf.learnBuilding(Tent.planFactory());
+
             new Player(params.name, params.password, dwarf);
 
             res.send();

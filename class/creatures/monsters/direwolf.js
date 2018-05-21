@@ -2,17 +2,21 @@ const Monster = require('./.monsters');
 
 const claws = {
     name: 'Claws',
-    damage: 6,
+    damage: 9,
     hitChance: 85
 };
 
-class Wolf extends Monster {
+class Direwolf extends Monster {
     static entityName() {
-        return 'Wolf';
+        return 'Direwolf';
     }
 
     static defaultWeapon() {
         return claws;
     }
+
+    static defaultArmour() {
+        return 1.5;
+    }
 }
-module.exports = global.Wolf = Wolf;
+module.exports = global.Direwolf = Direwolf;

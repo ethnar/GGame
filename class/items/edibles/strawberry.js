@@ -1,6 +1,6 @@
-const Herb = require('./.edible');
+const Edible = require('./.edible');
 
-class Strawberry extends Herb {
+class Strawberry extends Edible {
     static entityName() {
         return 'Strawberry';
     }
@@ -10,7 +10,11 @@ class Strawberry extends Herb {
     }
 
     static nutrition() {
-        return 3;
+        return 1;
     }
 }
+Object.assign(Strawberry.prototype, {
+    maxStack: 50,
+});
+
 module.exports = global.Strawberry = Strawberry;

@@ -8,7 +8,7 @@ const SharpenedStone = require('../class/items/tools/sharpened-stone');
 const Twig = require('../class/items/twig');
 const Strawberries = require('../class/resources/plants/strawberries');
 const Pebbles = require('../class/resources/pebbles');
-const Rabbits = require('../class/resources/rabbits');
+const Rabbits = require('../class/resources/animals/rabbits');
 const Trees = require('../class/resources/trees');
 const Tent = require('../class/structures/buildings/homes/tent');
 const WolfMother = require('../class/creatures/monsters/spawners/wolf-mother');
@@ -57,7 +57,7 @@ module.exports = {
             n( 1.1,  -1.4),
             n( 1.8,  -1.45),
             n(-0.5,  -0.85),
-            n(-1.2,  -0.7, 'c'),
+            n(-1.2,  -0.7,  'c'),
             n( 0.4,  -1.2),
             n( 0.1,  -0.55),
             n( 0.8,  -0.6),
@@ -133,6 +133,7 @@ module.exports = {
             '8->7, 1',
             '2->7, 1',
             '2->3, 1',
+            '2->1, 1',
             '7->3, 1',
             '7->9, 1',
             '8->9, 1',
@@ -192,6 +193,8 @@ module.exports = {
         //
         // dangerousForest.addCreature(new WolfMother());
 
+        // sf_center.addCreature(new WolfMother());
+
         sf_center.addStructure(new Menhir());
 
         world.addNode(sf_center);
@@ -205,19 +208,33 @@ module.exports = {
         const player = new Player('test', 'test', urist);
         player.godMode = true;
 
-        urist.learnCrafting(SharpenedStone);
-        urist.learnBuilding(Tent.planFactory());
+        sf_center.addResource(new Rabbits({
+            size: 3,
+        }));
+        urist.addItemByType(SharpenedStone);
+        urist.addItemByType(Stone);
+        urist.addItemByType(Log);
+        urist.addItemByType(Log);
+        urist.addItemByType(Log);
+        urist.addItemByType(Log);
+        urist.addItemByType(Log);
+        urist.addItemByType(Log);
+        urist.addItemByType(Log);
+        urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log);
+        urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log);
+        urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log);
+        urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log);
 
-        const topLeft = new Glade({
-            x: -17,
-            y: -18,
-        });
-        const bottomRight = new Glade({
-            x: 23,
-            y: 12,
-        });
-        world.addNode(topLeft);
-        world.addNode(bottomRight);
+        // const topLeft = new Glade({
+        //     x: -17,
+        //     y: -18,
+        // });
+        // const bottomRight = new Glade({
+        //     x: 23,
+        //     y: 12,
+        // });
+        // world.addNode(topLeft);
+        // world.addNode(bottomRight);
 
         return world;
     },

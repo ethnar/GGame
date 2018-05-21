@@ -1,8 +1,17 @@
 const Resource = require('./.resource');
+const Boulder = require('../items/boulder');
 
-class Boulder extends Resource {
+class Boulders extends Resource {
     static entityName() {
-        return 'Boulder';
+        return 'Boulders';
     }
 }
-module.exports = global.Boulder = Boulder;
+Object.assign(Boulders.prototype, {
+    skill: SKILLS.MINING,
+    toolUtility: TOOL_UTILS.MINING,
+    produces: Boulder,
+    baseTime: 100,
+    effort: 1.8,
+});
+
+module.exports = global.Boulders = Boulders;

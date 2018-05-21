@@ -28,7 +28,7 @@ const actions = [
                 creature.getSkillMultiplier(entity.skill) *
                 creature.getEfficiency();
 
-            creature.actionProgress += progress  * 100 / entity.baseTime;
+            creature.actionProgress += entity.size * progress  * 100 / entity.baseTime;
 
             const tool = creature.getTool();
             if (tool && entity.toolUtility) {

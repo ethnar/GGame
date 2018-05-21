@@ -15,6 +15,10 @@ class Structure extends Entity {
         this.integrity = 100;
     }
 
+    isHome() {
+        return !!this.getHomeLevel();
+    }
+
     setNode(node) {
         this.node = node;
     }
@@ -47,6 +51,13 @@ class Structure extends Entity {
 
     cycle() {
 
+    }
+
+    static getPayload() {
+        return {
+            name: this.name || this.entityName(),
+            buildingCode: this.name,
+        };
     }
 }
 module.exports = global.Structure = Structure;

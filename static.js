@@ -66,5 +66,7 @@ global.DAYS = 24 * HOURS;
 
 global.TOOL_UTILS = {
     CUTTING: 1,
-    HAMMER: 2
+    HAMMER: 2,
+    HUNTING: 3,
+    MINING: 4,
 };

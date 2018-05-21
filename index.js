@@ -14,8 +14,8 @@ global.world = worldBuilder.buildNewWorld();
 console.log('*** Start ***');
 
 setInterval(() => {
-    console.time('cycle');
+    // console.time('cycle');
     world.cycle();
     server.updatePlayers();
-    console.timeEnd('cycle');
-}, 1000);
+    // console.timeEnd('cycle');
+}, 10);

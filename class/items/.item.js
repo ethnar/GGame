@@ -61,9 +61,6 @@ const actions = [
             }
             return true;
         },
-        available(item, creature) {
-            return true;
-        },
         run(item, creature) {
             creature.drop(item);
             creature.reStackItems();

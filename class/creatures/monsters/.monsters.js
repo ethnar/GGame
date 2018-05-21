@@ -1,6 +1,6 @@
 const Creature = require('../.creature');
 
-class Monsters extends Creature {
+class Monster extends Creature {
     cycle() {
         if (this.hasEnemies() && !this.currentAction) {
             this.startAction(this, this.getActionByName('Fight'));
@@ -8,7 +8,7 @@ class Monsters extends Creature {
         super.cycle();
     }
 }
-Object.assign(Monsters.prototype, {
+Object.assign(Monster.prototype, {
     faction: 'monsters',
 });
-module.exports = global.Animal = Monsters;
+module.exports = global.Monster = Monster;

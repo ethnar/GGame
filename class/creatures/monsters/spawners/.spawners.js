@@ -105,11 +105,11 @@ class Spawners extends Monsters {
                     }
 
                     const target = validTargets[utils.random(0, validTargets.length - 1)];
-                    console.log(creature.getId(), 'goes to', target.name);
+                    console.log(creature.getId(), 'goes to', target.getId());
                     creature.move(target);
                 });
             }
         });
     }
 }
-module.exports = global.Spawner = Spawners;
+module.exports = global.Spawners = Spawners;
