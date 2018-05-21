@@ -205,7 +205,7 @@ module.exports = {
             '29, Trees, S, 1',
             '28, Trees, S, 1',
             '26, Trees, S, 1',
-        ], false);
+        ]);
 
         // Pebbles
         resource(sf, [
@@ -221,7 +221,7 @@ module.exports = {
             '20, Pebbles, S, 1',
             '21, Pebbles, S, 1',
             '23, Pebbles, S, 1',
-        ], false);
+        ]);
 
         // Animals
         resource(sf, [
@@ -235,7 +235,7 @@ module.exports = {
             '0, Deers, M, 5',
             '29, Deers, S, 2',
             '29, Deers, L, 5',
-        ], false);
+        ]);
 
         // Plants
         resource(sf, [
