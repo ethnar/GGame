@@ -7,12 +7,6 @@ export const RegisterView = {
         error: ''
     }),
 
-    created() {
-        // TODO: remove
-        this.user = 'test';
-        this.password = 'test';
-    },
-
     methods: {
         goToLogin() {
             window.location.hash = '/login';
