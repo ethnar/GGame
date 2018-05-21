@@ -26,6 +26,9 @@ class Entity {
     }
 
     constructor(args) {
+        while (entityMap[id]) {
+            id += 1;
+        }
         this.id = id;
         entityMap[id] = this;
         id++;
