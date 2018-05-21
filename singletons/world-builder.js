@@ -9,9 +9,11 @@ const Twig = require('../class/items/twig');
 const Strawberries = require('../class/resources/plants/strawberries');
 const Pebbles = require('../class/resources/pebbles');
 const Rabbits = require('../class/resources/animals/rabbits');
+const Deers = require('../class/resources/animals/deers');
 const Trees = require('../class/resources/trees');
 const Tent = require('../class/structures/buildings/homes/tent');
 const WolfMother = require('../class/creatures/monsters/spawners/wolf-mother');
+const GoblinKing = require('../class/creatures/monsters/spawners/goblin-king');
 const Player = require('../class/player');
 const Dwarf = require('../class/creatures/humanoids/dwarf');
 const Menhir = require('../class/structures/menhir');
@@ -41,6 +43,27 @@ const connect = (nodes, links) => {
             throw new Error('OI! Path exists' + link);
         }
         new Path({ requiredMapping }, nodes[from], nodes[to]);
+    });
+};
+
+const resource = (nodes, resources, include = true) => {
+    if (!include) {
+        return;
+    }
+    resources.forEach(resource => {
+        const [ where, what, size, hidden ] = resource.replace(/ /g, '').split(',');
+        const sizes = {
+            L: 3,
+            M: 2,
+            S: 1,
+        };
+        if (!global[what]) {
+            console.error(what);
+        }
+        nodes[where].addResource(new global[what]({
+            requiredMapping: +hidden,
+            size: sizes[size],
+        }));
     });
 };
 
@@ -89,9 +112,6 @@ module.exports = {
             n( 1.4,   1.3,  'f'),
             n( 1.45,  2.0),
         ];
-
-        // sf.forEach((n, idx) => n.icon = n.constructor.name[0]);
-        sf.forEach((n, idx) => n.icon = idx);
 
         connect(sf, [
             '5->6, 5',
@@ -162,6 +182,114 @@ module.exports = {
             '17->33, 1',
         ]);
 
+        // Trees
+        resource(sf, [
+            '14, Trees, S, 1',
+            '15, Trees, S, 1',
+            '16, Trees, S, 1',
+            '16, Trees, M, 3',
+            '0, Trees, M, 2',
+            '0, Trees, S, 1',
+            '1, Trees, S, 1',
+            '10, Trees, S, 1',
+            '3, Trees, S, 1',
+            '4, Trees, S, 1',
+            '34, Trees, S, 1',
+            '35, Trees, S, 1',
+            '32, Trees, S, 1',
+            '31, Trees, S, 1',
+            '30, Trees, S, 1',
+            '30, Trees, L, 3',
+            '35, Trees, M, 2',
+            '26, Trees, M, 2',
+            '29, Trees, S, 1',
+            '28, Trees, S, 1',
+            '26, Trees, S, 1',
+        ], false);
+
+        // Pebbles
+        resource(sf, [
+            '14, Pebbles, S, 1',
+            '5, Pebbles, S, 1',
+            '36, Pebbles, S, 1',
+            '13, Pebbles, S, 1',
+            '13, Pebbles, L, 2',
+            '6, Pebbles, L, 1',
+            '12, Pebbles, S, 1',
+            '27, Pebbles, S, 1',
+            '27, Pebbles, M, 2',
+            '20, Pebbles, S, 1',
+            '21, Pebbles, S, 1',
+            '23, Pebbles, S, 1',
+        ], false);
+
+        // Animals
+        resource(sf, [
+            '9, Rabbits, S, 3',
+            '16, Rabbits, S, 2',
+            '25, Rabbits, S, 2',
+            '25, Rabbits, L, 4',
+            '34, Rabbits, S, 2',
+            '16, Deers, S, 4',
+            '1, Deers, S, 3',
+            '0, Deers, M, 5',
+            '29, Deers, S, 2',
+            '29, Deers, L, 5',
+        ], false);
+
+        // Plants
+        resource(sf, [
+            '14, Strawberries, S, 2',
+            '9, Strawberries, S, 2',
+            '5, Strawberries, S, 2',
+            '3, Strawberries, S, 2',
+            '4, Strawberries, S, 2',
+            '18, Strawberries, S, 2',
+            '25, Strawberries, S, 2',
+            '24, Strawberries, S, 2',
+            '34, Strawberries, S, 2',
+            '20, Strawberries, M, 3',
+        ]);
+
+        sf[31].addCreature(new WolfMother());
+        sf[4].addCreature(new WolfMother());
+        sf[0].addCreature(new WolfMother());
+
+        sf[22].addCreature(new GoblinKing());
+
+        sf_center.addStructure(new Menhir());
+
+
+        // const urist = new Dwarf({
+        //     name: 'Urist'
+        // });
+        //
+        // sf_center.addCreature(urist);
+        //
+        // const player = new Player('test', 'test', urist);
+        // player.godMode = true;
+
+
+        // sf.forEach((n, idx) => n.icon = n.constructor.name[0] + n.resources.length + '_' + idx);
+        // sf.forEach((n, idx) => n.icon = n.constructor.name[0] + n.resources.length);
+        // sf.forEach((n, idx) => n.icon = idx);
+
+        // const markDanger = (n, range) => {
+        //     n.icon = Math.max(range, n.icon || 0) || '';
+        //     if (range > 1) {
+        //         n.getConnectedNodes()
+        //             .forEach(nn => markDanger(nn, range - 1));
+        //     }
+        // };
+        //
+        // sf.forEach((n, idx) => {
+        //     const range = n.creatures.reduce((a, i) => Math.max(
+        //         a,
+        //         i.spawnGroups ? i.spawnGroups.reduce((a, sg) => Math.max(a, sg.range), 0) : 0
+        //     ), 0);
+        //     markDanger(n, range);
+        // });
+
         // startingForest.addResource(new Forest({
         //     size: 1,
         // }));
@@ -192,46 +320,32 @@ module.exports = {
         // });
         //
         // dangerousForest.addCreature(new WolfMother());
-
         // sf_center.addCreature(new WolfMother());
 
-        sf_center.addStructure(new Menhir());
-
-        world.addNode(sf_center);
-
-        const urist = new Dwarf({
-            name: 'Urist'
-        });
-
-        sf_center.addCreature(urist);
-
-        const player = new Player('test', 'test', urist);
-        player.godMode = true;
-
-        sf_center.addResource(new Rabbits({
-            size: 3,
-        }));
-        urist.addItemByType(SharpenedStone);
-        urist.addItemByType(Stone);
-        urist.addItemByType(Log);
-        urist.addItemByType(Log);
-        urist.addItemByType(Log);
-        urist.addItemByType(Log);
-        urist.addItemByType(Log);
-        urist.addItemByType(Log);
-        urist.addItemByType(Log);
-        urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log);
-        urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log);
-        urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log);
-        urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log);
-
-        urist.addItemByType(Meat);
-        urist.addItemByType(Meat);
-        urist.addItemByType(Meat);
-        urist.addItemByType(Meat);
-
-        urist.learnCrafting(CookedMeat);
-        urist.learnBuilding(Fireplace.planFactory());
+        // sf_center.addResource(new Rabbits({
+        //     size: 3,
+        // }));
+        // urist.addItemByType(SharpenedStone);
+        // urist.addItemByType(Stone);
+        // urist.addItemByType(Log);
+        // urist.addItemByType(Log);
+        // urist.addItemByType(Log);
+        // urist.addItemByType(Log);
+        // urist.addItemByType(Log);
+        // urist.addItemByType(Log);
+        // urist.addItemByType(Log);
+        // urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log);
+        // urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log);
+        // urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log);
+        // urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log); urist.addItemByType(Log);
+        //
+        // urist.addItemByType(Meat);
+        // urist.addItemByType(Meat);
+        // urist.addItemByType(Meat);
+        // urist.addItemByType(Meat);
+        //
+        // urist.learnCrafting(CookedMeat);
+        // urist.learnBuilding(Fireplace.planFactory());
 
         // const topLeft = new Glade({
         //     x: -17,

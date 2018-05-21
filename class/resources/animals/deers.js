@@ -14,4 +14,4 @@ Object.assign(Deers.prototype, {
     effort: 1,
 });
 
-module.exports = global.Rabbits = Deers;
+module.exports = global.Deers = Deers;

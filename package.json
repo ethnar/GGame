@@ -9,6 +9,7 @@
   "author": "Arek Bisaga",
   "license": "ISC",
   "dependencies": {
+    "commander": "^2.15.1",
     "crypto": "^1.0.1",
     "express": "^4.16.2",
     "http-proxy-middleware": "^0.17.4",

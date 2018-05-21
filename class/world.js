@@ -27,7 +27,14 @@ class World {
         this.currentTime = new Date(this.currentTime.getTime() + 1000);
         this.nodes.forEach(node => node.cycle());
 
-        this.save('save.data');
+        this.save('rolling_save.json');
+
+        if (
+            this.currentTime.getMinutes() === 0 &&
+            this.currentTime.getSeconds() === 0
+        ) {
+            this.save(this.currentTime.toISOString().replace(/[^0-9A-Za-z]/g, '_') + '_save.json');
+        }
     }
 
     save(filename) {
@@ -39,11 +46,11 @@ class World {
         });
 
         const serialized = necro.stringify(this);
-        fs.writeFileSync(filename, serialized);
+        fs.writeFileSync('.saves/' + filename, serialized);
     }
 
     static load(filename) {
-        const serialised = fs.readFileSync(filename);
+        const serialised = fs.readFileSync('.saves/' + filename);
         const world = necro.resurrect(serialised);
         Entity.setEntityMap(world.entityMap);
 

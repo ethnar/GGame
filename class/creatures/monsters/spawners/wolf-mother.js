@@ -25,14 +25,14 @@ Object.assign(WolfMother.prototype, {
     spawnGroups: [{
         creature: 'Wolf',
         limit: 5,
-        range: 4,
-        movementDelay: 15 * MINUTES,
-        spawnDelay: 1 * HOURS,
+        range: 3,
+        movementDelay: 1 * HOURS,
+        spawnDelay: 4 * HOURS,
     }, {
         creature: 'Direwolf',
         limit: 3,
         range: 0,
-        spawnDelay: 15 * MINUTES,
+        spawnDelay: 1 * HOURS,
     }],
 });
 module.exports = global.WolfMother = WolfMother;
