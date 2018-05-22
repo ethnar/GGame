@@ -1,4 +1,5 @@
 import {ServerService} from '../../services/server.js';
+import {ContextMenu} from '../generic/context-menu.js';
 import '../game/map.js';
 import '../game/actions.js';
 
@@ -58,6 +59,50 @@ Vue.component('meter-bar', {
     `,
 });
 
+Vue.component('item-icon', {
+    props: {
+        src: String,
+        qty: {
+            type: Number,
+            default: 1,
+        },
+        integrity: {
+            type: Number,
+            default: 100,
+        }
+    },
+
+    methods: {
+        onClick(event) {
+            this.$emit('click', event);
+        }
+    },
+
+    template: `
+<div class="item-icon" @click="onClick">
+    <img :src="src">
+    <span class="qty" v-if="qty > 1">{{qty}}</span>
+    <span class="integrity" v-if="integrity < 100">{{integrity}}%</span>
+</div>
+    `,
+});
+
+Vue.component('item', {
+    props: [
+        'data',
+    ],
+
+    methods: {
+        contextMenu() {
+            ContextMenu.open(this.data.name, this.data);
+        }
+    },
+
+    template: `
+<item-icon :src="data.icon" :qty="data.qty" :integrity="data.integrity" @click="contextMenu();"></item-icon>
+    `,
+});
+
 export const MainView = {
     data: () => ({
         mode: 'stats',
@@ -75,6 +120,13 @@ export const MainView = {
     },
 
     created () {
+    },
+
+    computed: {
+        emptySlots() {
+            const length = Math.max(10 - this.player.inventory.length, 0);
+            return new Array(length);
+        }
     },
 
     methods: {
@@ -137,30 +189,22 @@ export const MainView = {
             Tool: {{player.tool && player.tool.name}}<br/>
             Weapon: {{player.weapon && player.weapon.name}}<br/>
             <hr/>
-            <div v-for="item in player.inventory">
-                {{item.name}} <span v-if="item.qty > 1">({{item.qty}})</span> <span v-if="item.integrity < 100">[{{item.integrity}}%]</span>
-                <actions
-                    :target="item" 
-                />
+            <div class="item-list">
+                <item v-for="item in player.inventory" :data="item" :key="item.id"></item>
+                <item-icon v-for="emptySlot in emptySlots"></item-icon>
             </div>
             <div v-for="structure in node.structures" v-if="structure.inventory">
                 <hr/>
                 Storage:
-                <div v-for="item in structure.inventory">
-                    {{item.name}} <span v-if="item.qty > 1">({{item.qty}})</span> <span v-if="item.integrity < 100">[{{item.integrity}}%]</span>
-                    <actions
-                        :target="item" 
-                    />
+                <div class="item-list">
+                    <item v-for="item in structure.inventory" :data="item" :key="item.id"></item>
                 </div>
             </div>
             <div v-if="node.inventory && node.inventory.length">
                 <hr/>
                 On the ground:
-                <div v-for="item in node.inventory">
-                    {{item.name}} <span v-if="item.qty > 1">({{item.qty}})</span> <span v-if="item.integrity < 100">[{{item.integrity}}%]</span>
-                    <actions
-                        :target="item" 
-                    />
+                <div class="item-list">
+                    <item v-for="item in node.inventory" :data="item" :key="item.id"></item>
                 </div>
             </div>
         </div>
@@ -274,6 +318,7 @@ export const MainView = {
             :class="{ active: mode === 'discovery' }"
         >D</div>
     </div>
+    <context-menu></context-menu>
 </div>
 `,
 };

@@ -91,6 +91,7 @@ class Recipe extends Entity {
             id: this.getId(),
             name: this.getName(),
             materials: this.getMaterials(),
+            icon: this.getIcon(creature),
             actions: this.getActionsPayloads(creature),
         }
     }

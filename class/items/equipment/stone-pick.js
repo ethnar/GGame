@@ -38,6 +38,10 @@ class StonePick extends Item {
     static entityName() {
         return 'Stone Pick';
     }
+
+    static icon() {
+        return '/items/stone-pick.png';
+    }
 }
 Object.assign(StonePick.prototype, {
     damage: 6,

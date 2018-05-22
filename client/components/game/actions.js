@@ -32,6 +32,8 @@ Vue.component('actions', {
             ServerService.request('action', {
                 action: action.id,
                 target: targetId,
+            }).then(() => {
+                this.$emit('action');
             });
         }
     },

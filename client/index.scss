@@ -29,6 +29,9 @@ button {
 .action {
   border: 2px solid lightgray;
   background-color: #f8f8f8;
+  height: 40px;
+  margin: 6px 0;
+  font-size: 90%;
 
   &:focus {
     outline: none;
@@ -52,6 +55,72 @@ button {
   .fill {
     height: 100%;
     transition: width 1s linear;
+  }
+}
+
+.item-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item-icon {
+  $padding: 8px;
+  position: relative;
+  width: 20vw;
+  height: 20vw;
+  padding: $padding;
+  box-sizing: border-box;
+  font-size: 70%;
+  text-shadow: 0 0 2px black, 0 0 2px black;
+  color: white;
+
+  img {
+    border: 1px solid grey;
+    background: lightgrey;
+    height: 100%;
+    width: 100%;
+  }
+
+  .qty {
+    position: absolute;
+    bottom: 4px + $padding;
+    right: 4px + $padding;
+  }
+
+  .integrity {
+    position: absolute;
+    top: 4px + $padding;
+    right: 4px + $padding;
+  }
+}
+
+.context-menu {
+  position: fixed;
+  width: 60vw;
+  margin-left: -30vw;
+  z-index: 9000;
+
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.1);
+    z-index: 1;
+  }
+
+  .contents {
+    background-color: white;
+    border: 1px solid grey;
+    text-align: center;
+    z-index: 2;
+    position: relative;
+
+    .title {
+      line-height: 40px;
+      border-bottom: 1px solid grey;
+    }
   }
 }
 

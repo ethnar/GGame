@@ -43,6 +43,24 @@ class Entity {
         return this.id;
     }
 
+    static icon() {
+        return '/placeholder.png';
+    }
+
+    getIcon(creature) {
+        return this.constructor.getIcon(creature, this.icon);
+    }
+
+    static getIcon(creature, instanceIcon) {
+        const icon = instanceIcon || this.icon();
+        const player = creature.getPlayer();
+        if (player) {
+            player.icons = player.icons || [];
+            player.icons[icon] = true;
+        }
+        return '/resources' + icon;
+    }
+
     getActions() {
         return this.constructor.actions ? this.constructor.actions() : [];
     }

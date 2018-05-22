@@ -36,6 +36,10 @@ class StoneHammer extends Item {
     static entityName() {
         return 'Stone Hammer';
     }
+
+    static icon() {
+        return '/items/stone-hammer.png';
+    }
 }
 Object.assign(StoneHammer.prototype, {
     damage: 7,

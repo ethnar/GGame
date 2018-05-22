@@ -422,13 +422,13 @@ class Creature extends Entity {
                 weapon: weapon.getPayload ? weapon.getPayload(creature) : weapon,
                 actions: this.getActionsPayloads(creature),
                 currentAction: utils.cleanup(this.currentAction),
-                researchMaterials: Item.getMaterialsPayload(this.researchMaterials),
+                researchMaterials: Item.getMaterialsPayload(this.researchMaterials, creature),
                 recentResearches: Object
                     .keys(recentResearches)
                     .map(idx => ({
                         ...utils.cleanup(recentResearches[idx]),
-                        result: recentResearches[idx].result ? global[recentResearches[idx].result].getPayload() : null,
-                        materialsUsed: Item.getMaterialsPayload(recentResearches[idx].materialsUsed),
+                        result: recentResearches[idx].result ? global[recentResearches[idx].result].getPayload(creature) : null,
+                        materialsUsed: Item.getMaterialsPayload(recentResearches[idx].materialsUsed, creature),
                     })),
                 status: {
                     ...result.status,

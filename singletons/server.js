@@ -4,6 +4,7 @@ const utils = require('./utils');
 const Player = require('../class/player');
 const crypto = require('crypto');
 const proxy = require('http-proxy-middleware');
+const path = require('path');
 
 const port = process.env.PORT || 8001;
 
@@ -15,6 +16,18 @@ const md5 = hash('md5');
 
 const tokens = {};
 
+const getPlayerFromCookies = (cookiesString) => {
+    const cookies = cookiesString
+        .split(';')
+        .map(item => item
+            .trim()
+            .split('=')
+        )
+        .reduce((acc, [key, value]) => Object.assign(acc, { [key]: value }), {});
+    const token = cookies.authToken;
+    return tokens[token];
+};
+
 const server = new class Server {
     constructor() {
         this.connections = [];
@@ -25,15 +38,7 @@ const server = new class Server {
             let player;
 
             try {
-                const cookies = conn.headers.cookie
-                    .split(';')
-                    .map(item => item
-                        .trim()
-                        .split('=')
-                    )
-                    .reduce((acc, [key, value]) => Object.assign(acc, { [key]: value }), {});
-                const token = cookies.authToken;
-                player = tokens[token];
+                player = getPlayerFromCookies(conn.headers.cookie)
             } catch (e) {}
 
             if (!player) {
@@ -159,7 +164,16 @@ const wsProxy = proxy('ws://localhost:8002/', { changeOrigin:true });
 
 expressApp
     .use(express.static('client'))
-    .use('/node_modules', express.static('node_modules'))
+    .use('/resources', (req, res) => {
+        const player = getPlayerFromCookies(req.headers.cookie);
+        const icon = req.path;
+        if (!player || !player.icons[icon]) {
+            res.status(404);
+            res.send();
+            return;
+        }
+        res.sendFile(path.join(__dirname, '../resources/' + icon));
+    })
     .use('/api/ws', wsProxy)
     .post('/api/login', (req, res) => {
         let bodyStr = '';

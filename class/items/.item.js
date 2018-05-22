@@ -217,7 +217,7 @@ class Item extends Entity {
 
     getPayload(creature) {
         return {
-            ...this.constructor.getPayload(),
+            ...this.constructor.getPayload(creature),
             id: this.getId(),
             name: this.getName(),
             qty: this.qty,
@@ -226,18 +226,19 @@ class Item extends Entity {
         }
     }
 
-    static getPayload() {
+    static getPayload(creature) {
         return {
             name: this.entityName(),
+            icon: this.getIcon(creature),
             itemCode: this.name,
         };
     }
 
-    static getMaterialsPayload(materials) {
+    static getMaterialsPayload(materials, creature) {
         return Object
             .keys(utils.cleanup(materials))
             .map(material => ({
-                item: global[material].getPayload(),
+                item: global[material].getPayload(creature),
                 qty: materials[material],
             }))
     }
@@ -246,6 +247,7 @@ class Item extends Entity {
         return new Recipe({
             name: 'Craft ' + this.entityName(),
             itemClass: this.name,
+            icon: global[this.name].icon(),
             result: {
                 [this.name]: 1,
             },

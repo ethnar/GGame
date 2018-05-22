@@ -35,5 +35,9 @@ class SharpenedStone extends Item {
     static entityName() {
         return 'Sharpened Stone';
     }
+
+    static icon() {
+        return '/items/sharpened-stone.png';
+    }
 }
 module.exports = global.SharpenedStone = SharpenedStone;

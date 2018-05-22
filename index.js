@@ -9,6 +9,7 @@ const program = require('commander');
 program
     .version('0.1.0')
     .option('-r, --reset', 'Reset the world')
+    .option('-d, --dev', 'Development mode')
     .parse(process.argv);
 
 const necro = new resurrect();
@@ -29,4 +30,4 @@ console.log('*** Start ***');
 setInterval(() => {
     world.cycle();
     server.updatePlayers();
-}, 1000);
+}, program.dev ? 10 : 1000);

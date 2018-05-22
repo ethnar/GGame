@@ -36,6 +36,10 @@ class StoneHatchet extends Item {
     static entityName() {
         return 'Stone Hatchet';
     }
+
+    static icon() {
+        return '/items/stone-hatchet.png';
+    }
 }
 Object.assign(Stone.prototype, {
     damage: 7,

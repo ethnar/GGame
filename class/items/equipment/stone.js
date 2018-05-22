@@ -11,5 +11,9 @@ class Stone extends Item {
     static entityName() {
         return 'Stone';
     }
+
+    static icon() {
+        return '/items/stone.png';
+    }
 }
 module.exports = global.Stone = Stone;

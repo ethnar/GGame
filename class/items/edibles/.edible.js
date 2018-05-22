@@ -4,6 +4,12 @@ const Action = require('../../action');
 const actions = [
     new Action({
         name: 'Eat',
+        valid(item, creature) {
+            if (item.getContainer() !== creature) {
+                return false;
+            }
+            return true;
+        },
         run(item, creature) {
             creature.actionProgress += 100 / item.constructor.timeToEat();
 

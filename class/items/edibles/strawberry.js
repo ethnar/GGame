@@ -12,6 +12,10 @@ class Strawberry extends Edible {
     static nutrition() {
         return 1;
     }
+
+    static icon() {
+        return '/items/strawberry.png';
+    }
 }
 Object.assign(Strawberry.prototype, {
     maxStack: 50,

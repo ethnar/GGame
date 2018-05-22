@@ -11,7 +11,7 @@ Object.assign(Boulders.prototype, {
     toolUtility: TOOL_UTILS.MINING,
     produces: Boulder,
     baseTime: 100,
-    effort: 1.8,
+    effort: 1.3,
 });
 
 module.exports = global.Boulders = Boulders;

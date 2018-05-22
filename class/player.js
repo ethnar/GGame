@@ -14,6 +14,7 @@ class Player extends Entity {
         this.name = name;
         this.password = Player.passwordHash(password);
         this.creature = creature;
+        this.icons = {};
 
         Player.list.push(this);
 
