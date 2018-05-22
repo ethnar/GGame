@@ -16,7 +16,7 @@ class Direwolf extends Monster {
     }
 
     static defaultArmour() {
-        return 1.5;
+        return 1.1;
     }
 }
 module.exports = global.Direwolf = Direwolf;

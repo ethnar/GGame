@@ -42,7 +42,7 @@ class StoneHammer extends Item {
     }
 }
 Object.assign(StoneHammer.prototype, {
-    damage: 7,
+    damage: 14,
     hitChance: 60,
 });
 module.exports = global.StoneHammer = StoneHammer;

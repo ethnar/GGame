@@ -42,7 +42,7 @@ class StoneHatchet extends Item {
     }
 }
 Object.assign(StoneHatchet.prototype, {
-    damage: 7,
+    damage: 14,
     hitChance: 55,
 });
 module.exports = global.StoneHatchet = StoneHatchet;

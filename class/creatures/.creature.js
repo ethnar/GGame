@@ -73,7 +73,7 @@ class Creature extends Entity {
         this.skills = {};
     }
 
-    startAction(entity, action) {
+    startAction(entity, action, repetitions) {
         if (this.dead) {
             return;
         }
@@ -83,6 +83,7 @@ class Creature extends Entity {
         this.currentAction = {
             entityId: entity.getId(),
             actionId: action.getId(),
+            repetitions,
         };
     }
 
@@ -200,7 +201,10 @@ class Creature extends Entity {
             const result = action.run(entity, this);
 
             if (!result) {
-                this.stopAction();
+                this.currentAction.repetitions -= 1;
+                if (this.currentAction.repetitions <= 0) {
+                    this.stopAction();
+                }
             }
         }
     }

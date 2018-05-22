@@ -12,7 +12,7 @@ class GoblinFighter extends Monster {
     }
 
     static defaultArmour() {
-        return 2;
+        return 0.9;
     }
 
     static entityName() {

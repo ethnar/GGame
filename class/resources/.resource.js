@@ -5,6 +5,7 @@ const utils = require('../../singletons/utils');
 const actions = [
     new Action({
         name: 'Gather',
+        defaultRepetitions: Infinity,
         available(entity, creature) {
             if (creature.isOverburdened()) {
                 return 'You are overburdened!';
@@ -38,7 +39,7 @@ const actions = [
                 creature.gainSkill(entity.skill, entity.baseTime);
                 creature.addItemByType(entity.produces);
                 creature.actionProgress -= 100;
-                return true;
+                return false;
             }
             return true;
         },

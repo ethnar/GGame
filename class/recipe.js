@@ -60,7 +60,7 @@ const actions = [
                 creature.spendMaterials(materials);
 
                 creature.actionProgress -= 100;
-                return true;
+                return false;
             }
             return true;
         }

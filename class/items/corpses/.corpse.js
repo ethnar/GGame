@@ -45,7 +45,7 @@ const actions = [
                     });
 
                 creature.useUpItem(entity);
-                return true;
+                return false;
             }
             return true;
         }

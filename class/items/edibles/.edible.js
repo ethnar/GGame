@@ -18,9 +18,11 @@ const actions = [
                 creature.satiated = Math.min(creature.satiated, 100);
                 const removed = creature.useUpItem(item);
                 if (creature.satiated >= 100 || removed) {
+                    creature.currentAction.repetitions = 0;
                     return false;
                 }
                 creature.actionProgress -= 100;
+                return false;
             }
             return true;
         }

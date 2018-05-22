@@ -6,6 +6,7 @@ const utils = require('../../../singletons/utils');
 const actions = [
     new Action({
         name: 'Construct',
+        defaultRepetitions: Infinity,
         valid(entity) {
             return !entity.isComplete();
         },
@@ -63,7 +64,7 @@ const actions = [
                     }
                 }
 
-                return true;
+                return false;
             }
             return true;
         }

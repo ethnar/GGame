@@ -88,7 +88,12 @@ export const ServerService = {
                 stream.next(data);
             };
         }
-        return stream;
+        return Rx.Observable
+            .merge(
+                stream.debounceTime(1000),
+                stream.throttleTime(1000)
+            )
+            .distinctUntilChanged();
     },
 
     authenticate(user, password) {

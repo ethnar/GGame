@@ -12,7 +12,7 @@ class GoblinPatroller extends Monster {
     }
 
     static defaultArmour() {
-        return 1;
+        return 0.6;
     }
 
     static entityName() {

@@ -30,7 +30,7 @@ const CARRY_CAPACITY = 10;
 
 const punch = {
     name: 'Punch',
-    damage: 3,
+    damage: 5,
     hitChance: 75
 };
 
@@ -162,6 +162,7 @@ const actions = [
     }),
     new Action({
         name: 'Search',
+        defaultRepetitions: Infinity,
         valid(entity, creature) {
             if (creature.getNodeMapping(creature.getNode()) >= 5) {
                 return false;
@@ -191,7 +192,7 @@ const actions = [
 
                 creature.updateMap();
 
-                return true;
+                return false;
             }
 
             return true;
@@ -487,8 +488,12 @@ server.registerHandler('action', (params, player, connection) => {
         return false;
     }
 
+    if (!params.repetitions || typeof params.repetitions !== 'number') {
+        params.repetitions = action.defaultRepetitions || 1;
+    }
+
     const creature = player.getCreature();
-    creature.startAction(target, action);
+    creature.startAction(target, action, params.repetitions);
 
     server.updatePlayer(connection);
 

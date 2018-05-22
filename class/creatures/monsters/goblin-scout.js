@@ -12,7 +12,7 @@ class GoblinScout extends Monster {
     }
 
     static defaultArmour() {
-        return 0.75;
+        return 0.4;
     }
 
     static entityName() {

@@ -14,5 +14,9 @@ class Wolf extends Monster {
     static defaultWeapon() {
         return claws;
     }
+
+    static defaultArmour() {
+        return 0.3;
+    }
 }
 module.exports = global.Wolf = Wolf;
