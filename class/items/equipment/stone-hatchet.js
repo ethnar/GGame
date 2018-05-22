@@ -41,7 +41,7 @@ class StoneHatchet extends Item {
         return '/items/stone-hatchet.png';
     }
 }
-Object.assign(Stone.prototype, {
+Object.assign(StoneHatchet.prototype, {
     damage: 7,
     hitChance: 55,
 });

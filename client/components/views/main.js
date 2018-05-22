@@ -162,12 +162,12 @@ export const MainView = {
         return {
             player: stream.pluck('creature'),
             node: stream.pluck('node'),
-            enemies: stream.pluck('node').pluck('creatures').filter(c => c.hostile),
-            friendlies: stream.pluck('node').pluck('creatures').filter(c => !c.hostile),
+            enemies: stream.pluck('node').pluck('creatures').map(creatures => creatures.filter(c => c.hostile)),
+            friendlies: stream.pluck('node').pluck('creatures').map(creatures => creatures.filter(c => !c.hostile)),
             enemiesPresent: stream
                 .map(({ node }) => {
                     return node.creatures
-                        .some(c => c.hostile);
+                        .some(c => c.hostile && c.status.health);
                 }),
         };
     },
@@ -354,6 +354,10 @@ export const MainView = {
                     <item-icon @click="selectResearchMaterialIdx = idx;" :src="material.item && material.item.icon"></item-icon>
                     <number-selector v-model="material.qty" @input="updateResearchMats" :min="1" :max="5"></number-selector>
                 </div>
+                <actions
+                    :target="player"
+                    name="Research" 
+                />
                 <modal v-if="selectResearchMaterialIdx !== null" @close="selectResearchMaterialIdx = null">
                     <div class="item-list">
                         <item-icon @click="selectResearchMaterial(null)"></item-icon>
@@ -385,6 +389,10 @@ export const MainView = {
             </section>
         </div>
         <div :hidden="mode !== 'location'">
+            <actions
+                :target="player"
+                name="Search" 
+            />
             <section>
                 <header>Structures</header>
                 <div v-for="structure in node.structures">
@@ -405,6 +413,10 @@ export const MainView = {
             </section>
         </div>
         <div :hidden="mode !== 'mobs'">
+            <actions
+                :target="player"
+                name="Fight" 
+            />
             <section>
                 <header>Enemies</header>
                 <div v-for="creature in enemies">

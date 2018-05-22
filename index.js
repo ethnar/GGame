@@ -30,4 +30,4 @@ console.log('*** Start ***');
 setInterval(() => {
     world.cycle();
     server.updatePlayers();
-}, program.dev ? 10 : 1000);
+}, program.dev ? 100 : 1000);
