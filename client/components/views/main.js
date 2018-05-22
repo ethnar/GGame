@@ -206,6 +206,7 @@ export const MainView = {
 <div v-if="player && node" class="main-container">
     <world-map class="world-map-container"></world-map>
     <div class="status-bar">
+        <meter-orb color="magenta" :value="player.status.actionProgress" :only-growing="true"/>
         <meter-orb color="red" :value="player.status.health"/>
         <meter-orb color="limegreen" :value="player.status.stamina"/>
         <meter-orb color="dodgerblue" :value="player.status.energy"/>
@@ -220,7 +221,7 @@ export const MainView = {
                 :target="player" 
             />
             Name: {{player.name}}<br/>
-            <!--Action: <meter-bar color="magenta" :value="player.status.actionProgress" :only-growing="true"/><br/>-->
+            <div>Action <meter-orb color="magenta" :value="player.status.actionProgress" :only-growing="true"/></div>
             <div>Health <meter-orb color="red" :value="player.status.health"/></div>
             <div>Stamina <meter-orb color="limegreen" :value="player.status.stamina"/></div>
             <div>Energy <meter-orb color="dodgerblue" :value="player.status.energy"/></div>
