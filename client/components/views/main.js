@@ -1,5 +1,6 @@
 import {ServerService} from '../../services/server.js';
 import {ContextMenu} from '../generic/context-menu.js';
+import {ToastNotification} from '../generic/toast-notification.js';
 import '../game/map.js';
 import '../game/actions.js';
 
@@ -137,7 +138,7 @@ Vue.component('item', {
 
 export const MainView = {
     data: () => ({
-        mode: 'inventory',
+        mode: 'location',
         selectResearchMaterialIdx: null,
         skillLevels,
         skillNames,
@@ -148,6 +149,11 @@ export const MainView = {
         return {
             player: stream.pluck('creature'),
             node: stream.pluck('node'),
+            enemiesPresent: stream
+                .map(({ node }) => {
+                    return node.creatures
+                        .some(c => c.hostile);
+                }),
         };
     },
 
@@ -156,6 +162,7 @@ export const MainView = {
 
     computed: {
         emptySlots() {
+            // TODO: stop hard-coding
             const length = Math.max(10 - this.player.inventory.length, 0);
             return new Array(length);
         }
@@ -204,7 +211,7 @@ export const MainView = {
         <meter-orb color="dodgerblue" :value="player.status.energy"/>
         <meter-orb color="orange" :value="player.status.satiated"/>
         <meter-orb color="gray" :value="player.status.stealth"/>
-        <meter-orb color="pink" :value="player.status.mood"/>
+        <meter-orb color="purple" :value="player.status.mood"/>
     </div>
     <div class="scrollable-contents">
         <div :hidden="mode !== 'stats'">
@@ -214,47 +221,50 @@ export const MainView = {
             />
             Name: {{player.name}}<br/>
             <!--Action: <meter-bar color="magenta" :value="player.status.actionProgress" :only-growing="true"/><br/>-->
-            <div>Health: <meter-orb color="red" :value="player.status.health"/></div>
-            <div>Stamina: <meter-orb color="limegreen" :value="player.status.stamina"/></div>
-            <div>Energy: <meter-orb color="dodgerblue" :value="player.status.energy"/></div>
-            <div>Satiated: <meter-orb color="orange" :value="player.status.satiated"/></div>
-            <div>Stealth: <meter-orb color="gray" :value="player.status.stealth"/></div>
-            <div>Mood: <meter-orb color="pink" :value="player.status.mood"/></div>
+            <div>Health <meter-orb color="red" :value="player.status.health"/></div>
+            <div>Stamina <meter-orb color="limegreen" :value="player.status.stamina"/></div>
+            <div>Energy <meter-orb color="dodgerblue" :value="player.status.energy"/></div>
+            <div>Satiated <meter-orb color="orange" :value="player.status.satiated"/></div>
+            <div>Stealth <meter-orb color="gray" :value="player.status.stealth"/></div>
+            <div>Mood <meter-orb color="purple" :value="player.status.mood"/></div>
             <hr/>
             <div v-for="skill in player.skills">
                 {{skillNames[skill.id]}}: {{skillLevels[skill.level]}}
             </div>
         </div>
         <div :hidden="mode !== 'inventory'">
-            <div class="equipment-list">
-                <div class="equipment tool">
-                    <span class="slot">Tool</span>
-                    <item :data="player.tool"></item>
+            <section>
+                <header>Equipment</header>
+                <div class="equipment-list">
+                    <div class="equipment tool">
+                        <span class="slot">Tool</span>
+                        <item :data="player.tool"></item>
+                    </div>
+                    <div class="equipment weapon">
+                        <span class="slot">Weapon</span>
+                        <item :data="player.weapon"></item>
+                    </div>
                 </div>
-                <div class="equipment weapon">
-                    <span class="slot">Weapon</span>
-                    <item :data="player.weapon"></item>
+            </section>
+            <section>
+                <header>Inventory</header>
+                <div class="item-list">
+                    <item v-for="item in player.inventory" :data="item" :key="item.id"></item>
+                    <item-icon v-for="(emptySlot, idx) in emptySlots" :key="idx"></item-icon>
                 </div>
-            </div>
-            <hr/>
-            <div class="item-list">
-                <item v-for="item in player.inventory" :data="item" :key="item.id"></item>
-                <item-icon v-for="emptySlot in emptySlots"></item-icon>
-            </div>
-            <div v-for="structure in node.structures" v-if="structure.inventory">
-                <hr/>
-                Storage:
+            </section>
+            <section v-for="structure in node.structures" v-if="structure.inventory">
+                <header>Storage</header>
                 <div class="item-list">
                     <item v-for="item in structure.inventory" :data="item" :key="item.id"></item>
                 </div>
-            </div>
-            <div v-if="node.inventory && node.inventory.length">
-                <hr/>
-                On the ground:
+            </section>
+            <section v-if="node.inventory && node.inventory.length">
+                <header>On the ground</header>
                 <div class="item-list">
                     <item v-for="item in node.inventory" :data="item" :key="item.id"></item>
                 </div>
-            </div>
+            </section>
         </div>
         <div :hidden="mode !== 'crafting'">
             <div v-for="recipe in player.recipes">
@@ -272,21 +282,25 @@ export const MainView = {
                 />
             </div>
         </div>
-        <div :hidden="mode !== 'resources'">
-            <div v-for="resource in node.resources">
-                {{resource.name}}
-                <actions
-                    :target="resource"
-                />
-            </div>
-        </div>
-        <div :hidden="mode !== 'structure'">
-            <div v-for="structure in node.structures">
-                {{structure.name}}
-                <actions
-                    :target="structure"
-                />
-            </div>
+        <div :hidden="mode !== 'location'">
+            <section>
+                <header>Structures</header>
+                <div v-for="structure in node.structures">
+                    {{structure.name}}
+                    <actions
+                        :target="structure"
+                    />
+                </div>
+            </section>
+            <section>
+                <header>Resources</header>
+                <div v-for="resource in node.resources">
+                    {{resource.name}}
+                    <actions
+                        :target="resource"
+                    />
+                </div>
+            </section>
         </div>
         <div :hidden="mode !== 'mobs'">
             <div v-for="creature in node.creatures">
@@ -332,6 +346,16 @@ export const MainView = {
     <div class="section-selector">
         <div
             class="toggle"
+            @click="mode = 'location'"
+            :class="{ active: mode === 'location' }"
+        >L</div>
+        <div
+            class="toggle"
+            @click="mode = 'mobs'"
+            :class="{ active: mode === 'mobs', highlight: enemiesPresent }"
+        >M</div>
+        <div
+            class="toggle"
             @click="mode = 'inventory'"
             :class="{ active: mode === 'inventory' }"
         >I</div>
@@ -340,21 +364,6 @@ export const MainView = {
             @click="mode = 'crafting'"
             :class="{ active: mode === 'crafting' }"
         >C</div>
-        <div
-            class="toggle"
-            @click="mode = 'resources'"
-            :class="{ active: mode === 'resources' }"
-        >R</div>
-        <div
-            class="toggle"
-            @click="mode = 'structure'"
-            :class="{ active: mode === 'structure' }"
-        >B</div>
-        <div
-            class="toggle"
-            @click="mode = 'mobs'"
-            :class="{ active: mode === 'mobs' }"
-        >M</div>
         <div
             class="toggle"
             @click="mode = 'discovery'"
@@ -367,6 +376,7 @@ export const MainView = {
         >S</div>
     </div>
     <context-menu></context-menu>
+    <toast-notification></toast-notification>
 </div>
 `,
 };

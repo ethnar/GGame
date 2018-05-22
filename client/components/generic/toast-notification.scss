@@ -1,0 +1,14 @@
+.toast-message {
+  position: fixed;
+  background: white;
+  z-index: 9100;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid black;
+  top: -200px;
+  transition: top 0.3s ease-in-out;
+
+  &.visible {
+    top: 0;
+  }
+}

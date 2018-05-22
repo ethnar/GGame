@@ -407,6 +407,7 @@ class Creature extends Entity {
             id: this.getId(),
             name: this.getName(),
             faction: this.faction,
+            hostile: this.faction !== creature.faction,
             status: {
                 health: this.health,
             },

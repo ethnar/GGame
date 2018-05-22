@@ -203,6 +203,22 @@ pre {
       &.active {
         background: lightgray;
       }
+      &.highlight:not(.active) {
+        box-shadow: 0 0 10px 3px red inset;
+      }
     }
+  }
+}
+
+section {
+  header {
+    text-align: center;
+    font-weight: bold;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+  }
+
+  + section {
+    border-top: 2px solid grey;
   }
 }

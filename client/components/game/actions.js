@@ -1,4 +1,5 @@
 import {ServerService} from '../../services/server.js';
+import {ToastNotification} from '../generic/toast-notification.js';
 
 Vue.component('actions', {
     props: [
@@ -27,7 +28,8 @@ Vue.component('actions', {
     methods: {
         selectAction(action, targetId) {
             if (!action.available) {
-                console.log(action.message); // TODO: make it a toast
+                ToastNotification.notify(action.message);
+                return;
             }
             ServerService.request('action', {
                 action: action.id,

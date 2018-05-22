@@ -149,6 +149,17 @@ pre {
       text-align: center; }
       .main-container .section-selector .toggle.active {
         background: lightgray; }
+      .main-container .section-selector .toggle.highlight:not(.active) {
+        box-shadow: 0 0 10px 3px red inset; }
+
+section header {
+  text-align: center;
+  font-weight: bold;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey; }
+
+section + section {
+  border-top: 2px solid grey; }
 
 .main-map-container {
   border: 1px solid lightgrey;
@@ -290,3 +301,15 @@ pre {
     border: 1px solid #aaddff; }
     .tabs .tab-headers > div.active {
       background: lightsteelblue; }
+
+.toast-message {
+  position: fixed;
+  background: white;
+  z-index: 9100;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid black;
+  top: -200px;
+  transition: top 0.3s ease-in-out; }
+  .toast-message.visible {
+    top: 0; }
