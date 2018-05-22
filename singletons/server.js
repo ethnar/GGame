@@ -164,6 +164,7 @@ const wsProxy = proxy('ws://localhost:8002/', { changeOrigin:true });
 
 expressApp
     .use(express.static('client'))
+    .use('/node_modules', express.static('node_modules'))
     .use('/resources', (req, res) => {
         const player = getPlayerFromCookies(req.headers.cookie);
         const icon = req.path;
