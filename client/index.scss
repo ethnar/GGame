@@ -188,8 +188,10 @@ pre {
 
   .section-selector {
     $buttons: 6;
-    $size: 100vw / 6;
-    min-height: $size;
+    $size: 100vw / 5;
+    $bar-height: $size * 0.75;
+    min-height: $bar-height;
+    height: $bar-height;
     border-top: 1px solid gray;
     display: flex;
 
@@ -197,7 +199,7 @@ pre {
       height: 100%;
       width: $size;
       font-size: $size / 2;
-      line-height: $size;
+      line-height: $bar-height;
       text-align: center;
 
       &.active {

@@ -138,14 +138,15 @@ pre {
     flex-direction: column;
     overflow: auto; }
   .main-container .section-selector {
-    min-height: 16.66667vw;
+    min-height: 15vw;
+    height: 15vw;
     border-top: 1px solid gray;
     display: flex; }
     .main-container .section-selector .toggle {
       height: 100%;
-      width: 16.66667vw;
-      font-size: 8.33333vw;
-      line-height: 16.66667vw;
+      width: 20vw;
+      font-size: 10vw;
+      line-height: 15vw;
       text-align: center; }
       .main-container .section-selector .toggle.active {
         background: lightgray; }

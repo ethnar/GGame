@@ -142,6 +142,11 @@ export const MainView = {
         selectResearchMaterialIdx: null,
         skillLevels,
         skillNames,
+        resourceSize: {
+            1: 'scarce',
+            2: 'ample',
+            3: 'abundant',
+        }
     }),
 
     subscriptions() {
@@ -149,6 +154,8 @@ export const MainView = {
         return {
             player: stream.pluck('creature'),
             node: stream.pluck('node'),
+            enemies: stream.pluck('node').pluck('creatures').filter(c => c.hostile),
+            friendlies: stream.pluck('node').pluck('creatures').filter(c => !c.hostile),
             enemiesPresent: stream
                 .map(({ node }) => {
                     return node.creatures
@@ -268,20 +275,58 @@ export const MainView = {
             </section>
         </div>
         <div :hidden="mode !== 'crafting'">
-            <div v-for="recipe in player.recipes">
-                {{recipe.name}}<br/>
-                Materials: <div v-for="(qty, name) in recipe.materials">{{name}} ({{qty}})</div>
-                <actions
-                    :target="recipe" 
-                />
-            </div>
-            <div v-for="plan in player.buildingPlans">
-                {{plan.name}}<br/>
-                Materials: <div v-for="(qty, name) in plan.materials">{{name}} ({{qty}})</div>
-                <actions
-                    :target="plan" 
-                />
-            </div>
+            <section>
+                <header>Craft</header>
+                <div v-for="recipe in player.recipes">
+                    {{recipe.name}}<br/>
+                    Materials: <div v-for="(qty, name) in recipe.materials">{{name}} ({{qty}})</div>
+                    <actions
+                        :target="recipe" 
+                    />
+                </div>
+            </section>
+            <section>
+                <header>Build</header>
+                <div v-for="plan in player.buildingPlans">
+                    {{plan.name}}<br/>
+                    Materials: <div v-for="(qty, name) in plan.materials">{{name}} ({{qty}})</div>
+                    <actions
+                        :target="plan" 
+                    />
+                </div>
+            </section>
+            <section>
+                <header>Discover</header>
+                <div v-for="(material, idx) in player.researchMaterials" v-if="material">
+                    <span @click="selectResearchMaterialIdx = idx;">{{material.item.name}}</span>
+                    <input type="number" v-model="material.qty" @input="updateResearchMats">
+                </div>
+                <div
+                    v-if="player.researchMaterials.length < 4"
+                    @click="selectResearchMaterialIdx = player.researchMaterials.length;"
+                >
+                    +
+                </div>
+                <div v-if="selectResearchMaterialIdx !== null">
+                    <div @click="selectResearchMaterial(null)">null</div>
+                    <div v-for="item in player.inventory" @click="selectResearchMaterial(item)">
+                        {{item.name}} <span v-if="item.qty > 1">({{item.qty}})</span>
+                    </div>
+                </div>
+                <hr/>
+                <div v-for="attempt in player.recentResearches">
+                    <div v-for="item in attempt.materialsUsed">
+                        {{item.item.name}} ({{item.qty}})
+                    </div>
+                    <div v-if="attempt.rightIngredients">
+                        {{attempt.matchingCounts}} / {{attempt.matchesNeeded}}
+                    </div>
+                    <div v-if="attempt.result">
+                        Result: {{attempt.result.name}}
+                    </div>
+                    <hr/>
+                </div>
+            </section>
         </div>
         <div :hidden="mode !== 'location'">
             <section>
@@ -296,7 +341,7 @@ export const MainView = {
             <section>
                 <header>Resources</header>
                 <div v-for="resource in node.resources">
-                    {{resource.name}}
+                    {{resource.name}} ({{resourceSize[resource.size]}})
                     <actions
                         :target="resource"
                     />
@@ -304,44 +349,26 @@ export const MainView = {
             </section>
         </div>
         <div :hidden="mode !== 'mobs'">
-            <div v-for="creature in node.creatures">
-                {{creature.name}}
-                <meter-bar color="red" :value="creature.status.health"/><br/>
-                <actions
-                    :target="creature"
-                />
-            </div>
-        </div>
-        <div :hidden="mode !== 'discovery'">
-            <div v-for="(material, idx) in player.researchMaterials" v-if="material">
-                <span @click="selectResearchMaterialIdx = idx;">{{material.item.name}}</span>
-                <input type="number" v-model="material.qty" @input="updateResearchMats">
-            </div>
-            <div
-                v-if="player.researchMaterials.length < 4"
-                @click="selectResearchMaterialIdx = player.researchMaterials.length;"
-            >
-                +
-            </div>
-            <div v-if="selectResearchMaterialIdx !== null">
-                <div @click="selectResearchMaterial(null)">null</div>
-                <div v-for="item in player.inventory" @click="selectResearchMaterial(item)">
-                    {{item.name}} <span v-if="item.qty > 1">({{item.qty}})</span>
+            <section>
+                <header>Enemies</header>
+                <div v-for="creature in enemies">
+                    {{creature.name}}
+                    <meter-bar color="red" :value="creature.status.health"/><br/>
+                    <actions
+                        :target="creature"
+                    />
                 </div>
-            </div>
-            <hr/>
-            <div v-for="attempt in player.recentResearches">
-                <div v-for="item in attempt.materialsUsed">
-                    {{item.item.name}} ({{item.qty}})
+            </section>
+            <section>
+                <header>Friendlies</header>
+                <div v-for="creature in friendlies">
+                    {{creature.name}}
+                    <meter-bar color="red" :value="creature.status.health"/><br/>
+                    <actions
+                        :target="creature"
+                    />
                 </div>
-                <div v-if="attempt.rightIngredients">
-                    {{attempt.matchingCounts}} / {{attempt.matchesNeeded}}
-                </div>
-                <div v-if="attempt.result">
-                    Result: {{attempt.result.name}}
-                </div>
-                <hr/>
-            </div>
+            </section>
         </div>
     </div>
     <div class="section-selector">
@@ -365,11 +392,6 @@ export const MainView = {
             @click="mode = 'crafting'"
             :class="{ active: mode === 'crafting' }"
         >C</div>
-        <div
-            class="toggle"
-            @click="mode = 'discovery'"
-            :class="{ active: mode === 'discovery' }"
-        >D</div>
         <div
             class="toggle"
             @click="mode = 'stats'"
