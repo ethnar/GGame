@@ -105,6 +105,7 @@ $margin: 0.2vw;
 
 .item-icon {
   $padding: 8px;
+  display: inline-block;
   position: relative;
   width: 20vw;
   height: 20vw;
@@ -125,18 +126,25 @@ $margin: 0.2vw;
   img {
     height: 100%;
     width: 100%;
+    display: block;
   }
 
   .qty {
     position: absolute;
-    bottom: 4px;
-    right: 4px;
+    bottom: 2%;
+    right: 4%;
   }
 
   .integrity {
     position: absolute;
-    top: 4px;
-    right: 4px;
+    top: 2%;
+    right: 4%;
+  }
+
+  &.small {
+    width: 14vw;
+    height: 14vw;
+    font-size: 60%;
   }
 }
 
@@ -169,6 +177,46 @@ $margin: 0.2vw;
     }
   }
 }
+
+.research-material {
+  > * {
+    vertical-align: middle;
+  }
+}
+
+.tech-recipe {
+  display: flex;
+}
+
+.modal {
+  position: fixed;
+  top: 10%;
+  bottom: 15%;
+  left: 9%;
+  right: 9%;
+  z-index: 9000;
+  display: flex;
+  flex-direction: column-reverse;
+
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.1);
+    z-index: 1;
+  }
+
+  .contents {
+    background-color: white;
+    border: 1px solid grey;
+    text-align: center;
+    z-index: 2;
+    position: relative;
+  }
+}
+
 
 pre {
   font-size: 60%;
@@ -218,6 +266,14 @@ section {
     font-weight: bold;
     border-top: 1px solid grey;
     border-bottom: 1px solid grey;
+  }
+
+  header.subheader {
+    text-align: center;
+    font-weight: bold;
+    font-size: 90%;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
   }
 
   + section {

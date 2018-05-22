@@ -90,7 +90,7 @@ class Recipe extends Entity {
         return {
             id: this.getId(),
             name: this.getName(),
-            materials: this.getMaterials(),
+            materials: Item.getMaterialsPayload(this.getMaterials(), creature),
             icon: this.getIcon(creature),
             actions: this.getActionsPayloads(creature),
         }

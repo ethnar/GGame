@@ -53,9 +53,10 @@ class Structure extends Entity {
 
     }
 
-    static getPayload() {
+    static getPayload(creature) {
         return {
             name: this.name || this.entityName(),
+            icon: this.getIcon(creature),
             buildingCode: this.name,
         };
     }

@@ -1,6 +1,8 @@
 import {ServerService} from '../../services/server.js';
 import {ContextMenu} from '../generic/context-menu.js';
 import '../generic/toast-notification.js';
+import '../generic/number-selector.js';
+import '../generic/modal.js';
 import '../game/map.js';
 import '../game/actions.js';
 
@@ -100,6 +102,10 @@ Vue.component('item-icon', {
         integrity: {
             type: Number,
             default: 100,
+        },
+        small: {
+            type: Boolean,
+            default: false,
         }
     },
 
@@ -110,7 +116,7 @@ Vue.component('item-icon', {
     },
 
     template: `
-<div class="item-icon" @click="onClick">
+<div class="item-icon" :class="{ small: small }" @click="onClick">
     <div class="slot">
         <img :src="src" v-if="src">
         <span class="qty" v-if="qty && qty > 1">{{qty}}</span>
@@ -127,7 +133,9 @@ Vue.component('item', {
 
     methods: {
         contextMenu() {
-            ContextMenu.open(this.data.name, this.data);
+            if (this.data) {
+                ContextMenu.open(this.data.name, this.data);
+            }
         }
     },
 
@@ -172,6 +180,33 @@ export const MainView = {
             // TODO: stop hard-coding
             const length = Math.max(10 - this.player.inventory.length, 0);
             return new Array(length);
+        },
+
+        researchMatsSlots() {
+            const none = {
+                item: null,
+                qty: 1,
+            };
+            const mats = Array.apply(null, Array(4)).map(() => none);
+            Object
+                .keys(this.player.researchMaterials)
+                .forEach(material => mats[material] = this.player.researchMaterials[material]);
+            return mats;
+        },
+
+        availableResearchMaterials() {
+            const mats = {};
+            this.player.inventory.forEach(item => {
+                if (mats[item.name]) {
+                    mats[item.name].qty += item.qty;
+                } else {
+                    mats[item.name] = {
+                        ...item,
+                        integrity: 100,
+                    };
+                }
+            });
+            return mats;
         }
     },
 
@@ -277,9 +312,18 @@ export const MainView = {
         <div :hidden="mode !== 'crafting'">
             <section>
                 <header>Craft</header>
-                <div v-for="recipe in player.recipes">
-                    {{recipe.name}}<br/>
-                    Materials: <div v-for="(qty, name) in recipe.materials">{{name}} ({{qty}})</div>
+                <div v-for="recipe in player.recipes" class="tech-recipe">
+                    <div class="main-icon">
+                        <item-icon :src="recipe.icon"></item-icon>
+                    </div>
+                    <div class="details">
+                        <div>
+                            {{recipe.name}}
+                        </div>
+                        <div class="item-list">
+                            <item-icon v-for="material in recipe.materials" :key="material.item.name" :src="material.item.icon" :qty="material.qty" :small="true"></item-icon>
+                        </div>
+                    </div>
                     <actions
                         :target="recipe" 
                     />
@@ -287,9 +331,18 @@ export const MainView = {
             </section>
             <section>
                 <header>Build</header>
-                <div v-for="plan in player.buildingPlans">
-                    {{plan.name}}<br/>
-                    Materials: <div v-for="(qty, name) in plan.materials">{{name}} ({{qty}})</div>
+                <div v-for="plan in player.buildingPlans" class="tech-recipe">
+                    <div class="main-icon">
+                        <item-icon :src="plan.icon"></item-icon>
+                    </div>
+                    <div class="details">
+                        <div>
+                            {{plan.name}}
+                        </div>
+                        <div class="item-list">
+                            <item-icon v-for="material in plan.materials" :key="material.item.name" :src="material.item.icon" :qty="material.qty" :small="true"></item-icon>
+                        </div>
+                    </div>
                     <actions
                         :target="plan" 
                     />
@@ -297,34 +350,37 @@ export const MainView = {
             </section>
             <section>
                 <header>Discover</header>
-                <div v-for="(material, idx) in player.researchMaterials" v-if="material">
-                    <span @click="selectResearchMaterialIdx = idx;">{{material.item.name}}</span>
-                    <input type="number" v-model="material.qty" @input="updateResearchMats">
+                <div v-for="(material, idx) in researchMatsSlots" v-if="material" class="research-material">
+                    <item-icon @click="selectResearchMaterialIdx = idx;" :src="material.item && material.item.icon"></item-icon>
+                    <number-selector v-model="material.qty" @input="updateResearchMats" :min="1" :max="5"></number-selector>
                 </div>
-                <div
-                    v-if="player.researchMaterials.length < 4"
-                    @click="selectResearchMaterialIdx = player.researchMaterials.length;"
-                >
-                    +
-                </div>
-                <div v-if="selectResearchMaterialIdx !== null">
-                    <div @click="selectResearchMaterial(null)">null</div>
-                    <div v-for="item in player.inventory" @click="selectResearchMaterial(item)">
-                        {{item.name}} <span v-if="item.qty > 1">({{item.qty}})</span>
+                <modal v-if="selectResearchMaterialIdx !== null" @close="selectResearchMaterialIdx = null">
+                    <div class="item-list">
+                        <item-icon @click="selectResearchMaterial(null)"></item-icon>
+                        <item-icon v-for="item in availableResearchMaterials":key="item.name"  @click="selectResearchMaterial(item)" :src="item.icon" :qty="item.qty"></item-icon>
                     </div>
-                </div>
-                <hr/>
-                <div v-for="attempt in player.recentResearches">
-                    <div v-for="item in attempt.materialsUsed">
-                        {{item.item.name}} ({{item.qty}})
+                </modal>
+                <header class="subheader">Recent researches</header>
+                <div v-for="attempt in player.recentResearches" class="tech-recipe">
+                    <div class="main-icon">
+                        <item-icon v-if="attempt.result" :src="attempt.result.icon"></item-icon>
+                        <item-icon v-else-if="attempt.rightIngredients" src="images/icon-question.png"></item-icon>
+                        <item-icon v-else src="images/icon-cross.png"></item-icon>
                     </div>
-                    <div v-if="attempt.rightIngredients">
-                        {{attempt.matchingCounts}} / {{attempt.matchesNeeded}}
+                    <div class="details">
+                        <div v-if="attempt.result">
+                            New recipe: {{attempt.result.name}}!
+                        </div>
+                        <div v-else-if="attempt.rightIngredients">
+                            Matching quantities: {{attempt.matchingCounts}} / {{attempt.matchesNeeded}}
+                        </div>
+                        <div v-else>
+                            Doesn't seem to work
+                        </div>
+                        <div class="item-list">
+                            <item-icon v-for="material in attempt.materialsUsed" :key="material.item.name" :src="material.item.icon" :qty="material.qty" :small="true"></item-icon>
+                        </div>
                     </div>
-                    <div v-if="attempt.result">
-                        Result: {{attempt.result.name}}
-                    </div>
-                    <hr/>
                 </div>
             </section>
         </div>
