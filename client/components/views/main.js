@@ -29,6 +29,36 @@ const skillNames = {
     10: 'Crafting',
 };
 
+Vue.component('meter-orb', {
+    props: [
+        'color',
+        'value',
+        'onlyGrowing'
+    ],
+
+    data: () => ({
+        reseter: false,
+    }),
+
+    watch: {
+        value(to, from) {
+            if (from > to && this.onlyGrowing) {
+                this.reseter = !this.reseter;
+            }
+        }
+    },
+
+    template: `
+<span class="meter-orb">
+    <div
+        :key="reseter"
+        class="fill"
+        :style="{ 'background-color': color, 'clip-path': 'inset(' + (100 - (value || 0)) + '% 0 0)' }"
+    ></div>
+</span>
+    `,
+});
+
 Vue.component('meter-bar', {
     props: [
         'color',
@@ -80,9 +110,11 @@ Vue.component('item-icon', {
 
     template: `
 <div class="item-icon" @click="onClick">
-    <img :src="src">
-    <span class="qty" v-if="qty > 1">{{qty}}</span>
-    <span class="integrity" v-if="integrity < 100">{{integrity}}%</span>
+    <div class="slot">
+        <img :src="src" v-if="src">
+        <span class="qty" v-if="qty && qty > 1">{{qty}}</span>
+        <span class="integrity" v-if="integrity && integrity < 100">{{integrity}}%</span>
+    </div>
 </div>
     `,
 });
@@ -99,13 +131,13 @@ Vue.component('item', {
     },
 
     template: `
-<item-icon :src="data.icon" :qty="data.qty" :integrity="data.integrity" @click="contextMenu();"></item-icon>
+<item-icon :src="data && data.icon" :qty="data && data.qty" :integrity="data && data.integrity" @click="contextMenu();"></item-icon>
     `,
 });
 
 export const MainView = {
     data: () => ({
-        mode: 'stats',
+        mode: 'inventory',
         selectResearchMaterialIdx: null,
         skillLevels,
         skillNames,
@@ -166,6 +198,14 @@ export const MainView = {
     template: `
 <div v-if="player && node" class="main-container">
     <world-map class="world-map-container"></world-map>
+    <div class="status-bar">
+        <meter-orb color="red" :value="player.status.health"/>
+        <meter-orb color="limegreen" :value="player.status.stamina"/>
+        <meter-orb color="dodgerblue" :value="player.status.energy"/>
+        <meter-orb color="orange" :value="player.status.satiated"/>
+        <meter-orb color="gray" :value="player.status.stealth"/>
+        <meter-orb color="pink" :value="player.status.mood"/>
+    </div>
     <div class="scrollable-contents">
         <div :hidden="mode !== 'stats'">
             Behaviour: <button @click="toggleBehaviour()" class="action">{{player.behaviour.passive ? 'Passive' : 'Defensive'}}</button>
@@ -173,21 +213,29 @@ export const MainView = {
                 :target="player" 
             />
             Name: {{player.name}}<br/>
-            Action: <meter-bar color="magenta" :value="player.status.actionProgress" :only-growing="true"/><br/>
-            Health: <meter-bar color="red" :value="player.status.health"/><br/>
-            Stamina: <meter-bar color="limegreen" :value="player.status.stamina"/><br/>
-            Energy: <meter-bar color="dodgerblue" :value="player.status.energy"/><br/>
-            Satiated: <meter-bar color="orange" :value="player.status.satiated"/><br/>
-            Stealth: <meter-bar color="gray" :value="player.status.stealth"/><br/>
-            Mood: <meter-bar color="pink" :value="player.status.mood"/><br/>
+            <!--Action: <meter-bar color="magenta" :value="player.status.actionProgress" :only-growing="true"/><br/>-->
+            <div>Health: <meter-orb color="red" :value="player.status.health"/></div>
+            <div>Stamina: <meter-orb color="limegreen" :value="player.status.stamina"/></div>
+            <div>Energy: <meter-orb color="dodgerblue" :value="player.status.energy"/></div>
+            <div>Satiated: <meter-orb color="orange" :value="player.status.satiated"/></div>
+            <div>Stealth: <meter-orb color="gray" :value="player.status.stealth"/></div>
+            <div>Mood: <meter-orb color="pink" :value="player.status.mood"/></div>
             <hr/>
             <div v-for="skill in player.skills">
                 {{skillNames[skill.id]}}: {{skillLevels[skill.level]}}
             </div>
         </div>
         <div :hidden="mode !== 'inventory'">
-            Tool: {{player.tool && player.tool.name}}<br/>
-            Weapon: {{player.weapon && player.weapon.name}}<br/>
+            <div class="equipment-list">
+                <div class="equipment tool">
+                    <span class="slot">Tool</span>
+                    <item :data="player.tool"></item>
+                </div>
+                <div class="equipment weapon">
+                    <span class="slot">Weapon</span>
+                    <item :data="player.weapon"></item>
+                </div>
+            </div>
             <hr/>
             <div class="item-list">
                 <item v-for="item in player.inventory" :data="item" :key="item.id"></item>
@@ -284,11 +332,6 @@ export const MainView = {
     <div class="section-selector">
         <div
             class="toggle"
-            @click="mode = 'stats'"
-            :class="{ active: mode === 'stats' }"
-        >S</div>
-        <div
-            class="toggle"
             @click="mode = 'inventory'"
             :class="{ active: mode === 'inventory' }"
         >I</div>
@@ -317,6 +360,11 @@ export const MainView = {
             @click="mode = 'discovery'"
             :class="{ active: mode === 'discovery' }"
         >D</div>
+        <div
+            class="toggle"
+            @click="mode = 'stats'"
+            :class="{ active: mode === 'stats' }"
+        >S</div>
     </div>
     <context-menu></context-menu>
 </div>

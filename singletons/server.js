@@ -5,6 +5,7 @@ const Player = require('../class/player');
 const crypto = require('crypto');
 const proxy = require('http-proxy-middleware');
 const path = require('path');
+const https = require('https');
 
 const port = process.env.PORT || 8001;
 
@@ -162,7 +163,17 @@ expressApp.all('/*', function(req, res, next) {
 
 const wsProxy = proxy('ws://localhost:8002/', { changeOrigin:true });
 
-expressApp
+let serverApp;
+if (program.ssl) {
+    serverApp = https.createServer({
+        key: fs.readFileSync('./ssl/privatekey.pem'),
+        cert: fs.readFileSync('./ssl/certificate.pem'),
+    }, expressApp);
+} else {
+    serverApp = expressApp;
+}
+
+serverApp
     .use(express.static('client'))
     .use('/node_modules', express.static('node_modules'))
     .use('/resources', (req, res) => {

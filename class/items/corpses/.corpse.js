@@ -7,6 +7,9 @@ const actions = [
             if (entity.getContainer() !== creature) {
                 return false;
             }
+            return true;
+        },
+        available(entity, creature) {
             if (!creature.getToolMultiplier(TOOL_UTILS.CUTTING)) {
                 return 'You need to equip the right tool';
             }

@@ -58,9 +58,49 @@ button {
   }
 }
 
+$size: 13.5vw;
+$margin: 0.2vw;
+
+.status-bar {
+  display: flex;
+  min-height: $size + 2 * $margin + 1vw;
+  border-bottom: 3px solid grey;
+}
+
+.meter-orb {
+  height: $size;
+  width: $size;
+  border: 1px solid gray;
+  border-radius: 50%;
+  margin: $margin;
+  overflow: hidden;
+  position: relative;
+
+  .fill {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    transition: height 1s linear;
+  }
+}
+
 .item-list {
   display: flex;
   flex-wrap: wrap;
+}
+
+.equipment-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  .equipment {
+    width: 25vw;
+    text-align: center;
+
+    .item-icon {
+      margin: 0 auto;
+    }
+  }
 }
 
 .item-icon {
@@ -74,23 +114,29 @@ button {
   text-shadow: 0 0 2px black, 0 0 2px black;
   color: white;
 
-  img {
+  .slot {
     border: 1px solid grey;
     background: lightgrey;
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+
+  img {
     height: 100%;
     width: 100%;
   }
 
   .qty {
     position: absolute;
-    bottom: 4px + $padding;
-    right: 4px + $padding;
+    bottom: 4px;
+    right: 4px;
   }
 
   .integrity {
     position: absolute;
-    top: 4px + $padding;
-    right: 4px + $padding;
+    top: 4px;
+    right: 4px;
   }
 }
 

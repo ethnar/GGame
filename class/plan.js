@@ -85,7 +85,7 @@ const actions = [
                 const availableMaterials = creature.getMaterials(materials);
                 const materialUsed = Object
                     .keys(availableMaterials)
-                    .pop();
+                    .find(material => availableMaterials[material].length);
                 creature.useUpItem(availableMaterials[materialUsed].pop());
 
                 // reduce materials needed

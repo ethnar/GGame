@@ -10,6 +10,7 @@ const StoneKnife = require('../../items/equipment/stone-knife');
 const StoneSpear = require('../../items/equipment/stone-spear');
 const CookedMeat = require('../../items/edibles/cooked-meat');
 const Fireplace = require('../../structures/buildings/fireplace');
+const Tent = require('../../structures/buildings/homes/tent');
 
 const researchTechs = [
     SharpenedStone,
@@ -20,6 +21,7 @@ const researchTechs = [
     StoneSpear,
     CookedMeat,
     Fireplace,
+    Tent,
 ];
 
 const MAX_SKILL = 2000000;
@@ -425,7 +427,10 @@ class Humanoid extends Creature {
     }
 
     getEfficiency() {
-        const multiplier = this.sneaking ? 0.7 : 1;
+        let multiplier = this.sneaking ? 0.7 : 1;
+        if (program.dev && !this.behaviour.passive) {
+            multiplier = 100;
+        }
         return multiplier * ((this.mood * 0.75) + 25) / 100;
     }
 
