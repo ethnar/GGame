@@ -13,7 +13,7 @@ const research = {
 class StoneHatchet extends Item {
     static utility() {
         return {
-            [TOOL_UTILS.CUTTING]: 0.7
+            [TOOL_UTILS.WOODCUTTING]: 0.7
         };
     }
 
