@@ -3,7 +3,7 @@ const utils = require('../../../singletons/utils');
 
 const research = {
     materials: {
-        'Log': utils.random(1, 5),
+        'Log': utils.randomResearchMats(14),
     },
     skill: SKILLS.COOKING,
     level: 0,

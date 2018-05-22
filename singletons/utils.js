@@ -1,6 +1,20 @@
+const rand = require('random-seed');
+
+const BASE_SEED = 1234567890;
+
+const usedDeltas = {};
+
 const utils = {
     random(from, to) {
         return Math.floor(Math.random() * (1 + to - from)) + from;
+    },
+
+    randomResearchMats(seedDelta) {
+        if (usedDeltas[seedDelta]) {
+            throw new Error('Using the same seed twice: ' + usedDeltas);
+        }
+        usedDeltas[seedDelta] = true;
+        return rand(1234567890 + seedDelta).intBetween(1, 5);
     },
 
     logarithm(base, number) {

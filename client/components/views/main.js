@@ -1,6 +1,6 @@
 import {ServerService} from '../../services/server.js';
 import {ContextMenu} from '../generic/context-menu.js';
-import {ToastNotification} from '../generic/toast-notification.js';
+import '../generic/toast-notification.js';
 import '../game/map.js';
 import '../game/actions.js';
 
