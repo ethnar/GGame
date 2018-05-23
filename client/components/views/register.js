@@ -4,6 +4,7 @@ export const RegisterView = {
     data: () => ({
         user: '',
         password: '',
+        passphrase: '',
         error: ''
     }),
 
@@ -14,7 +15,7 @@ export const RegisterView = {
 
         register() {
             ServerService
-                .register(this.user, this.password)
+                .register(this.user, this.password, this.passphrase)
                 .then(() => {
                     this.goToLogin();
                 }).catch((error) => {
@@ -25,8 +26,9 @@ export const RegisterView = {
 
     template: `
 <div>
-    <input name="user" v-model="user" />
-    <input name="password" type="password" v-model="password" />
+    Username <input name="user" v-model="user" /><br/>
+    Password <input name="password" type="password" v-model="password" /><br/>
+    Secret <input name="passphrase" type="text" v-model="passphrase" /><br/>
     <input type="button" @click="register()" value="Register" />
     <div>{{error}}</div>
 </div>

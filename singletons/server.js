@@ -247,6 +247,12 @@ expressApp
                 res.status(400);
             }
 
+            if (params.passphrase !== 'biscuits') {
+                res.status(400);
+                res.send();
+                return;
+            }
+
             const startingNodes = world
                 .getNodes()
                 .filter(node => node

@@ -124,13 +124,14 @@ export const ServerService = {
         });
     },
 
-    register(name, password) {
+    register(name, password, passphrase) {
         return fetcher(registerUrl, {
             method: 'POST',
             credentials: 'include',
             body: JSON.stringify({
                 name,
-                password
+                password,
+                passphrase,
             })
         });
     },
