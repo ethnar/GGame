@@ -34,6 +34,16 @@ module.exports = {
                     title: 'G The Game',
                     body: message,
                 },
+                webpush: {
+                    headers: {
+                        Urgency: 'high'
+                    },
+                    notification: {
+                        body: message,
+                        requireInteraction: true,
+                        click_action: 'https://gthegame.com:8001/#/main', // TODO: not hardcoded
+                    }
+                },
                 token: token,
             })
             .catch((error) => {
