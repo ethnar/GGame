@@ -287,6 +287,79 @@ pre {
   }
 }
 
+.current-action {
+  $border: 3px;
+  height: $size;
+  width: $size;
+  border: 1px solid black;
+  position: relative;
+
+  .border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: $border * 4 solid green;
+    transition: clip-path 1s linear;
+
+    &.tr {
+      border-left: none;
+      border-bottom: none;
+      border-right-color: transparent;
+      width: 50%;
+      left: 50%;
+    }
+    &.r {
+      border-bottom-color: transparent;
+      border-top-color: transparent;
+      border-left: none;
+      width: 101%;
+    }
+    &.b {
+      border-left-color: transparent;
+      border-right-color: transparent;
+      border-top: none;
+    }
+    &.l {
+      border-bottom-color: transparent;
+      border-top-color: transparent;
+      border-right: none;
+    }
+    &.tl {
+      border-right: none;
+      border-bottom: none;
+      border-left-color: transparent;
+      width: 50%;
+    }
+  }
+
+  .img-container {
+    z-index: 2;
+    position: relative;
+    padding: $border;
+    width: 100%;
+    height: 100%;
+
+    img {
+      background: white;
+      width: 100%;
+      height: 100%;
+      padding: 4px;
+      border: 1px solid black;
+    }
+  }
+
+  .repetitions {
+    font-size: 60%;
+    text-shadow: 0 0 2px black, 0 0 2px black;
+    color: white;
+    position: absolute;
+    bottom: 4%;
+    right: 10%;
+  }
+}
+
 section {
   border-top: 2px solid grey;
 

@@ -15,6 +15,7 @@ const prod = {
 const actions = [
     new Action({
         name: 'Fight',
+        icon: '/actions/icons8-sword-100.png',
         valid(entity, creature) {
             if (entity !== creature) {
                 return false;
@@ -428,7 +429,17 @@ class Creature extends Entity {
                 tool: tool ? tool.getPayload(creature) : null,
                 weapon: weapon.getPayload ? weapon.getPayload(creature) : weapon,
                 actions: this.getActionsPayloads(creature),
-                currentAction: utils.cleanup(this.currentAction),
+                currentAction: {
+                    ...utils.cleanup(this.currentAction),
+                    progress: Math.ceil(this.actionProgress),
+                    icon:
+                        this.currentAction ?
+                        Entity
+                            .getById(this.currentAction.entityId)
+                            .getActionById(this.currentAction.actionId)
+                            .getIcon(creature) :
+                        null,
+                },
                 researchMaterials: Item.getMaterialsPayload(this.researchMaterials, creature),
                 recentResearches: Object
                     .keys(recentResearches)
@@ -443,7 +454,6 @@ class Creature extends Entity {
                     energy: Math.ceil(this.energy),
                     stamina: Math.ceil(this.stamina),
                     stealth: Math.ceil(this.stealth),
-                    actionProgress: Math.ceil(this.actionProgress),
                     mood: Math.ceil(this.mood),
                 },
                 behaviour: utils.cleanup(this.behaviour),

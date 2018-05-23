@@ -6,6 +6,7 @@ const server = require('../../singletons/server');
 const actions = [
     new Action({
         name: 'Travel',
+        icon: '/actions/icons8-treasure-map-100.png',
         valid(entity, creature) {
             if (entity === creature.getNode()) {
                 return false;

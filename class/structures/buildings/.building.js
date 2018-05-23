@@ -6,6 +6,7 @@ const utils = require('../../../singletons/utils');
 const actions = [
     new Action({
         name: 'Construct',
+        icon: '/actions/icons8-home-100.png',
         defaultRepetitions: Infinity,
         valid(entity) {
             return !entity.isComplete();

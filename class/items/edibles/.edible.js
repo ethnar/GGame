@@ -4,6 +4,7 @@ const Action = require('../../action');
 const actions = [
     new Action({
         name: 'Eat',
+        icon: '/actions/icons8-cutlery-100.png',
         valid(item, creature) {
             if (item.getContainer() !== creature) {
                 return false;

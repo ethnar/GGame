@@ -5,6 +5,7 @@ const utils = require('../../singletons/utils');
 const actions = [
     new Action({
         name: 'Gather',
+        icon: '/actions/icons8-receive-cash-100.png',
         defaultRepetitions: Infinity,
         available(entity, creature) {
             if (creature.isOverburdened()) {

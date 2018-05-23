@@ -62,32 +62,57 @@ Vue.component('meter-orb', {
     `,
 });
 
-Vue.component('meter-bar', {
-    props: [
-        'color',
-        'value',
-        'onlyGrowing'
-    ],
-
+Vue.component('current-action', {
     data: () => ({
         reseter: false,
     }),
 
     watch: {
-        value(to, from) {
-            if (from > to && this.onlyGrowing) {
-                this.reseter = !this.reseter;
-            }
+        progress(to, from) {
+
+        }
+    },
+
+    subscriptions() {
+        const currentActionStream = ServerService
+            .getMainStream()
+            .pluck('creature')
+            .pluck('currentAction');
+
+        const progressStream = currentActionStream
+            .pluck('progress');
+
+        const cut = (min, max) => (number) => {
+            return Math.max(Math.min(100, (number - min * 100) / (max - min)), 0);
+        };
+
+        return {
+            currentAction: currentActionStream,
+            progress: progressStream.scan((acc, item) => {
+                if (acc > item) {
+                    this.reseter = !this.reseter;
+                }
+                return item;
+            }),
+            trProgress: progressStream.map(cut(0/8, 1/8)),
+            rProgress:  progressStream.map(cut(1/8, 3/8)),
+            bProgress:  progressStream.map(cut(3/8, 5/8)),
+            lProgress:  progressStream.map(cut(5/8, 7/8)),
+            tlProgress: progressStream.map(cut(7/8, 8/8)),
         }
     },
 
     template: `
-<span class="meter-bar">
-    <div
-        :key="reseter"
-        class="fill"
-        :style="{ 'background-color': color, width: (value || 0) + '%' }"
-    ></div>
+<span class="current-action" :key="reseter">
+    <div class="border tr" :style="{ 'clip-path': 'inset(0 ' + (100 - (trProgress || 0)) + '% 0 0)' }"></div>
+    <div class="border r"  :style="{ 'clip-path': 'inset(0 0 ' + (100 - (rProgress || 0)) + '% 0)' }"></div>
+    <div class="border b"  :style="{ 'clip-path': 'inset(0 0 0 ' + (100 - (bProgress || 0)) + '%)' }"></div>
+    <div class="border l"  :style="{ 'clip-path': 'inset(' + (100 - (lProgress || 0)) + '% 0 0 0)' }"></div>
+    <div class="border tl" :style="{ 'clip-path': 'inset(0 ' + (100 - (tlProgress || 0)) + '% 0 0)' }"></div>
+    <div class="img-container">
+        <img v-if="currentAction && currentAction.icon" :src="currentAction.icon">
+    </div>
+    <div class="repetitions">{{currentAction.repetitions}}</div>
 </span>
     `,
 });
@@ -248,7 +273,9 @@ export const MainView = {
 <div v-if="player && node" class="main-container">
     <world-map class="world-map-container"></world-map>
     <div class="status-bar">
-        <meter-orb color="magenta" :value="player.status.actionProgress" :only-growing="true"/>
+        <!--?{{player.currentAction}}!-->
+        <current-action></current-action>
+        <!--<meter-orb color="magenta" :value="player.status.actionProgress" :only-growing="true"/>-->
         <meter-orb color="red" :value="player.status.health"/>
         <meter-orb color="limegreen" :value="player.status.stamina"/>
         <meter-orb color="dodgerblue" :value="player.status.energy"/>
@@ -263,7 +290,7 @@ export const MainView = {
                 :target="player" 
             />
             Name: {{player.name}}<br/>
-            <div>Action <meter-orb color="magenta" :value="player.status.actionProgress" :only-growing="true"/></div>
+            <!--<div>Action <meter-orb color="magenta" :value="player.status.actionProgress" :only-growing="true"/></div>-->
             <div>Health <meter-orb color="red" :value="player.status.health"/></div>
             <div>Stamina <meter-orb color="limegreen" :value="player.status.stamina"/></div>
             <div>Energy <meter-orb color="dodgerblue" :value="player.status.energy"/></div>
@@ -422,9 +449,6 @@ export const MainView = {
                 <div v-for="creature in enemies" class="creature">
                     <span class="name">{{creature.name}}</span>
                     <meter-orb color="red" :value="creature.status.health"/><br/>
-                    <actions
-                        :target="creature"
-                    />
                 </div>
             </section>
             <section>
@@ -432,9 +456,6 @@ export const MainView = {
                 <div v-for="creature in friendlies" class="creature">
                     <span class="name">{{creature.name}}</span>
                     <meter-orb color="red" :value="creature.status.health"/><br/>
-                    <actions
-                        :target="creature"
-                    />
                 </div>
             </section>
         </div>

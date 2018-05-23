@@ -3,6 +3,7 @@ const Item = require('../.item');
 const actions = [
     new Action({
         name: 'Butcher',
+        icon: '/actions/icons8-rack-of-lamb-100.png',
         valid(entity, creature) {
             if (entity.getContainer() !== creature) {
                 return false;

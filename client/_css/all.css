@@ -208,6 +208,63 @@ pre {
       .main-container .section-selector .toggle.highlight:not(.active) {
         box-shadow: 0 0 10px 3px red inset; }
 
+.current-action {
+  height: 13.5vw;
+  width: 13.5vw;
+  border: 1px solid black;
+  position: relative; }
+  .current-action .border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: 12px solid green;
+    transition: clip-path 1s linear; }
+    .current-action .border.tr {
+      border-left: none;
+      border-bottom: none;
+      border-right-color: transparent;
+      width: 50%;
+      left: 50%; }
+    .current-action .border.r {
+      border-bottom-color: transparent;
+      border-top-color: transparent;
+      border-left: none;
+      width: 101%; }
+    .current-action .border.b {
+      border-left-color: transparent;
+      border-right-color: transparent;
+      border-top: none; }
+    .current-action .border.l {
+      border-bottom-color: transparent;
+      border-top-color: transparent;
+      border-right: none; }
+    .current-action .border.tl {
+      border-right: none;
+      border-bottom: none;
+      border-left-color: transparent;
+      width: 50%; }
+  .current-action .img-container {
+    z-index: 2;
+    position: relative;
+    padding: 3px;
+    width: 100%;
+    height: 100%; }
+    .current-action .img-container img {
+      background: white;
+      width: 100%;
+      height: 100%;
+      padding: 4px;
+      border: 1px solid black; }
+  .current-action .repetitions {
+    font-size: 60%;
+    text-shadow: 0 0 2px black, 0 0 2px black;
+    color: white;
+    position: absolute;
+    bottom: 4%;
+    right: 10%; }
+
 section {
   border-top: 2px solid grey; }
   section header {
@@ -221,6 +278,59 @@ section {
     font-size: 90%;
     border-top: 1px solid lightgrey;
     border-bottom: 1px solid lightgrey; }
+
+.main-map-container {
+  border: 1px solid lightgrey;
+  position: relative;
+  width: 100%;
+  height: 20vh;
+  overflow: hidden;
+  transition: height 0.6s; }
+  .main-map-container::before {
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    z-index: 4;
+    transition: box-shadow 0.6s;
+    pointer-events: none; }
+  .main-map-container.sneaking::before {
+    box-shadow: 0 0 120px 10px inset black; }
+  .main-map-container .draggable-map {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background-image: url("../images/Arcannan.jpg");
+    border-radius: 20px; }
+    .main-map-container .draggable-map:not(.dragging) {
+      transition: margin 0.3s ease-in; }
+    .main-map-container .draggable-map .node-token {
+      position: absolute;
+      border: 1px solid black;
+      width: 20px;
+      height: 20px;
+      margin-left: -10px;
+      margin-top: -10px;
+      border-radius: 50%;
+      box-sizing: border-box;
+      z-index: 2;
+      background-color: white;
+      opacity: 0.6; }
+      .main-map-container .draggable-map .node-token.current {
+        opacity: 1;
+        z-index: 3; }
+    .main-map-container .draggable-map .path {
+      opacity: 0.8;
+      border-radius: 5px;
+      position: absolute;
+      min-width: 1px;
+      min-height: 5px;
+      margin-top: -2.5px;
+      background-color: lightgrey;
+      border: 1px solid black;
+      z-index: 1; }
 
 .meter-orb {
   display: inline-block;
@@ -330,56 +440,3 @@ section {
   transition: top 0.3s ease-in-out; }
   .toast-message.visible {
     top: 0; }
-
-.main-map-container {
-  border: 1px solid lightgrey;
-  position: relative;
-  width: 100%;
-  height: 20vh;
-  overflow: hidden;
-  transition: height 0.6s; }
-  .main-map-container::before {
-    content: '';
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    position: absolute;
-    z-index: 4;
-    transition: box-shadow 0.6s;
-    pointer-events: none; }
-  .main-map-container.sneaking::before {
-    box-shadow: 0 0 120px 10px inset black; }
-  .main-map-container .draggable-map {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    background-image: url("../images/Arcannan.jpg");
-    border-radius: 20px; }
-    .main-map-container .draggable-map:not(.dragging) {
-      transition: margin 0.3s ease-in; }
-    .main-map-container .draggable-map .node-token {
-      position: absolute;
-      border: 1px solid black;
-      width: 20px;
-      height: 20px;
-      margin-left: -10px;
-      margin-top: -10px;
-      border-radius: 50%;
-      box-sizing: border-box;
-      z-index: 2;
-      background-color: white;
-      opacity: 0.6; }
-      .main-map-container .draggable-map .node-token.current {
-        opacity: 1;
-        z-index: 3; }
-    .main-map-container .draggable-map .path {
-      opacity: 0.8;
-      border-radius: 5px;
-      position: absolute;
-      min-width: 1px;
-      min-height: 5px;
-      margin-top: -2.5px;
-      background-color: lightgrey;
-      border: 1px solid black;
-      z-index: 1; }

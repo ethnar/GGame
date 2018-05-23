@@ -18,6 +18,7 @@ Vue.component('context-menu', {
     <div class="contents">
         <div class="title">{{name}}</div>
         <actions
+            v-if="data"
             :target="data"
             @action="visible = false"
         />

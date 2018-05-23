@@ -6,6 +6,7 @@ const utils = require('../../singletons/utils');
 const actions = [
     new Action({
         name: 'Equip as Tool',
+        icon: '/actions/icons8-hammer-100.png',
         valid(item, creature) {
             if (item.getContainer() !== creature) {
                 return false;
@@ -31,6 +32,7 @@ const actions = [
     }),
     new Action({
         name: 'Equip as a Weapon',
+        icon: '/actions/icons8-sword-100.png',
         valid(item, creature) {
             if (item.getContainer() !== creature) {
                 return false;
@@ -55,6 +57,7 @@ const actions = [
     }),
     new Action({
         name: 'Drop', // on the ground
+        icon: '/actions/icons8-delete-100.png',
         valid(item, creature) {
             if (item.getContainer() !== creature) {
                 return false;
@@ -70,6 +73,7 @@ const actions = [
     }),
     new Action({
         name: 'Pick up', // from the ground
+        icon: '/actions/icons8-drawstring-bag-100.png',
         valid(item, creature) {
             if (
                 !item.getContainer() ||
@@ -94,6 +98,7 @@ const actions = [
     }),
     new Action({
         name: 'Store',
+        icon: '/actions/icons8-open-box-100.png',
         valid(item, creature) {
             if (item.getContainer() !== creature) {
                 return false;
@@ -119,6 +124,7 @@ const actions = [
     }),
     new Action({
         name: 'Take', // out of storage
+        icon: '/actions/icons8-drawstring-bag-100.png',
         valid(item, creature) {
             if (
                 !item.getContainer() ||

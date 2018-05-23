@@ -5,6 +5,7 @@ const utils = require('../singletons/utils');
 const actions = [
     new Action({
         name: 'Erect',
+        icon: '/actions/icons8-home-100.png',
         valid(entity, creature) {
             if (!creature.buildingPlans.includes(entity)) {
                 return false;

@@ -5,6 +5,7 @@ const utils = require('../singletons/utils');
 const actions = [
     new Action({
         name: 'Craft',
+        icon: '/actions/icons8-hammer-100.png',
         valid(entity, creature) {
             if (!creature.craftingRecipes.includes(entity)) {
                 return false;

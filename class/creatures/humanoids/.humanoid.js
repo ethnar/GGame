@@ -38,6 +38,7 @@ const punch = {
 const actions = [
     new Action({
         name: 'Sneak',
+        icon: '/actions/icons8-fraud-100.png',
         valid(entity, creature) {
             if (!creature.stealth) {
                 creature.sneaking = false;
@@ -57,6 +58,7 @@ const actions = [
     }),
     new Action({
         name: 'Research',
+        icon: '/actions/icons8-test-tube-100.png',
         available(entity, creature) {
             const researchMaterials = utils.cleanup(creature.researchMaterials);
             if (!Object.keys(researchMaterials).length) {
@@ -132,6 +134,7 @@ const actions = [
     }),
     new Action({
         name: 'Stop Sneaking',
+        icon: '/actions/icons8-fraud-100.png',
         valid(entity, creature) {
             if (!creature.sneaking) {
                 return false;
@@ -146,6 +149,7 @@ const actions = [
     }),
     new Action({
         name: 'Sleep',
+        icon: '/actions/icons8-sleep-100.png',
         run(entity, creature) {
             creature.sleeping = true;
             const secondsNeededForGoodSleep = 4 * 60 * 60;
@@ -163,6 +167,7 @@ const actions = [
     }),
     new Action({
         name: 'Search',
+        icon: '/actions/icons8-search-100.png',
         defaultRepetitions: Infinity,
         valid(entity, creature) {
             if (creature.getNodeMapping(creature.getNode()) >= 5) {
