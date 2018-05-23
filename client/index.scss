@@ -302,7 +302,6 @@ pre {
     height: 100%;
     width: 100%;
     border: $border * 4 solid green;
-    transition: clip-path 1s linear;
 
     &.tr {
       border-left: none;

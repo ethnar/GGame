@@ -62,6 +62,43 @@ Vue.component('meter-orb', {
     `,
 });
 
+Vue.component('inventory', {
+    props: [
+        'data',
+        'slots',
+    ],
+
+    computed: {
+        emptySlots() {
+            let length = 0;
+            if (this.slots && this.data) {
+                length = Math.max(this.slots - this.data.length, 0);
+            }
+            return new Array(length);
+        },
+
+        sorted() {
+            return this.data.slice(0).sort((a, b) => {
+                if (a.name === b.name) {
+                    return b.qty - a.qty;
+                }
+                if (a.name > b.name) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            });
+        }
+    },
+
+    template: `
+<div class="item-list">
+    <item v-for="(item, idx) in sorted" :data="item" :key="'i' + idx"></item>
+    <item-icon v-for="(emptySlot, idx) in emptySlots" :key="idx"></item-icon>
+</div>
+    `,
+});
+
 Vue.component('current-action', {
     data: () => ({
         reseter: false,
@@ -207,12 +244,6 @@ export const MainView = {
     },
 
     computed: {
-        emptySlots() {
-            // TODO: stop hard-coding
-            const length = Math.max(10 - this.player.inventory.length, 0);
-            return new Array(length);
-        },
-
         researchMatsSlots() {
             const none = {
                 item: null,
@@ -324,22 +355,15 @@ export const MainView = {
             </section>
             <section>
                 <header>Inventory</header>
-                <div class="item-list">
-                    <item v-for="item in player.inventory" :data="item" :key="item.id"></item>
-                    <item-icon v-for="(emptySlot, idx) in emptySlots" :key="idx"></item-icon>
-                </div>
+                <inventory :data="player.inventory" :slots="15"></inventory>
             </section>
             <section v-for="structure in node.structures" v-if="structure.inventory">
                 <header>Storage</header>
-                <div class="item-list">
-                    <item v-for="item in structure.inventory" :data="item" :key="item.id"></item>
-                </div>
+                <inventory :data="structure.inventory" :slots="15"></inventory>
             </section>
             <section v-if="node.inventory && node.inventory.length">
                 <header>On the ground</header>
-                <div class="item-list">
-                    <item v-for="item in node.inventory" :data="item" :key="item.id"></item>
-                </div>
+                <inventory :data="node.inventory" :slots="15"></inventory>
             </section>
         </div>
         <div :hidden="mode !== 'crafting'">

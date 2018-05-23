@@ -27,7 +27,7 @@ const researchTechs = [
 
 const MAX_SKILL = 2000000;
 const MAX_SKILL_SPEED_MULTIPLIER = 3;
-const CARRY_CAPACITY = 10;
+const CARRY_CAPACITY = 15;
 
 const punch = {
     name: 'Punch',
@@ -338,7 +338,7 @@ class Humanoid extends Creature {
             this.energy += this.actionProgress / sleepNeeded;
         } else {
             const workHours = 16 * HOURS;
-            let effort = 0.3;
+            let effort = 0.5;
             if (this.currentAction) {
                 const { entityId, actionId } = this.currentAction;
                 const entity = Entity.getById(entityId);
