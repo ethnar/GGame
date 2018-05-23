@@ -1,3 +1,4 @@
+import '/libs/json-delta.js';
 
 const pendingRequests = {};
 const updateHandlers = {};
@@ -60,6 +61,7 @@ const getOpenPromise = () => {
 };
 
 let stream;
+let previousData;
 
 export const ServerService = {
     getPlayerId() {
@@ -85,13 +87,17 @@ export const ServerService = {
             getOpenPromise();
             stream = new Rx.ReplaySubject(1);
             updateHandlers.playerData = (data) => {
+                if (previousData) {
+                    data = window.jsonDelta.applyDiff(previousData, data);
+                }
                 stream.next(data);
+                previousData = data;
             };
         }
         return Rx.Observable
             .merge(
-                stream.debounceTime(1000),
-                stream.throttleTime(1000)
+                stream.debounceTime(500),
+                stream.throttleTime(500)
             )
             .distinctUntilChanged();
     },

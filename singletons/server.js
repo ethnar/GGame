@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const proxy = require('http-proxy-middleware');
 const path = require('path');
 const https = require('https');
+const jd = require('../client/libs/json-delta');
 
 const port = process.env.PORT || 8001;
 
@@ -108,13 +109,22 @@ const server = new class Server {
     updatePlayer(connection) {
         const player = this.getPlayer(connection);
         const creature = player.getCreature();
+
+        let data;
+        const fullData = {
+            creature: creature.getPayload(creature),
+            node: creature.getNode().getPayload(creature),
+        };
+        if (connection.lastPlayerUpdatePayload) {
+            data = jd.diff(connection.lastPlayerUpdatePayload, fullData);
+        } else {
+            data = fullData;
+        }
         connection.sendText(JSON.stringify({
             update: 'playerData',
-            data: {
-                creature: creature.getPayload(creature),
-                node: creature.getNode().getPayload(creature),
-            }
+            data,
         }));
+        connection.lastPlayerUpdatePayload = fullData;
     }
 
     sendToPlayer(player, topic, data) {
