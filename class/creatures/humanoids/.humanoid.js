@@ -11,6 +11,7 @@ const StoneSpear = require('../../items/equipment/stone-spear');
 const CookedMeat = require('../../items/edibles/cooked-meat');
 const Fireplace = require('../../structures/buildings/fireplace');
 const Tent = require('../../structures/buildings/homes/tent');
+const pushNotifications = require('../../../singletons/push-notifications');
 
 const researchTechs = [
     SharpenedStone,
@@ -213,7 +214,7 @@ class Humanoid extends Creature {
     }
 
     static stomachSeconds() {
-        return 24 * 60 * 60;
+        return 1 * DAYS;
     }
 
     constructor(args) {
@@ -412,8 +413,43 @@ class Humanoid extends Creature {
         this.gettingHungry();
         this.updateStealth();
         this.updateMood();
+        this.notifications();
 
         super.cycle();
+    }
+
+    isStarving() {
+        return this.satiated < 10;
+    }
+
+    isExhausted() {
+        return this.energy < 10;
+    }
+
+    notifications() {
+        this.lastChecks = this.lastChecks || {};
+        const checks = {
+            hasEnemies: {
+                on: 'Enemies are about!',
+                off: 'The area is clear.',
+            },
+            isStarving: {
+                on: 'You are starving!',
+            },
+            isExhausted: {
+                on: 'You are exhausted!',
+            }
+        };
+        Object.keys(checks).forEach(fn => {
+            const isTrue = this[fn]();
+            if (isTrue && !this.lastChecks[fn] && checks[fn].on) {
+                pushNotifications.send(this, checks[fn].on);
+            }
+            if (!isTrue && this.lastChecks[fn] && checks[fn].off) {
+                pushNotifications.send(this, checks[fn].off);
+            }
+            this.lastChecks[fn] = isTrue;
+        });
     }
 
     getHome() {

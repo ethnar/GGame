@@ -1,4 +1,5 @@
 import '/libs/json-delta.js';
+import {pullNotifications} from './pull-notifications.js';
 
 const pendingRequests = {};
 const updateHandlers = {};
@@ -56,6 +57,16 @@ const getOpenPromise = () => {
 
         openPromise = new Promise(resolve => connection.onopen = resolve)
             .then(() => connection);
+
+        openPromise.then(() => {
+            pullNotifications
+                .init()
+                .then(token => {
+                    ServerService.request('push-notifications', {
+                        token,
+                    });
+                });
+        });
     }
     return openPromise;
 };

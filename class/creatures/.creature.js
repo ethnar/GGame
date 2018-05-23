@@ -2,6 +2,7 @@ const Entity = require('../.entity');
 const server = require('../../singletons/server');
 const Action = require('../action');
 const utils = require('../../singletons/utils');
+const pushNotifications = require('../../singletons/push-notifications');
 
 const TIME_BETWEEN_BLOWS = 10;
 
@@ -177,6 +178,7 @@ class Creature extends Entity {
             if (action.finally) {
                 action.finally(entity, this);
             }
+            pushNotifications.send(this, action.name + ': finished!');
         }
 
         this.currentAction = null;
@@ -413,7 +415,7 @@ class Creature extends Entity {
             faction: this.faction,
             hostile: this.faction !== creature.faction,
             status: {
-                health: this.health,
+                health: Math.ceil(this.health),
             },
         };
         if (this === creature) {
@@ -437,12 +439,12 @@ class Creature extends Entity {
                     })),
                 status: {
                     ...result.status,
-                    satiated: this.satiated,
-                    energy: this.energy,
-                    stamina: this.stamina,
-                    stealth: this.stealth,
-                    actionProgress: this.actionProgress,
-                    mood: this.mood,
+                    satiated: Math.ceil(this.satiated),
+                    energy: Math.ceil(this.energy),
+                    stamina: Math.ceil(this.stamina),
+                    stealth: Math.ceil(this.stealth),
+                    actionProgress: Math.ceil(this.actionProgress),
+                    mood: Math.ceil(this.mood),
                 },
                 behaviour: utils.cleanup(this.behaviour),
                 sneaking: this.sneaking,

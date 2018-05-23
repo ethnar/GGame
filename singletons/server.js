@@ -120,10 +120,12 @@ const server = new class Server {
         } else {
             data = fullData;
         }
-        connection.sendText(JSON.stringify({
-            update: 'playerData',
-            data,
-        }));
+        if (data) {
+            connection.sendText(JSON.stringify({
+                update: 'playerData',
+                data,
+            }));
+        }
         connection.lastPlayerUpdatePayload = fullData;
     }
 
