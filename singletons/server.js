@@ -5,6 +5,7 @@ const Player = require('../class/player');
 const crypto = require('crypto');
 const proxy = require('http-proxy-middleware');
 const path = require('path');
+const fs = require('fs');
 const https = require('https');
 const jd = require('../client/libs/json-delta');
 
