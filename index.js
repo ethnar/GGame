@@ -3,6 +3,7 @@ program
     .version('0.1.0')
     .option('-r, --reset', 'Reset the world')
     .option('-d, --dev', 'Development mode')
+    .option('-s, --ssl', 'Connect over ssl')
     .parse(process.argv);
 
 require('./static');
