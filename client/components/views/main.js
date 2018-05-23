@@ -317,16 +317,16 @@ export const MainView = {
                         <item-icon :src="recipe.icon"></item-icon>
                     </div>
                     <div class="details">
-                        <div>
+                        <div class="label">
                             {{recipe.name}}
                         </div>
                         <div class="item-list">
                             <item-icon v-for="material in recipe.materials" :key="material.item.name" :src="material.item.icon" :qty="material.qty" :small="true"></item-icon>
+                            <actions
+                                :target="recipe" 
+                            />
                         </div>
                     </div>
-                    <actions
-                        :target="recipe" 
-                    />
                 </div>
             </section>
             <section>
@@ -336,16 +336,16 @@ export const MainView = {
                         <item-icon :src="plan.icon"></item-icon>
                     </div>
                     <div class="details">
-                        <div>
+                        <div class="label">
                             {{plan.name}}
                         </div>
                         <div class="item-list">
                             <item-icon v-for="material in plan.materials" :key="material.item.name" :src="material.item.icon" :qty="material.qty" :small="true"></item-icon>
+                            <actions
+                                :target="plan" 
+                            />
                         </div>
                     </div>
-                    <actions
-                        :target="plan" 
-                    />
                 </div>
             </section>
             <section>
@@ -372,13 +372,13 @@ export const MainView = {
                         <item-icon v-else src="images/icon-cross.png"></item-icon>
                     </div>
                     <div class="details">
-                        <div v-if="attempt.result">
+                        <div v-if="attempt.result" class="label">
                             New recipe: {{attempt.result.name}}!
                         </div>
-                        <div v-else-if="attempt.rightIngredients">
+                        <div v-else-if="attempt.rightIngredients" class="label">
                             Matching quantities: {{attempt.matchingCounts}} / {{attempt.matchesNeeded}}
                         </div>
-                        <div v-else>
+                        <div v-else class="label">
                             Doesn't seem to work
                         </div>
                         <div class="item-list">
@@ -419,9 +419,9 @@ export const MainView = {
             />
             <section>
                 <header>Enemies</header>
-                <div v-for="creature in enemies">
-                    {{creature.name}}
-                    <meter-bar color="red" :value="creature.status.health"/><br/>
+                <div v-for="creature in enemies" class="creature">
+                    <span class="name">{{creature.name}}</span>
+                    <meter-orb color="red" :value="creature.status.health"/><br/>
                     <actions
                         :target="creature"
                     />
@@ -429,9 +429,9 @@ export const MainView = {
             </section>
             <section>
                 <header>Friendlies</header>
-                <div v-for="creature in friendlies">
-                    {{creature.name}}
-                    <meter-bar color="red" :value="creature.status.health"/><br/>
+                <div v-for="creature in friendlies" class="creature">
+                    <span class="name">{{creature.name}}</span>
+                    <meter-orb color="red" :value="creature.status.health"/><br/>
                     <actions
                         :target="creature"
                     />

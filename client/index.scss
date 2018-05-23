@@ -53,7 +53,6 @@ button {
   float: right;
 
   .fill {
-    height: 100%;
     transition: width 1s linear;
   }
 }
@@ -64,7 +63,7 @@ $margin: 0.2vw;
 .status-bar {
   display: flex;
   min-height: $size + 2 * $margin + 1vw;
-  border-bottom: 3px solid grey;
+  border-bottom: 1px solid grey;
 }
 
 .meter-orb {
@@ -79,7 +78,10 @@ $margin: 0.2vw;
   .fill {
     position: absolute;
     bottom: 0;
-    width: 100%;
+    width: 102%;
+    margin-left: -1%;
+    height: 102%;
+    margin-bottom: -1%;
     transition: clip-path 1s linear;
   }
 }
@@ -142,9 +144,34 @@ $margin: 0.2vw;
   }
 
   &.small {
-    width: 14vw;
-    height: 14vw;
+    width: 12vw;
+    height: 12vw;
+    padding: $padding / 2;
     font-size: 60%;
+  }
+}
+
+.details {
+  font-size: 89%;
+
+  .label {
+    font-size: 80%;
+    padding-top: 3px;
+  }
+
+  .action {
+    height: 10vw;
+    margin: 4px 0 0;
+  }
+}
+
+.creature {
+  padding: 0 2vw;
+  display: flex;
+
+  .name {
+    flex-grow: 1;
+    padding: 3vw 0;
   }
 }
 
@@ -261,6 +288,8 @@ pre {
 }
 
 section {
+  border-top: 2px solid grey;
+
   header {
     text-align: center;
     font-weight: bold;
@@ -274,9 +303,5 @@ section {
     font-size: 90%;
     border-top: 1px solid lightgrey;
     border-bottom: 1px solid lightgrey;
-  }
-
-  + section {
-    border-top: 2px solid grey;
   }
 }

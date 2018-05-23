@@ -30,6 +30,10 @@ Vue.component('context-menu', {
 window.addEventListener('mousemove', (event) => {
     if (instance && !instance.visible) {
         const halfWidth = parseInt(window.getComputedStyle(instance.$el).width, 10) / 2;
+        setTimeout(() => {
+            const height = instance.$el.offsetHeight;
+            instance.y = Math.min(parseInt(instance.y, 10), window.innerHeight - height) + 'px';
+        });
         const x = Math.min(window.innerWidth - halfWidth, Math.max(halfWidth, event.clientX));
         instance.x = x + 'px';
         instance.y = (window.innerHeight - event.clientY + 20) + 'px';

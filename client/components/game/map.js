@@ -1,5 +1,6 @@
 import {MapService} from '../../services/map.js'
 import {ServerService} from '../../services/server.js';
+import {ContextMenu} from '../generic/context-menu.js';
 import './actions.js';
 
 const NODE_AREA = 60;
@@ -7,7 +8,6 @@ const NODE_AREA = 60;
 Vue.component('world-map', {
     data: () => ({
         NODE_AREA,
-        contextMenuNode: null,
         dragging: false,
         mapOffset: {},
     }),
@@ -123,7 +123,9 @@ Vue.component('world-map', {
 
     methods: {
         nodeClicked(node) {
-            this.contextMenuNode = node;
+            if (this.data) {
+                ContextMenu.open(node.name, node);
+            }
         },
         startDrag(event) {
             this.dragging = {
@@ -172,10 +174,6 @@ Vue.component('world-map', {
             ></div>
         </div>
     </v-touch>
-    <div v-if="contextMenuNode" @click="contextMenuNode = null">
-        Actions:
-        <actions :target="contextMenuNode"></actions>
-    </div>
 </div>
     `,
 });
