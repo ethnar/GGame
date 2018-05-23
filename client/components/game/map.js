@@ -9,6 +9,7 @@ Vue.component('world-map', {
     data: () => ({
         NODE_AREA,
         dragging: false,
+        expanded: false,
         mapOffset: {},
     }),
 
@@ -127,6 +128,9 @@ Vue.component('world-map', {
                 ContextMenu.open(node.name, node);
             }
         },
+        toggleExpand() {
+            this.expanded = !this.expanded;
+        },
         startDrag(event) {
             this.dragging = {
                 x: this.mapOffset.x,
@@ -149,11 +153,12 @@ Vue.component('world-map', {
 <div>
     <v-touch
         class="main-map-container"
-        :class="{ sneaking: player.sneaking }"
+        :class="{ sneaking: player.sneaking, expanded: expanded }"
         @panstart="startDrag"
         @panmove="drag"
         @panend="dragging = false;"
     >
+        <div @click="toggleExpand" class="toggle-expand"></div>
         <div
             v-if="size"
             class="draggable-map"
