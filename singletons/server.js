@@ -186,7 +186,7 @@ if (program.ssl) {
     serverApp = expressApp;
 }
 
-serverApp
+expressApp
     .use(express.static('client'))
     .use('/node_modules', express.static('node_modules'))
     .use('/resources', (req, res) => {
@@ -289,7 +289,9 @@ serverApp
 
             res.send();
         });
-    })
+    });
+
+serverApp
     .listen(port)
     .on('upgrade', wsProxy.upgrade);
 
