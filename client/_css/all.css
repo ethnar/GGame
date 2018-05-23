@@ -263,7 +263,8 @@ pre {
     color: white;
     position: absolute;
     bottom: 4%;
-    right: 10%; }
+    right: 10%;
+    z-index: 3; }
 
 section {
   border-top: 2px solid grey; }

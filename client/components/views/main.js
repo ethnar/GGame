@@ -67,9 +67,15 @@ Vue.component('current-action', {
         reseter: false,
     }),
 
-    watch: {
-        progress(to, from) {
-
+    computed: {
+        displayRepetitions() {
+            if (this.currentAction.repetitions > 10000) {
+                return '∞';
+            }
+            if (this.currentAction.repetitions === 1) {
+                return '';
+            }
+            return this.currentAction.repetitions;
         }
     },
 
@@ -112,7 +118,7 @@ Vue.component('current-action', {
     <div class="img-container">
         <img v-if="currentAction && currentAction.icon" :src="currentAction.icon">
     </div>
-    <div class="repetitions">{{currentAction.repetitions}}</div>
+    <div class="repetitions">{{displayRepetitions}}</div>
 </span>
     `,
 });
