@@ -39,5 +39,9 @@ class CookedMeat extends Edible {
     static research() {
         return research;
     }
+
+    static icon() {
+        return '/iconpack/prehistoric/prehistoricicon_121_b_bg.png';
+    }
 }
 module.exports = global.CookedMeat = CookedMeat;

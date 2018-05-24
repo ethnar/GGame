@@ -14,6 +14,10 @@ class Tent extends Home {
     static research() {
         return research;
     }
+
+    static icon() {
+        return '/iconpack/strategy/sgi_133_single_color.png';
+    }
 }
 Object.assign(Tent.prototype, {
     name: 'Tent',
