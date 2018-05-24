@@ -1,8 +1,19 @@
 export default Vue.component('radial-progress', {
-    props: [
-        'percentage',
-        'size',
-    ],
+    props: {
+        percentage: Number,
+        size: {
+            type: Number,
+            default: 50,
+        },
+        color: {
+            type: String,
+            default: 'lightgray',
+        },
+        background: {
+            type: String,
+            default: 'black',
+        },
+    },
 
     computed: {
         firstRotation() {
@@ -15,13 +26,14 @@ export default Vue.component('radial-progress', {
     },
 
     template: `
-<div class="radial-progress" :style="{width: size + 'px', height: size + 'px'}">
-    <div class="radial-progress-wrapper" :style="'transform: scale(' + (size / 100) + ')'">
-        <div class="half first" :style="'transform: rotate(' + firstRotation + 'deg)'"></div>
-        <div class="half second" :style="'transform: rotate(' + secondRotation + 'deg)'" v-if="percentage > 50"></div>
-        <div class="half second-overlay"></div>
+<div class="radial-progress" :style="{width: size + 'px', height: size + 'px', 'background-color': background}">
+    <div class="radial-progress-wrapper" :style="{ 'transform': 'scale(' + (size / 100) + ')', 'background-color': background }">
+        <div class="half first" :style="{ 'transform': 'rotate(' + firstRotation + 'deg)', 'border-top-color': color }"></div>
+        <div class="half second" :style="{ 'transform': 'rotate(' + secondRotation + 'deg)', 'border-top-color': color }" v-if="percentage > 50"></div>
+        <div class="half second-overlay" :style="{ 'border-top-color': background }"></div>
         <div class="mid-cover"></div>
-        <div class="outer-cover"></div>
+        <!--<div class="outer-cover"></div>-->
+        <div class="shadow"></div>
     </div>
 </div>
 `,

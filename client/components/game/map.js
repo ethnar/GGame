@@ -2,7 +2,7 @@ import {MapService} from '../../services/map.js'
 import {ServerService} from '../../services/server.js';
 import {ContextMenu} from '../generic/context-menu.js';
 import './actions.js';
-import '../generic/better-radial-progress.js';
+import '../generic/radial-progress.js';
 
 const NODE_AREA = 60;
 
