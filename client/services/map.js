@@ -6,8 +6,12 @@ export const MapService = {
     getMapStream() {
         if (!mapStream) {
             ServerService
-                .request('getMap')
-                .then(mapData => mapStream.next(mapData));
+                .getResetStream()
+                .subscribe(() => {
+                    ServerService
+                        .request('getMap')
+                        .then(mapData => mapStream.next(mapData));
+                });
 
             mapStream = new Rx.ReplaySubject(1);
             ServerService.registerHandler('mapData', (data) => {

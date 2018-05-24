@@ -82,10 +82,16 @@ const getOpenPromise = (reset = false) => {
 
 let stream;
 let previousData;
+const resetStream = new Rx.ReplaySubject(1);
+resetStream.next();
 
 export const ServerService = {
     getPlayerId() {
         return playerId;
+    },
+
+    getResetStream() {
+        return resetStream;
     },
 
     request(name, params) {
@@ -119,6 +125,7 @@ export const ServerService = {
                 previousData = null;
                 resetting = true;
                 getOpenPromise(true);
+                resetStream.next();
             }
         }, false);
 
