@@ -26,7 +26,7 @@ export default Vue.component('radial-progress', {
     },
 
     template: `
-<div class="radial-progress" :style="{width: size + 'px', height: size + 'px', 'background-color': background}">
+<div class="radial-progress" :style="{width: size + 'px', height: size + 'px', 'background-color': background}" @click="$emit('click', $event)">
     <div class="radial-progress-wrapper" :style="{ 'transform': 'scale(' + (size / 100) + ')', 'background-color': background }">
         <div class="half first" :style="{ 'transform': 'rotate(' + firstRotation + 'deg)', 'border-top-color': color }"></div>
         <div class="half second" :style="{ 'transform': 'rotate(' + secondRotation + 'deg)', 'border-top-color': color }" v-if="percentage > 50"></div>
