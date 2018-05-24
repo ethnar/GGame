@@ -16,9 +16,9 @@ class Fireplace extends Building {
 }
 Object.assign(Fireplace.prototype, {
     name: 'Fireplace',
-    baseTime: 3 * MINUTES,
+    baseTime: 2 * MINUTES,
     materials: {
-        'Log': 10,
+        'Log': 20,
     }
 });
 module.exports = global.Fireplace = Fireplace;
