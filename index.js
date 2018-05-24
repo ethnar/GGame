@@ -28,7 +28,17 @@ global.world = World.load('rolling_save.json');
 
 console.log('*** Start ***');
 
+let terminate = false;
+
 setInterval(() => {
     world.cycle();
     server.updatePlayers();
+    if (terminate) {
+        console.log('*** Terminated ***');
+        process.exit(0);
+    }
 }, program.dev ? 10 : 1000);
+
+process.on('SIGTERM', function () {
+    terminate = true;
+});
