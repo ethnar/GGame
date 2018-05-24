@@ -207,7 +207,11 @@ class Node extends Entity {
                         path => path
                             .getOtherNode(this)
                             .getMapPayload(creature, true)
-                    )
+                    ),
+            resources: this.resources
+                .filter(resource => creature.hasRequiredMapping(resource))
+                .map(resource => resource.getPayload(creature))
+                .filter(resourcePayload => !!resourcePayload),
         };
     }
 

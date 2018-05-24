@@ -5,6 +5,7 @@ Vue.component('context-menu', {
         visible: false,
         name: '',
         data: '',
+        html: '',
         x: 0,
         y: 0,
     }),
@@ -17,6 +18,7 @@ Vue.component('context-menu', {
 <div :hidden="!visible" :style="{ bottom: y, left: x }" class="context-menu">
     <div class="contents">
         <div class="title">{{name}}</div>
+        <div v-html="html"></div>
         <actions
             v-if="data"
             :target="data"
@@ -42,9 +44,10 @@ window.addEventListener('mousemove', (event) => {
 });
 
 export const ContextMenu = {
-    open: (label, data) => {
+    open: (label, data, html) => {
         instance.name = label;
         instance.data = data;
+        instance.html = html;
         instance.visible = true;
     }
 };

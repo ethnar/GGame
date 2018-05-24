@@ -2,6 +2,12 @@ import {LoginView} from './components/views/login.js'
 import {MainView} from './components/views/main.js'
 import {RegisterView} from './components/views/register.js';
 
+window.RESOURCE_SIZES = {
+    1: 'scarce',
+    2: 'ample',
+    3: 'abundant',
+};
+
 Vue.use(VueRx, Rx);
 Vue.use(VueTouch);
 

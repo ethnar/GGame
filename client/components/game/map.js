@@ -126,7 +126,11 @@ Vue.component('world-map', {
     methods: {
         nodeClicked(node) {
             if (this.data) {
-                ContextMenu.open(node.name, node);
+                const resourcesHtml = (node.resources || []).map(resource => {
+                    return `<div>${resource.name} (${RESOURCE_SIZES[resource.size]})<div>`;
+                }).join('');
+                console.log(resourcesHtml);
+                ContextMenu.open(node.name, node, resourcesHtml);
             }
         },
         toggleExpand() {

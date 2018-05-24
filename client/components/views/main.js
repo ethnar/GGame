@@ -213,11 +213,7 @@ export const MainView = {
         skillLevels,
         skillNames,
         researchMatsSlots: [],
-        resourceSize: {
-            1: 'scarce',
-            2: 'ample',
-            3: 'abundant',
-        },
+        resourceSize: RESOURCE_SIZES,
     }),
 
     subscriptions() {
