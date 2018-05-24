@@ -1,6 +1,7 @@
 const Entity = require('./.entity');
 const Action = require('./action');
 const utils = require('../singletons/utils');
+const server = require('../singletons/server');
 
 const actions = [
     new Action({
@@ -85,6 +86,10 @@ class Recipe extends Entity {
 
     getMaterials() {
         return utils.cleanup(this.materials);
+    }
+
+    getIcon(creature) {
+        return server.getImage(creature, global[this.itemClass].icon());
     }
 
     getPayload(creature) {

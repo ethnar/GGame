@@ -295,7 +295,6 @@ class Item extends Entity {
         return new Recipe({
             name: 'Craft ' + this.entityName(),
             itemClass: this.name,
-            icon: global[this.name].icon(),
             result: {
                 [this.name]: 1,
             },

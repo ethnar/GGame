@@ -48,11 +48,11 @@ class Entity {
     }
 
     getIcon(creature) {
-        return this.constructor.getIcon(creature, this.icon);
+        return this.constructor.getIcon(creature);
     }
 
-    static getIcon(creature, instanceIcon) {
-        const icon = instanceIcon || this.icon();
+    static getIcon(creature) {
+        const icon = this.icon();
         const player = creature.getPlayer();
         if (player) {
             player.icons = player.icons || [];

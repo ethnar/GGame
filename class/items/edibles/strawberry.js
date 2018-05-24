@@ -2,7 +2,7 @@ const Edible = require('./.edible');
 
 class Strawberry extends Edible {
     static entityName() {
-        return 'Strawberry';
+        return 'Wildberry';
     }
 
     static timeToEat() {
@@ -14,7 +14,7 @@ class Strawberry extends Edible {
     }
 
     static icon() {
-        return '/items/strawberry.png';
+        return '/iconpack/herbs/hb_b_12.png';
     }
 }
 Object.assign(Strawberry.prototype, {

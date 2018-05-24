@@ -37,7 +37,7 @@ class SharpenedStone extends Item {
     }
 
     static icon() {
-        return '/items/sharpened-stone.png';
+        return '/iconpack/stone/st_b_03_gray.png';
     }
 }
 module.exports = global.SharpenedStone = SharpenedStone;

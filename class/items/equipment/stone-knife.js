@@ -34,6 +34,10 @@ class StoneKnife extends Item {
     static entityName() {
         return 'Stone Knife';
     }
+
+    static icon() {
+        return '/iconpack/parts/pt_b_23_gray.png';
+    }
 }
 Object.assign(StoneKnife.prototype, {
     damage: 16,

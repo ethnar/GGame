@@ -6,7 +6,7 @@ class Log extends Item {
     }
 
     static icon() {
-        return '/items/log.png';
+        return '/iconpack/addons/147_b.png';
     }
 }
 module.exports = global.Log = Log;

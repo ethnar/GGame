@@ -3,7 +3,7 @@ const Resource = require('../.resource');
 
 class Strawberries extends Resource {
     static entityName() {
-        return 'Strawberries';
+        return 'Wildberries';
     }
 }
 Object.assign(Strawberries.prototype, {

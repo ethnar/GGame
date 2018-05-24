@@ -13,7 +13,7 @@ class Stone extends Item {
     }
 
     static icon() {
-        return '/items/stone.png';
+        return '/iconpack/stone/st_b_01_gray.png';
     }
 }
 module.exports = global.Stone = Stone;
