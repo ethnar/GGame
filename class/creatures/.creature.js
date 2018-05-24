@@ -395,7 +395,7 @@ class Creature extends Entity {
 
     die() {
         [...this.items].forEach(item => {
-            this.drop(item);
+            this.drop(item, item.qty);
         });
 
         this.dead = true;

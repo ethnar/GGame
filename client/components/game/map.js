@@ -2,6 +2,7 @@ import {MapService} from '../../services/map.js'
 import {ServerService} from '../../services/server.js';
 import {ContextMenu} from '../generic/context-menu.js';
 import './actions.js';
+import '../generic/better-radial-progress.js';
 
 const NODE_AREA = 60;
 
@@ -165,13 +166,15 @@ Vue.component('world-map', {
             :class="{ dragging: dragging }"
             :style="{ width: size.width + 'px', height: size.height + 'px', 'margin-top': -mapOffset.y + 'px', 'margin-left': -mapOffset.x + 'px', 'background-position': (backgroundOffset.x) + 'px ' + (backgroundOffset.y) + 'px' }"
         >
-            <div
+            <radial-progress
                 v-for="nodeToken in nodeTokens"
                 class="node-token"
                 :class="{ current: nodeToken.currentLocation }"
+                :percentage="100 * (nodeToken.mapping || 0) / 5"
+                :size="20"
                 @click="nodeClicked(nodeToken);"
                 :style="{ left: nodeToken.x + 'px', top: nodeToken.y + 'px' }"
-            >{{nodeToken.icon}}</div>
+            ></radial-progress>
             <div
                 v-for="path in paths"
                 class="path"
