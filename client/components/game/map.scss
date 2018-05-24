@@ -5,6 +5,12 @@
   height: 20vh;
   overflow: hidden;
   transition: height 0.6s;
+  background: url('../images/ui/bg_01_02.png');
+  background-size: 120vw;
+  background-position: -10vw center;
+
+  //background: url('../images/ui/bg_01_02_continuous.png');
+  //background-size: 40vw;
 
   .toggle-expand {
     position: absolute;

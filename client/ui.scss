@@ -1,0 +1,107 @@
+@font-face {
+  font-family: BaseFont;
+  src: url('../images/fonts/booter/BOOTERFZ.ttf');
+  //src: url('../images/fonts/moria-citadel/MoriaCitadel.TTF');
+  //src: url('../images/fonts/morris_roman/MorrisRomanBlack.ttf');
+}
+
+html, body {
+  background: $main-background;
+  color: $text-color;
+  font-family: BaseFont, Arial;
+  font-size: 30px;
+  margin: 0;
+  height: 100%;
+}
+
+input {
+  $border-color: #6A4A2C;
+  $border-color-active: #7f5f2c;
+  $background-color: #1F1105;
+
+  padding: 6px;
+
+  color: $text-color;
+  background: $background-color;
+  border-radius: 6px;
+  border: 1px solid $border-color;
+  box-shadow: 0 0 5px $border-color inset;
+
+  &:focus {
+    outline: none;
+    border: 1px solid $border-color-active;
+    box-shadow: 0 0 5px $border-color-active inset;
+  }
+}
+
+section {
+  header {
+    text-align: center;
+    font-weight: bold;
+    background: url(../images/ui/Plank_04.png);
+    background-size: 100% 100%;
+    height: 46px;
+    line-height: 46px;
+    color: $bright-text-color;
+    text-shadow: 1px 1px 2px black;
+  }
+
+  header.subheader {
+    text-align: center;
+    font-weight: bold;
+    font-size: 90%;
+  }
+}
+
+button, .button {
+  $url: url('../images/ui/button.png');
+  background: $url;
+  background-size: 140% 100%;
+  background-position: center;
+  border: none;
+  font-size: inherit;
+  font-family: inherit;
+  padding: 4px 16px;
+  position: relative;
+  border-radius: 10px;
+  color: $bright-text-color;
+
+  &:active, &:focus {
+    outline: none;
+  }
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background: $url;
+    background-size: auto 100%;
+  }
+
+  &::before {
+    left: 0;
+  }
+
+  &::after {
+    right: 0;
+    background-position: right center;
+  }
+}
+
+.action {
+  height: 40px;
+  margin: 6px 0;
+  font-size: 90%;
+
+  &:focus {
+    outline: none;
+  }
+  &.current:not(.disabled) {
+    //    border: 2px solid orange;
+  }
+  &.disabled {
+    opacity: 0.4;
+  }
+}

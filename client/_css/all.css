@@ -5,34 +5,8 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
-body, html {
-  font-family: BaseFont, Arial;
-  font-size: 24px;
-  margin: 0;
-  height: 100%; }
-
 #app {
   height: 100%; }
-
-button {
-  font-size: inherit;
-  font-family: inherit;
-  padding: 4px 16px;
-  border-radius: 10px; }
-
-.action {
-  border: 2px solid lightgray;
-  background-color: #f8f8f8;
-  height: 40px;
-  margin: 6px 0;
-  font-size: 90%; }
-  .action:focus {
-    outline: none; }
-  .action.current:not(.disabled) {
-    background-color: #f8f8a8;
-    border: 2px solid orange; }
-  .action.disabled {
-    opacity: 0.4; }
 
 .meter-bar {
   display: inline-block;
@@ -101,9 +75,18 @@ button {
   font-size: 70%;
   text-shadow: 0 0 2px black, 0 0 2px black;
   color: white; }
+  .item-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url(../images/ui/frame_s_01.png) no-repeat;
+    background-size: 90%;
+    background-position: center;
+    z-index: 2; }
   .item-icon .slot {
-    border: 1px solid grey;
-    background: lightgrey;
     position: relative;
     height: 100%;
     width: 100%; }
@@ -159,7 +142,7 @@ button {
     background-color: rgba(0, 0, 0, 0.1);
     z-index: 1; }
   .context-menu .contents {
-    background-color: white;
+    background-color: #221912;
     border: 1px solid grey;
     text-align: center;
     z-index: 2;
@@ -306,19 +289,82 @@ pre {
     right: 10%;
     z-index: 3; }
 
-section {
-  border-top: 2px solid grey; }
-  section header {
-    text-align: center;
-    font-weight: bold;
-    border-top: 1px solid grey;
-    border-bottom: 1px solid grey; }
-  section header.subheader {
-    text-align: center;
-    font-weight: bold;
-    font-size: 90%;
-    border-top: 1px solid lightgrey;
-    border-bottom: 1px solid lightgrey; }
+@font-face {
+  font-family: BaseFont;
+  src: url("../images/fonts/booter/BOOTERFZ.ttf"); }
+
+html, body {
+  background: #221912;
+  color: #7F5935;
+  font-family: BaseFont, Arial;
+  font-size: 30px;
+  margin: 0;
+  height: 100%; }
+
+input {
+  padding: 6px;
+  color: #7F5935;
+  background: #1F1105;
+  border-radius: 6px;
+  border: 1px solid #6A4A2C;
+  -webkit-box-shadow: 0 0 5px #6A4A2C inset;
+  box-shadow: 0 0 5px #6A4A2C inset; }
+  input:focus {
+    outline: none;
+    border: 1px solid #7f5f2c;
+    -webkit-box-shadow: 0 0 5px #7f5f2c inset;
+    box-shadow: 0 0 5px #7f5f2c inset; }
+
+section header {
+  text-align: center;
+  font-weight: bold;
+  background: url(../images/ui/Plank_04.png);
+  background-size: 100% 100%;
+  height: 46px;
+  line-height: 46px;
+  color: #BBBB8A;
+  text-shadow: 1px 1px 2px black; }
+
+section header.subheader {
+  text-align: center;
+  font-weight: bold;
+  font-size: 90%; }
+
+button, .button {
+  background: url("../images/ui/button.png");
+  background-size: 140% 100%;
+  background-position: center;
+  border: none;
+  font-size: inherit;
+  font-family: inherit;
+  padding: 4px 16px;
+  position: relative;
+  border-radius: 10px;
+  color: #BBBB8A; }
+  button:active, button:focus, .button:active, .button:focus {
+    outline: none; }
+  button::before, button::after, .button::before, .button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background: url("../images/ui/button.png");
+    background-size: auto 100%; }
+  button::before, .button::before {
+    left: 0; }
+  button::after, .button::after {
+    right: 0;
+    background-position: right center; }
+
+.action {
+  height: 40px;
+  margin: 6px 0;
+  font-size: 90%; }
+  .action:focus {
+    outline: none; }
+  .action.disabled {
+    opacity: 0.4; }
 
 .main-map-container {
   border: 1px solid lightgrey;
@@ -327,7 +373,10 @@ section {
   height: 20vh;
   overflow: hidden;
   -webkit-transition: height 0.6s;
-  transition: height 0.6s; }
+  transition: height 0.6s;
+  background: url("../images/ui/bg_01_02.png");
+  background-size: 120vw;
+  background-position: -10vw center; }
   .main-map-container .toggle-expand {
     position: absolute;
     top: 0;

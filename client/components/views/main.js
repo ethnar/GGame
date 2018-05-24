@@ -416,8 +416,8 @@ export const MainView = {
                 <div v-for="attempt in player.recentResearches" class="tech-recipe">
                     <div class="main-icon">
                         <item-icon v-if="attempt.result" :src="attempt.result.icon"></item-icon>
-                        <item-icon v-else-if="attempt.rightIngredients" src="images/icon-question.png"></item-icon>
-                        <item-icon v-else src="images/icon-cross.png"></item-icon>
+                        <item-icon v-else-if="attempt.rightIngredients" src="images/ui/checkbox_02.png"></item-icon>
+                        <item-icon v-else src="images/ui/checkbox_01.png"></item-icon>
                     </div>
                     <div class="details">
                         <div v-if="attempt.result" class="label">

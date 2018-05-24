@@ -6,43 +6,8 @@
   box-sizing: border-box;
 }
 
-body, html {
-  font-family: BaseFont, Arial;
-  font-size: 24px;
-  margin: 0;
-  height: 100%;
-  //background: #333;
-  //color: #eee;
-}
-
 #app {
   height: 100%;
-}
-
-button {
-  font-size: inherit;
-  font-family: inherit;
-  padding: 4px 16px;
-  border-radius: 10px;
-}
-
-.action {
-  border: 2px solid lightgray;
-  background-color: #f8f8f8;
-  height: 40px;
-  margin: 6px 0;
-  font-size: 90%;
-
-  &:focus {
-    outline: none;
-  }
-  &.current:not(.disabled) {
-    background-color: #f8f8a8;
-    border: 2px solid orange;
-  }
-  &.disabled {
-    opacity: 0.4;
-  }
 }
 
 .meter-bar {
@@ -117,9 +82,21 @@ $margin: 0.2vw;
   text-shadow: 0 0 2px black, 0 0 2px black;
   color: white;
 
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url(../images/ui/frame_s_01.png) no-repeat;
+    background-size: 90%;
+    background-position: center;
+    z-index: 2;
+  }
+
   .slot {
-    border: 1px solid grey;
-    background: lightgrey;
+    //border: 1px solid grey;
     position: relative;
     height: 100%;
     width: 100%;
@@ -192,7 +169,7 @@ $margin: 0.2vw;
   }
 
   .contents {
-    background-color: white;
+    background-color: $main-background;
     border: 1px solid grey;
     text-align: center;
     z-index: 2;
@@ -358,24 +335,5 @@ pre {
     bottom: 4%;
     right: 10%;
     z-index: 3;
-  }
-}
-
-section {
-  border-top: 2px solid grey;
-
-  header {
-    text-align: center;
-    font-weight: bold;
-    border-top: 1px solid grey;
-    border-bottom: 1px solid grey;
-  }
-
-  header.subheader {
-    text-align: center;
-    font-weight: bold;
-    font-size: 90%;
-    border-top: 1px solid lightgrey;
-    border-bottom: 1px solid lightgrey;
   }
 }
