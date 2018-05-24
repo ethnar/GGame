@@ -38,7 +38,7 @@ class StoneHammer extends Item {
     }
 
     static icon() {
-        return '/iconpack/parts/hmm_b_01.png';
+        return '/iconpack/prehistoric/prehistoricicon_58_b.png';
     }
 }
 Object.assign(StoneHammer.prototype, {

@@ -38,7 +38,7 @@ class StoneHatchet extends Item {
     }
 
     static icon() {
-        return '/iconpack/addons/148_b.png';
+        return '/iconpack/prehistoric/prehistoricicon_137_b.png';
     }
 }
 Object.assign(StoneHatchet.prototype, {

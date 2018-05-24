@@ -40,7 +40,7 @@ class StonePick extends Item {
     }
 
     static icon() {
-        return '/iconpack/parts/pick_b_01_gray.png';
+        return '/iconpack/prehistoric/prehistoricicon_42_b.png';
     }
 }
 Object.assign(StonePick.prototype, {

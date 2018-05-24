@@ -36,6 +36,10 @@ class StoneSpear extends Item {
     static entityName() {
         return 'Stone Spear';
     }
+
+    static icon() {
+        return '/iconpack/prehistoric/prehistoricicon_31_b.png';
+    }
 }
 Object.assign(StoneSpear.prototype, {
     damage: 20,

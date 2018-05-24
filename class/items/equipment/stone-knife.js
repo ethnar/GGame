@@ -36,7 +36,7 @@ class StoneKnife extends Item {
     }
 
     static icon() {
-        return '/iconpack/parts/pt_b_23_gray.png';
+        return '/iconpack/prehistoric/prehistoricicon_46_b.png';
     }
 }
 Object.assign(StoneKnife.prototype, {
