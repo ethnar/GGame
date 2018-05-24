@@ -1,9 +1,10 @@
 'use strict';
 
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var concat = require('gulp-concat');
-var debug = require('gulp-debug');
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const concat = require('gulp-concat');
+const debug = require('gulp-debug');
+const autoprefixer = require('gulp-autoprefixer');
 
 gulp.task('sass', function () {
     return gulp
@@ -13,6 +14,10 @@ gulp.task('sass', function () {
         ])
         .pipe(sass().on('error', sass.logError))
         .pipe(concat('all.css'))
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        }))
         .pipe(gulp.dest('./_css'));
 });
 

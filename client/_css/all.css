@@ -2,6 +2,7 @@
   font-family: BaseFont; }
 
 * {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
 body, html {
@@ -40,9 +41,12 @@ button {
   width: 100%;
   float: right; }
   .meter-bar .fill {
+    -webkit-transition: width 1s linear;
     transition: width 1s linear; }
 
 .status-bar {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   min-height: 14.9vw;
   border-bottom: 1px solid grey; }
@@ -62,14 +66,23 @@ button {
     margin-left: -1%;
     height: 102%;
     margin-bottom: -1%;
-    transition: clip-path 1s linear; }
+    -webkit-transition: -webkit-clip-path 1s linear;
+    transition: -webkit-clip-path 1s linear;
+    transition: clip-path 1s linear;
+    transition: clip-path 1s linear, -webkit-clip-path 1s linear; }
 
 .item-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
 
 .equipment-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
   .equipment-list .equipment {
     width: 25vw;
@@ -83,6 +96,7 @@ button {
   width: 20vw;
   height: 20vw;
   padding: 8px;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 70%;
   text-shadow: 0 0 2px black, 0 0 2px black;
@@ -122,8 +136,12 @@ button {
 
 .creature {
   padding: 0 2vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex; }
   .creature .name {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
     flex-grow: 1;
     padding: 3vw 0; }
 
@@ -155,6 +173,8 @@ button {
   vertical-align: middle; }
 
 .tech-recipe {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex; }
 
 .modal {
@@ -164,7 +184,12 @@ button {
   left: 9%;
   right: 9%;
   z-index: 9000;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+  -ms-flex-direction: column-reverse;
   flex-direction: column-reverse; }
   .modal .backdrop {
     position: fixed;
@@ -185,18 +210,32 @@ pre {
   font-size: 60%; }
 
 .main-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
   height: 100%; }
   .main-container .scrollable-contents {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
     flex-grow: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     overflow: auto; }
   .main-container .section-selector {
     min-height: 15vw;
     height: 15vw;
     border-top: 1px solid gray;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex; }
     .main-container .section-selector .toggle {
       height: 100%;
@@ -207,6 +246,7 @@ pre {
       .main-container .section-selector .toggle.active {
         background: lightgray; }
       .main-container .section-selector .toggle.highlight:not(.active) {
+        -webkit-box-shadow: 0 0 10px 3px red inset;
         box-shadow: 0 0 10px 3px red inset; }
 
 .current-action {
@@ -286,6 +326,7 @@ section {
   width: 100%;
   height: 20vh;
   overflow: hidden;
+  -webkit-transition: height 0.6s;
   transition: height 0.6s; }
   .main-map-container .toggle-expand {
     position: absolute;
@@ -303,6 +344,7 @@ section {
   .main-map-container.expanded {
     height: 60vh; }
     .main-map-container.expanded .toggle-expand {
+      -webkit-transform: scaleY(-1);
       transform: scaleY(-1);
       border-radius: 10px 10px 0 0;
       border: 1px solid black;
@@ -315,9 +357,13 @@ section {
     right: 0;
     position: absolute;
     z-index: 4;
+    -webkit-transition: -webkit-box-shadow 0.6s;
+    transition: -webkit-box-shadow 0.6s;
     transition: box-shadow 0.6s;
+    transition: box-shadow 0.6s, -webkit-box-shadow 0.6s;
     pointer-events: none; }
   .main-map-container.sneaking::before {
+    -webkit-box-shadow: 0 0 120px 10px inset black;
     box-shadow: 0 0 120px 10px inset black; }
   .main-map-container .draggable-map {
     position: absolute;
@@ -326,6 +372,7 @@ section {
     background-image: url("../images/Arcannan.jpg");
     border-radius: 20px; }
     .main-map-container .draggable-map:not(.dragging) {
+      -webkit-transition: margin 0.3s ease-in;
       transition: margin 0.3s ease-in; }
     .main-map-container .draggable-map .node-token {
       position: absolute;
@@ -335,6 +382,7 @@ section {
       margin-left: -10px;
       margin-top: -10px;
       border-radius: 50%;
+      -webkit-box-sizing: border-box;
       box-sizing: border-box;
       z-index: 2;
       background-color: white;
@@ -372,14 +420,20 @@ section {
       height: 100%;
       border-radius: 50%; }
     .radial-progress .circle .shadow {
+      -webkit-box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.2) inset;
       box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.2) inset; }
     .radial-progress .circle .mask, .radial-progress .circle .fill {
       -webkit-backface-visibility: hidden;
+      -webkit-transition: -webkit-transform 1s;
+      transition: -webkit-transform 1s;
       transition: transform 1s;
+      transition: transform 1s, -webkit-transform 1s;
       border-radius: 50%; }
     .radial-progress .circle .mask {
+      -webkit-clip-path: inset(0 0 0 50%);
       clip-path: inset(0 0 0 50%); }
       .radial-progress .circle .mask .fill {
+        -webkit-clip-path: inset(0 50% 0 0);
         clip-path: inset(0 50% 0 0);
         background-color: red; }
   .radial-progress .inset {
@@ -390,410 +444,613 @@ section {
     margin-top: 15%;
     background-color: #fbfbfb;
     border-radius: 50%;
+    -webkit-box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.2);
     box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.2); }
   .radial-progress[data-progress="0"] .circle .mask.full, .radial-progress[data-progress="0"] .circle .fill {
+    -webkit-transform: rotate(0deg);
     transform: rotate(0deg); }
   .radial-progress[data-progress="0"] .circle .fill.fix {
+    -webkit-transform: rotate(0deg);
     transform: rotate(0deg); }
   .radial-progress[data-progress="1"] .circle .mask.full, .radial-progress[data-progress="1"] .circle .fill {
+    -webkit-transform: rotate(1.8deg);
     transform: rotate(1.8deg); }
   .radial-progress[data-progress="1"] .circle .fill.fix {
+    -webkit-transform: rotate(3.6deg);
     transform: rotate(3.6deg); }
   .radial-progress[data-progress="2"] .circle .mask.full, .radial-progress[data-progress="2"] .circle .fill {
+    -webkit-transform: rotate(3.6deg);
     transform: rotate(3.6deg); }
   .radial-progress[data-progress="2"] .circle .fill.fix {
+    -webkit-transform: rotate(7.2deg);
     transform: rotate(7.2deg); }
   .radial-progress[data-progress="3"] .circle .mask.full, .radial-progress[data-progress="3"] .circle .fill {
+    -webkit-transform: rotate(5.4deg);
     transform: rotate(5.4deg); }
   .radial-progress[data-progress="3"] .circle .fill.fix {
+    -webkit-transform: rotate(10.8deg);
     transform: rotate(10.8deg); }
   .radial-progress[data-progress="4"] .circle .mask.full, .radial-progress[data-progress="4"] .circle .fill {
+    -webkit-transform: rotate(7.2deg);
     transform: rotate(7.2deg); }
   .radial-progress[data-progress="4"] .circle .fill.fix {
+    -webkit-transform: rotate(14.4deg);
     transform: rotate(14.4deg); }
   .radial-progress[data-progress="5"] .circle .mask.full, .radial-progress[data-progress="5"] .circle .fill {
+    -webkit-transform: rotate(9deg);
     transform: rotate(9deg); }
   .radial-progress[data-progress="5"] .circle .fill.fix {
+    -webkit-transform: rotate(18deg);
     transform: rotate(18deg); }
   .radial-progress[data-progress="6"] .circle .mask.full, .radial-progress[data-progress="6"] .circle .fill {
+    -webkit-transform: rotate(10.8deg);
     transform: rotate(10.8deg); }
   .radial-progress[data-progress="6"] .circle .fill.fix {
+    -webkit-transform: rotate(21.6deg);
     transform: rotate(21.6deg); }
   .radial-progress[data-progress="7"] .circle .mask.full, .radial-progress[data-progress="7"] .circle .fill {
+    -webkit-transform: rotate(12.6deg);
     transform: rotate(12.6deg); }
   .radial-progress[data-progress="7"] .circle .fill.fix {
+    -webkit-transform: rotate(25.2deg);
     transform: rotate(25.2deg); }
   .radial-progress[data-progress="8"] .circle .mask.full, .radial-progress[data-progress="8"] .circle .fill {
+    -webkit-transform: rotate(14.4deg);
     transform: rotate(14.4deg); }
   .radial-progress[data-progress="8"] .circle .fill.fix {
+    -webkit-transform: rotate(28.8deg);
     transform: rotate(28.8deg); }
   .radial-progress[data-progress="9"] .circle .mask.full, .radial-progress[data-progress="9"] .circle .fill {
+    -webkit-transform: rotate(16.2deg);
     transform: rotate(16.2deg); }
   .radial-progress[data-progress="9"] .circle .fill.fix {
+    -webkit-transform: rotate(32.4deg);
     transform: rotate(32.4deg); }
   .radial-progress[data-progress="10"] .circle .mask.full, .radial-progress[data-progress="10"] .circle .fill {
+    -webkit-transform: rotate(18deg);
     transform: rotate(18deg); }
   .radial-progress[data-progress="10"] .circle .fill.fix {
+    -webkit-transform: rotate(36deg);
     transform: rotate(36deg); }
   .radial-progress[data-progress="11"] .circle .mask.full, .radial-progress[data-progress="11"] .circle .fill {
+    -webkit-transform: rotate(19.8deg);
     transform: rotate(19.8deg); }
   .radial-progress[data-progress="11"] .circle .fill.fix {
+    -webkit-transform: rotate(39.6deg);
     transform: rotate(39.6deg); }
   .radial-progress[data-progress="12"] .circle .mask.full, .radial-progress[data-progress="12"] .circle .fill {
+    -webkit-transform: rotate(21.6deg);
     transform: rotate(21.6deg); }
   .radial-progress[data-progress="12"] .circle .fill.fix {
+    -webkit-transform: rotate(43.2deg);
     transform: rotate(43.2deg); }
   .radial-progress[data-progress="13"] .circle .mask.full, .radial-progress[data-progress="13"] .circle .fill {
+    -webkit-transform: rotate(23.4deg);
     transform: rotate(23.4deg); }
   .radial-progress[data-progress="13"] .circle .fill.fix {
+    -webkit-transform: rotate(46.8deg);
     transform: rotate(46.8deg); }
   .radial-progress[data-progress="14"] .circle .mask.full, .radial-progress[data-progress="14"] .circle .fill {
+    -webkit-transform: rotate(25.2deg);
     transform: rotate(25.2deg); }
   .radial-progress[data-progress="14"] .circle .fill.fix {
+    -webkit-transform: rotate(50.4deg);
     transform: rotate(50.4deg); }
   .radial-progress[data-progress="15"] .circle .mask.full, .radial-progress[data-progress="15"] .circle .fill {
+    -webkit-transform: rotate(27deg);
     transform: rotate(27deg); }
   .radial-progress[data-progress="15"] .circle .fill.fix {
+    -webkit-transform: rotate(54deg);
     transform: rotate(54deg); }
   .radial-progress[data-progress="16"] .circle .mask.full, .radial-progress[data-progress="16"] .circle .fill {
+    -webkit-transform: rotate(28.8deg);
     transform: rotate(28.8deg); }
   .radial-progress[data-progress="16"] .circle .fill.fix {
+    -webkit-transform: rotate(57.6deg);
     transform: rotate(57.6deg); }
   .radial-progress[data-progress="17"] .circle .mask.full, .radial-progress[data-progress="17"] .circle .fill {
+    -webkit-transform: rotate(30.6deg);
     transform: rotate(30.6deg); }
   .radial-progress[data-progress="17"] .circle .fill.fix {
+    -webkit-transform: rotate(61.2deg);
     transform: rotate(61.2deg); }
   .radial-progress[data-progress="18"] .circle .mask.full, .radial-progress[data-progress="18"] .circle .fill {
+    -webkit-transform: rotate(32.4deg);
     transform: rotate(32.4deg); }
   .radial-progress[data-progress="18"] .circle .fill.fix {
+    -webkit-transform: rotate(64.8deg);
     transform: rotate(64.8deg); }
   .radial-progress[data-progress="19"] .circle .mask.full, .radial-progress[data-progress="19"] .circle .fill {
+    -webkit-transform: rotate(34.2deg);
     transform: rotate(34.2deg); }
   .radial-progress[data-progress="19"] .circle .fill.fix {
+    -webkit-transform: rotate(68.4deg);
     transform: rotate(68.4deg); }
   .radial-progress[data-progress="20"] .circle .mask.full, .radial-progress[data-progress="20"] .circle .fill {
+    -webkit-transform: rotate(36deg);
     transform: rotate(36deg); }
   .radial-progress[data-progress="20"] .circle .fill.fix {
+    -webkit-transform: rotate(72deg);
     transform: rotate(72deg); }
   .radial-progress[data-progress="21"] .circle .mask.full, .radial-progress[data-progress="21"] .circle .fill {
+    -webkit-transform: rotate(37.8deg);
     transform: rotate(37.8deg); }
   .radial-progress[data-progress="21"] .circle .fill.fix {
+    -webkit-transform: rotate(75.6deg);
     transform: rotate(75.6deg); }
   .radial-progress[data-progress="22"] .circle .mask.full, .radial-progress[data-progress="22"] .circle .fill {
+    -webkit-transform: rotate(39.6deg);
     transform: rotate(39.6deg); }
   .radial-progress[data-progress="22"] .circle .fill.fix {
+    -webkit-transform: rotate(79.2deg);
     transform: rotate(79.2deg); }
   .radial-progress[data-progress="23"] .circle .mask.full, .radial-progress[data-progress="23"] .circle .fill {
+    -webkit-transform: rotate(41.4deg);
     transform: rotate(41.4deg); }
   .radial-progress[data-progress="23"] .circle .fill.fix {
+    -webkit-transform: rotate(82.8deg);
     transform: rotate(82.8deg); }
   .radial-progress[data-progress="24"] .circle .mask.full, .radial-progress[data-progress="24"] .circle .fill {
+    -webkit-transform: rotate(43.2deg);
     transform: rotate(43.2deg); }
   .radial-progress[data-progress="24"] .circle .fill.fix {
+    -webkit-transform: rotate(86.4deg);
     transform: rotate(86.4deg); }
   .radial-progress[data-progress="25"] .circle .mask.full, .radial-progress[data-progress="25"] .circle .fill {
+    -webkit-transform: rotate(45deg);
     transform: rotate(45deg); }
   .radial-progress[data-progress="25"] .circle .fill.fix {
+    -webkit-transform: rotate(90deg);
     transform: rotate(90deg); }
   .radial-progress[data-progress="26"] .circle .mask.full, .radial-progress[data-progress="26"] .circle .fill {
+    -webkit-transform: rotate(46.8deg);
     transform: rotate(46.8deg); }
   .radial-progress[data-progress="26"] .circle .fill.fix {
+    -webkit-transform: rotate(93.6deg);
     transform: rotate(93.6deg); }
   .radial-progress[data-progress="27"] .circle .mask.full, .radial-progress[data-progress="27"] .circle .fill {
+    -webkit-transform: rotate(48.6deg);
     transform: rotate(48.6deg); }
   .radial-progress[data-progress="27"] .circle .fill.fix {
+    -webkit-transform: rotate(97.2deg);
     transform: rotate(97.2deg); }
   .radial-progress[data-progress="28"] .circle .mask.full, .radial-progress[data-progress="28"] .circle .fill {
+    -webkit-transform: rotate(50.4deg);
     transform: rotate(50.4deg); }
   .radial-progress[data-progress="28"] .circle .fill.fix {
+    -webkit-transform: rotate(100.8deg);
     transform: rotate(100.8deg); }
   .radial-progress[data-progress="29"] .circle .mask.full, .radial-progress[data-progress="29"] .circle .fill {
+    -webkit-transform: rotate(52.2deg);
     transform: rotate(52.2deg); }
   .radial-progress[data-progress="29"] .circle .fill.fix {
+    -webkit-transform: rotate(104.4deg);
     transform: rotate(104.4deg); }
   .radial-progress[data-progress="30"] .circle .mask.full, .radial-progress[data-progress="30"] .circle .fill {
+    -webkit-transform: rotate(54deg);
     transform: rotate(54deg); }
   .radial-progress[data-progress="30"] .circle .fill.fix {
+    -webkit-transform: rotate(108deg);
     transform: rotate(108deg); }
   .radial-progress[data-progress="31"] .circle .mask.full, .radial-progress[data-progress="31"] .circle .fill {
+    -webkit-transform: rotate(55.8deg);
     transform: rotate(55.8deg); }
   .radial-progress[data-progress="31"] .circle .fill.fix {
+    -webkit-transform: rotate(111.6deg);
     transform: rotate(111.6deg); }
   .radial-progress[data-progress="32"] .circle .mask.full, .radial-progress[data-progress="32"] .circle .fill {
+    -webkit-transform: rotate(57.6deg);
     transform: rotate(57.6deg); }
   .radial-progress[data-progress="32"] .circle .fill.fix {
+    -webkit-transform: rotate(115.2deg);
     transform: rotate(115.2deg); }
   .radial-progress[data-progress="33"] .circle .mask.full, .radial-progress[data-progress="33"] .circle .fill {
+    -webkit-transform: rotate(59.4deg);
     transform: rotate(59.4deg); }
   .radial-progress[data-progress="33"] .circle .fill.fix {
+    -webkit-transform: rotate(118.8deg);
     transform: rotate(118.8deg); }
   .radial-progress[data-progress="34"] .circle .mask.full, .radial-progress[data-progress="34"] .circle .fill {
+    -webkit-transform: rotate(61.2deg);
     transform: rotate(61.2deg); }
   .radial-progress[data-progress="34"] .circle .fill.fix {
+    -webkit-transform: rotate(122.4deg);
     transform: rotate(122.4deg); }
   .radial-progress[data-progress="35"] .circle .mask.full, .radial-progress[data-progress="35"] .circle .fill {
+    -webkit-transform: rotate(63deg);
     transform: rotate(63deg); }
   .radial-progress[data-progress="35"] .circle .fill.fix {
+    -webkit-transform: rotate(126deg);
     transform: rotate(126deg); }
   .radial-progress[data-progress="36"] .circle .mask.full, .radial-progress[data-progress="36"] .circle .fill {
+    -webkit-transform: rotate(64.8deg);
     transform: rotate(64.8deg); }
   .radial-progress[data-progress="36"] .circle .fill.fix {
+    -webkit-transform: rotate(129.6deg);
     transform: rotate(129.6deg); }
   .radial-progress[data-progress="37"] .circle .mask.full, .radial-progress[data-progress="37"] .circle .fill {
+    -webkit-transform: rotate(66.6deg);
     transform: rotate(66.6deg); }
   .radial-progress[data-progress="37"] .circle .fill.fix {
+    -webkit-transform: rotate(133.2deg);
     transform: rotate(133.2deg); }
   .radial-progress[data-progress="38"] .circle .mask.full, .radial-progress[data-progress="38"] .circle .fill {
+    -webkit-transform: rotate(68.4deg);
     transform: rotate(68.4deg); }
   .radial-progress[data-progress="38"] .circle .fill.fix {
+    -webkit-transform: rotate(136.8deg);
     transform: rotate(136.8deg); }
   .radial-progress[data-progress="39"] .circle .mask.full, .radial-progress[data-progress="39"] .circle .fill {
+    -webkit-transform: rotate(70.2deg);
     transform: rotate(70.2deg); }
   .radial-progress[data-progress="39"] .circle .fill.fix {
+    -webkit-transform: rotate(140.4deg);
     transform: rotate(140.4deg); }
   .radial-progress[data-progress="40"] .circle .mask.full, .radial-progress[data-progress="40"] .circle .fill {
+    -webkit-transform: rotate(72deg);
     transform: rotate(72deg); }
   .radial-progress[data-progress="40"] .circle .fill.fix {
+    -webkit-transform: rotate(144deg);
     transform: rotate(144deg); }
   .radial-progress[data-progress="41"] .circle .mask.full, .radial-progress[data-progress="41"] .circle .fill {
+    -webkit-transform: rotate(73.8deg);
     transform: rotate(73.8deg); }
   .radial-progress[data-progress="41"] .circle .fill.fix {
+    -webkit-transform: rotate(147.6deg);
     transform: rotate(147.6deg); }
   .radial-progress[data-progress="42"] .circle .mask.full, .radial-progress[data-progress="42"] .circle .fill {
+    -webkit-transform: rotate(75.6deg);
     transform: rotate(75.6deg); }
   .radial-progress[data-progress="42"] .circle .fill.fix {
+    -webkit-transform: rotate(151.2deg);
     transform: rotate(151.2deg); }
   .radial-progress[data-progress="43"] .circle .mask.full, .radial-progress[data-progress="43"] .circle .fill {
+    -webkit-transform: rotate(77.4deg);
     transform: rotate(77.4deg); }
   .radial-progress[data-progress="43"] .circle .fill.fix {
+    -webkit-transform: rotate(154.8deg);
     transform: rotate(154.8deg); }
   .radial-progress[data-progress="44"] .circle .mask.full, .radial-progress[data-progress="44"] .circle .fill {
+    -webkit-transform: rotate(79.2deg);
     transform: rotate(79.2deg); }
   .radial-progress[data-progress="44"] .circle .fill.fix {
+    -webkit-transform: rotate(158.4deg);
     transform: rotate(158.4deg); }
   .radial-progress[data-progress="45"] .circle .mask.full, .radial-progress[data-progress="45"] .circle .fill {
+    -webkit-transform: rotate(81deg);
     transform: rotate(81deg); }
   .radial-progress[data-progress="45"] .circle .fill.fix {
+    -webkit-transform: rotate(162deg);
     transform: rotate(162deg); }
   .radial-progress[data-progress="46"] .circle .mask.full, .radial-progress[data-progress="46"] .circle .fill {
+    -webkit-transform: rotate(82.8deg);
     transform: rotate(82.8deg); }
   .radial-progress[data-progress="46"] .circle .fill.fix {
+    -webkit-transform: rotate(165.6deg);
     transform: rotate(165.6deg); }
   .radial-progress[data-progress="47"] .circle .mask.full, .radial-progress[data-progress="47"] .circle .fill {
+    -webkit-transform: rotate(84.6deg);
     transform: rotate(84.6deg); }
   .radial-progress[data-progress="47"] .circle .fill.fix {
+    -webkit-transform: rotate(169.2deg);
     transform: rotate(169.2deg); }
   .radial-progress[data-progress="48"] .circle .mask.full, .radial-progress[data-progress="48"] .circle .fill {
+    -webkit-transform: rotate(86.4deg);
     transform: rotate(86.4deg); }
   .radial-progress[data-progress="48"] .circle .fill.fix {
+    -webkit-transform: rotate(172.8deg);
     transform: rotate(172.8deg); }
   .radial-progress[data-progress="49"] .circle .mask.full, .radial-progress[data-progress="49"] .circle .fill {
+    -webkit-transform: rotate(88.2deg);
     transform: rotate(88.2deg); }
   .radial-progress[data-progress="49"] .circle .fill.fix {
+    -webkit-transform: rotate(176.4deg);
     transform: rotate(176.4deg); }
   .radial-progress[data-progress="50"] .circle .mask.full, .radial-progress[data-progress="50"] .circle .fill {
+    -webkit-transform: rotate(90deg);
     transform: rotate(90deg); }
   .radial-progress[data-progress="50"] .circle .fill.fix {
+    -webkit-transform: rotate(180deg);
     transform: rotate(180deg); }
   .radial-progress[data-progress="51"] .circle .mask.full, .radial-progress[data-progress="51"] .circle .fill {
+    -webkit-transform: rotate(91.8deg);
     transform: rotate(91.8deg); }
   .radial-progress[data-progress="51"] .circle .fill.fix {
+    -webkit-transform: rotate(183.6deg);
     transform: rotate(183.6deg); }
   .radial-progress[data-progress="52"] .circle .mask.full, .radial-progress[data-progress="52"] .circle .fill {
+    -webkit-transform: rotate(93.6deg);
     transform: rotate(93.6deg); }
   .radial-progress[data-progress="52"] .circle .fill.fix {
+    -webkit-transform: rotate(187.2deg);
     transform: rotate(187.2deg); }
   .radial-progress[data-progress="53"] .circle .mask.full, .radial-progress[data-progress="53"] .circle .fill {
+    -webkit-transform: rotate(95.4deg);
     transform: rotate(95.4deg); }
   .radial-progress[data-progress="53"] .circle .fill.fix {
+    -webkit-transform: rotate(190.8deg);
     transform: rotate(190.8deg); }
   .radial-progress[data-progress="54"] .circle .mask.full, .radial-progress[data-progress="54"] .circle .fill {
+    -webkit-transform: rotate(97.2deg);
     transform: rotate(97.2deg); }
   .radial-progress[data-progress="54"] .circle .fill.fix {
+    -webkit-transform: rotate(194.4deg);
     transform: rotate(194.4deg); }
   .radial-progress[data-progress="55"] .circle .mask.full, .radial-progress[data-progress="55"] .circle .fill {
+    -webkit-transform: rotate(99deg);
     transform: rotate(99deg); }
   .radial-progress[data-progress="55"] .circle .fill.fix {
+    -webkit-transform: rotate(198deg);
     transform: rotate(198deg); }
   .radial-progress[data-progress="56"] .circle .mask.full, .radial-progress[data-progress="56"] .circle .fill {
+    -webkit-transform: rotate(100.8deg);
     transform: rotate(100.8deg); }
   .radial-progress[data-progress="56"] .circle .fill.fix {
+    -webkit-transform: rotate(201.6deg);
     transform: rotate(201.6deg); }
   .radial-progress[data-progress="57"] .circle .mask.full, .radial-progress[data-progress="57"] .circle .fill {
+    -webkit-transform: rotate(102.6deg);
     transform: rotate(102.6deg); }
   .radial-progress[data-progress="57"] .circle .fill.fix {
+    -webkit-transform: rotate(205.2deg);
     transform: rotate(205.2deg); }
   .radial-progress[data-progress="58"] .circle .mask.full, .radial-progress[data-progress="58"] .circle .fill {
+    -webkit-transform: rotate(104.4deg);
     transform: rotate(104.4deg); }
   .radial-progress[data-progress="58"] .circle .fill.fix {
+    -webkit-transform: rotate(208.8deg);
     transform: rotate(208.8deg); }
   .radial-progress[data-progress="59"] .circle .mask.full, .radial-progress[data-progress="59"] .circle .fill {
+    -webkit-transform: rotate(106.2deg);
     transform: rotate(106.2deg); }
   .radial-progress[data-progress="59"] .circle .fill.fix {
+    -webkit-transform: rotate(212.4deg);
     transform: rotate(212.4deg); }
   .radial-progress[data-progress="60"] .circle .mask.full, .radial-progress[data-progress="60"] .circle .fill {
+    -webkit-transform: rotate(108deg);
     transform: rotate(108deg); }
   .radial-progress[data-progress="60"] .circle .fill.fix {
+    -webkit-transform: rotate(216deg);
     transform: rotate(216deg); }
   .radial-progress[data-progress="61"] .circle .mask.full, .radial-progress[data-progress="61"] .circle .fill {
+    -webkit-transform: rotate(109.8deg);
     transform: rotate(109.8deg); }
   .radial-progress[data-progress="61"] .circle .fill.fix {
+    -webkit-transform: rotate(219.6deg);
     transform: rotate(219.6deg); }
   .radial-progress[data-progress="62"] .circle .mask.full, .radial-progress[data-progress="62"] .circle .fill {
+    -webkit-transform: rotate(111.6deg);
     transform: rotate(111.6deg); }
   .radial-progress[data-progress="62"] .circle .fill.fix {
+    -webkit-transform: rotate(223.2deg);
     transform: rotate(223.2deg); }
   .radial-progress[data-progress="63"] .circle .mask.full, .radial-progress[data-progress="63"] .circle .fill {
+    -webkit-transform: rotate(113.4deg);
     transform: rotate(113.4deg); }
   .radial-progress[data-progress="63"] .circle .fill.fix {
+    -webkit-transform: rotate(226.8deg);
     transform: rotate(226.8deg); }
   .radial-progress[data-progress="64"] .circle .mask.full, .radial-progress[data-progress="64"] .circle .fill {
+    -webkit-transform: rotate(115.2deg);
     transform: rotate(115.2deg); }
   .radial-progress[data-progress="64"] .circle .fill.fix {
+    -webkit-transform: rotate(230.4deg);
     transform: rotate(230.4deg); }
   .radial-progress[data-progress="65"] .circle .mask.full, .radial-progress[data-progress="65"] .circle .fill {
+    -webkit-transform: rotate(117deg);
     transform: rotate(117deg); }
   .radial-progress[data-progress="65"] .circle .fill.fix {
+    -webkit-transform: rotate(234deg);
     transform: rotate(234deg); }
   .radial-progress[data-progress="66"] .circle .mask.full, .radial-progress[data-progress="66"] .circle .fill {
+    -webkit-transform: rotate(118.8deg);
     transform: rotate(118.8deg); }
   .radial-progress[data-progress="66"] .circle .fill.fix {
+    -webkit-transform: rotate(237.6deg);
     transform: rotate(237.6deg); }
   .radial-progress[data-progress="67"] .circle .mask.full, .radial-progress[data-progress="67"] .circle .fill {
+    -webkit-transform: rotate(120.6deg);
     transform: rotate(120.6deg); }
   .radial-progress[data-progress="67"] .circle .fill.fix {
+    -webkit-transform: rotate(241.2deg);
     transform: rotate(241.2deg); }
   .radial-progress[data-progress="68"] .circle .mask.full, .radial-progress[data-progress="68"] .circle .fill {
+    -webkit-transform: rotate(122.4deg);
     transform: rotate(122.4deg); }
   .radial-progress[data-progress="68"] .circle .fill.fix {
+    -webkit-transform: rotate(244.8deg);
     transform: rotate(244.8deg); }
   .radial-progress[data-progress="69"] .circle .mask.full, .radial-progress[data-progress="69"] .circle .fill {
+    -webkit-transform: rotate(124.2deg);
     transform: rotate(124.2deg); }
   .radial-progress[data-progress="69"] .circle .fill.fix {
+    -webkit-transform: rotate(248.4deg);
     transform: rotate(248.4deg); }
   .radial-progress[data-progress="70"] .circle .mask.full, .radial-progress[data-progress="70"] .circle .fill {
+    -webkit-transform: rotate(126deg);
     transform: rotate(126deg); }
   .radial-progress[data-progress="70"] .circle .fill.fix {
+    -webkit-transform: rotate(252deg);
     transform: rotate(252deg); }
   .radial-progress[data-progress="71"] .circle .mask.full, .radial-progress[data-progress="71"] .circle .fill {
+    -webkit-transform: rotate(127.8deg);
     transform: rotate(127.8deg); }
   .radial-progress[data-progress="71"] .circle .fill.fix {
+    -webkit-transform: rotate(255.6deg);
     transform: rotate(255.6deg); }
   .radial-progress[data-progress="72"] .circle .mask.full, .radial-progress[data-progress="72"] .circle .fill {
+    -webkit-transform: rotate(129.6deg);
     transform: rotate(129.6deg); }
   .radial-progress[data-progress="72"] .circle .fill.fix {
+    -webkit-transform: rotate(259.2deg);
     transform: rotate(259.2deg); }
   .radial-progress[data-progress="73"] .circle .mask.full, .radial-progress[data-progress="73"] .circle .fill {
+    -webkit-transform: rotate(131.4deg);
     transform: rotate(131.4deg); }
   .radial-progress[data-progress="73"] .circle .fill.fix {
+    -webkit-transform: rotate(262.8deg);
     transform: rotate(262.8deg); }
   .radial-progress[data-progress="74"] .circle .mask.full, .radial-progress[data-progress="74"] .circle .fill {
+    -webkit-transform: rotate(133.2deg);
     transform: rotate(133.2deg); }
   .radial-progress[data-progress="74"] .circle .fill.fix {
+    -webkit-transform: rotate(266.4deg);
     transform: rotate(266.4deg); }
   .radial-progress[data-progress="75"] .circle .mask.full, .radial-progress[data-progress="75"] .circle .fill {
+    -webkit-transform: rotate(135deg);
     transform: rotate(135deg); }
   .radial-progress[data-progress="75"] .circle .fill.fix {
+    -webkit-transform: rotate(270deg);
     transform: rotate(270deg); }
   .radial-progress[data-progress="76"] .circle .mask.full, .radial-progress[data-progress="76"] .circle .fill {
+    -webkit-transform: rotate(136.8deg);
     transform: rotate(136.8deg); }
   .radial-progress[data-progress="76"] .circle .fill.fix {
+    -webkit-transform: rotate(273.6deg);
     transform: rotate(273.6deg); }
   .radial-progress[data-progress="77"] .circle .mask.full, .radial-progress[data-progress="77"] .circle .fill {
+    -webkit-transform: rotate(138.6deg);
     transform: rotate(138.6deg); }
   .radial-progress[data-progress="77"] .circle .fill.fix {
+    -webkit-transform: rotate(277.2deg);
     transform: rotate(277.2deg); }
   .radial-progress[data-progress="78"] .circle .mask.full, .radial-progress[data-progress="78"] .circle .fill {
+    -webkit-transform: rotate(140.4deg);
     transform: rotate(140.4deg); }
   .radial-progress[data-progress="78"] .circle .fill.fix {
+    -webkit-transform: rotate(280.8deg);
     transform: rotate(280.8deg); }
   .radial-progress[data-progress="79"] .circle .mask.full, .radial-progress[data-progress="79"] .circle .fill {
+    -webkit-transform: rotate(142.2deg);
     transform: rotate(142.2deg); }
   .radial-progress[data-progress="79"] .circle .fill.fix {
+    -webkit-transform: rotate(284.4deg);
     transform: rotate(284.4deg); }
   .radial-progress[data-progress="80"] .circle .mask.full, .radial-progress[data-progress="80"] .circle .fill {
+    -webkit-transform: rotate(144deg);
     transform: rotate(144deg); }
   .radial-progress[data-progress="80"] .circle .fill.fix {
+    -webkit-transform: rotate(288deg);
     transform: rotate(288deg); }
   .radial-progress[data-progress="81"] .circle .mask.full, .radial-progress[data-progress="81"] .circle .fill {
+    -webkit-transform: rotate(145.8deg);
     transform: rotate(145.8deg); }
   .radial-progress[data-progress="81"] .circle .fill.fix {
+    -webkit-transform: rotate(291.6deg);
     transform: rotate(291.6deg); }
   .radial-progress[data-progress="82"] .circle .mask.full, .radial-progress[data-progress="82"] .circle .fill {
+    -webkit-transform: rotate(147.6deg);
     transform: rotate(147.6deg); }
   .radial-progress[data-progress="82"] .circle .fill.fix {
+    -webkit-transform: rotate(295.2deg);
     transform: rotate(295.2deg); }
   .radial-progress[data-progress="83"] .circle .mask.full, .radial-progress[data-progress="83"] .circle .fill {
+    -webkit-transform: rotate(149.4deg);
     transform: rotate(149.4deg); }
   .radial-progress[data-progress="83"] .circle .fill.fix {
+    -webkit-transform: rotate(298.8deg);
     transform: rotate(298.8deg); }
   .radial-progress[data-progress="84"] .circle .mask.full, .radial-progress[data-progress="84"] .circle .fill {
+    -webkit-transform: rotate(151.2deg);
     transform: rotate(151.2deg); }
   .radial-progress[data-progress="84"] .circle .fill.fix {
+    -webkit-transform: rotate(302.4deg);
     transform: rotate(302.4deg); }
   .radial-progress[data-progress="85"] .circle .mask.full, .radial-progress[data-progress="85"] .circle .fill {
+    -webkit-transform: rotate(153deg);
     transform: rotate(153deg); }
   .radial-progress[data-progress="85"] .circle .fill.fix {
+    -webkit-transform: rotate(306deg);
     transform: rotate(306deg); }
   .radial-progress[data-progress="86"] .circle .mask.full, .radial-progress[data-progress="86"] .circle .fill {
+    -webkit-transform: rotate(154.8deg);
     transform: rotate(154.8deg); }
   .radial-progress[data-progress="86"] .circle .fill.fix {
+    -webkit-transform: rotate(309.6deg);
     transform: rotate(309.6deg); }
   .radial-progress[data-progress="87"] .circle .mask.full, .radial-progress[data-progress="87"] .circle .fill {
+    -webkit-transform: rotate(156.6deg);
     transform: rotate(156.6deg); }
   .radial-progress[data-progress="87"] .circle .fill.fix {
+    -webkit-transform: rotate(313.2deg);
     transform: rotate(313.2deg); }
   .radial-progress[data-progress="88"] .circle .mask.full, .radial-progress[data-progress="88"] .circle .fill {
+    -webkit-transform: rotate(158.4deg);
     transform: rotate(158.4deg); }
   .radial-progress[data-progress="88"] .circle .fill.fix {
+    -webkit-transform: rotate(316.8deg);
     transform: rotate(316.8deg); }
   .radial-progress[data-progress="89"] .circle .mask.full, .radial-progress[data-progress="89"] .circle .fill {
+    -webkit-transform: rotate(160.2deg);
     transform: rotate(160.2deg); }
   .radial-progress[data-progress="89"] .circle .fill.fix {
+    -webkit-transform: rotate(320.4deg);
     transform: rotate(320.4deg); }
   .radial-progress[data-progress="90"] .circle .mask.full, .radial-progress[data-progress="90"] .circle .fill {
+    -webkit-transform: rotate(162deg);
     transform: rotate(162deg); }
   .radial-progress[data-progress="90"] .circle .fill.fix {
+    -webkit-transform: rotate(324deg);
     transform: rotate(324deg); }
   .radial-progress[data-progress="91"] .circle .mask.full, .radial-progress[data-progress="91"] .circle .fill {
+    -webkit-transform: rotate(163.8deg);
     transform: rotate(163.8deg); }
   .radial-progress[data-progress="91"] .circle .fill.fix {
+    -webkit-transform: rotate(327.6deg);
     transform: rotate(327.6deg); }
   .radial-progress[data-progress="92"] .circle .mask.full, .radial-progress[data-progress="92"] .circle .fill {
+    -webkit-transform: rotate(165.6deg);
     transform: rotate(165.6deg); }
   .radial-progress[data-progress="92"] .circle .fill.fix {
+    -webkit-transform: rotate(331.2deg);
     transform: rotate(331.2deg); }
   .radial-progress[data-progress="93"] .circle .mask.full, .radial-progress[data-progress="93"] .circle .fill {
+    -webkit-transform: rotate(167.4deg);
     transform: rotate(167.4deg); }
   .radial-progress[data-progress="93"] .circle .fill.fix {
+    -webkit-transform: rotate(334.8deg);
     transform: rotate(334.8deg); }
   .radial-progress[data-progress="94"] .circle .mask.full, .radial-progress[data-progress="94"] .circle .fill {
+    -webkit-transform: rotate(169.2deg);
     transform: rotate(169.2deg); }
   .radial-progress[data-progress="94"] .circle .fill.fix {
+    -webkit-transform: rotate(338.4deg);
     transform: rotate(338.4deg); }
   .radial-progress[data-progress="95"] .circle .mask.full, .radial-progress[data-progress="95"] .circle .fill {
+    -webkit-transform: rotate(171deg);
     transform: rotate(171deg); }
   .radial-progress[data-progress="95"] .circle .fill.fix {
+    -webkit-transform: rotate(342deg);
     transform: rotate(342deg); }
   .radial-progress[data-progress="96"] .circle .mask.full, .radial-progress[data-progress="96"] .circle .fill {
+    -webkit-transform: rotate(172.8deg);
     transform: rotate(172.8deg); }
   .radial-progress[data-progress="96"] .circle .fill.fix {
+    -webkit-transform: rotate(345.6deg);
     transform: rotate(345.6deg); }
   .radial-progress[data-progress="97"] .circle .mask.full, .radial-progress[data-progress="97"] .circle .fill {
+    -webkit-transform: rotate(174.6deg);
     transform: rotate(174.6deg); }
   .radial-progress[data-progress="97"] .circle .fill.fix {
+    -webkit-transform: rotate(349.2deg);
     transform: rotate(349.2deg); }
   .radial-progress[data-progress="98"] .circle .mask.full, .radial-progress[data-progress="98"] .circle .fill {
+    -webkit-transform: rotate(176.4deg);
     transform: rotate(176.4deg); }
   .radial-progress[data-progress="98"] .circle .fill.fix {
+    -webkit-transform: rotate(352.8deg);
     transform: rotate(352.8deg); }
   .radial-progress[data-progress="99"] .circle .mask.full, .radial-progress[data-progress="99"] .circle .fill {
+    -webkit-transform: rotate(178.2deg);
     transform: rotate(178.2deg); }
   .radial-progress[data-progress="99"] .circle .fill.fix {
+    -webkit-transform: rotate(356.4deg);
     transform: rotate(356.4deg); }
   .radial-progress[data-progress="100"] .circle .mask.full, .radial-progress[data-progress="100"] .circle .fill {
+    -webkit-transform: rotate(180deg);
     transform: rotate(180deg); }
   .radial-progress[data-progress="100"] .circle .fill.fix {
+    -webkit-transform: rotate(360deg);
     transform: rotate(360deg); }
 
 .meter-orb {
@@ -809,10 +1066,12 @@ section {
     left: 5%;
     border-radius: 100%;
     z-index: 2;
+    -webkit-filter: blur(0);
     filter: blur(0);
     height: 80%;
     width: 40%;
     background: radial-gradient(circle at 130% 130%, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0) 46%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.8) 58%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 100%);
+    -webkit-transform: translateX(131%) translateY(58%) rotateZ(168deg) rotateX(10deg);
     transform: translateX(131%) translateY(58%) rotateZ(168deg) rotateX(10deg); }
   .meter-orb::after {
     content: "";
@@ -822,8 +1081,10 @@ section {
     width: 80%;
     height: 80%;
     border-radius: 100%;
+    -webkit-filter: blur(1px);
     filter: blur(1px);
     z-index: 2;
+    -webkit-transform: rotateZ(-30deg);
     transform: rotateZ(-30deg);
     display: block;
     background: radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 74%, white 80%, white 84%, rgba(255, 255, 255, 0) 100%); }
@@ -848,8 +1109,10 @@ section {
     width: 100px;
     height: 100px;
     overflow: hidden;
+    -webkit-transform-origin: 0 0;
     transform-origin: 0 0; }
     .radial-progress .radial-progress-wrapper .half {
+      -webkit-box-sizing: border-box;
       box-sizing: border-box;
       position: absolute;
       width: 100%;
@@ -860,6 +1123,7 @@ section {
       .radial-progress .radial-progress-wrapper .half.second-overlay {
         border-top: 50px solid #ddd;
         z-index: 2;
+        -webkit-transform: rotate(-90deg);
         transform: rotate(-90deg); }
       .radial-progress .radial-progress-wrapper .half.second {
         border-top: 50px solid black;
@@ -879,12 +1143,16 @@ section {
       left: 1px;
       width: 98px;
       height: 98px;
+      -webkit-box-shadow: 0 0 0 50px white;
       box-shadow: 0 0 0 50px white;
       z-index: 5;
       border-radius: 50%; }
 
 .tabs .tab-headers {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   cursor: pointer; }
   .tabs .tab-headers > div {
@@ -901,6 +1169,7 @@ section {
   text-align: center;
   border-bottom: 1px solid black;
   top: -200px;
+  -webkit-transition: top 0.3s ease-in-out;
   transition: top 0.3s ease-in-out; }
   .toast-message.visible {
     top: 0; }

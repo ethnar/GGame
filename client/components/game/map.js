@@ -169,6 +169,7 @@ Vue.component('world-map', {
             <radial-progress
                 v-for="nodeToken in nodeTokens"
                 class="node-token"
+                :key="nodeToken.id"
                 :class="{ current: nodeToken.currentLocation }"
                 :percentage="100 * (nodeToken.mapping || 0) / 5"
                 :size="20"
