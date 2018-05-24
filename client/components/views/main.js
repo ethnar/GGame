@@ -218,17 +218,22 @@ export const MainView = {
         selectResearchMaterialIdx: null,
         skillLevels,
         skillNames,
+        researchMatsSlots: [],
         resourceSize: {
             1: 'scarce',
             2: 'ample',
             3: 'abundant',
-        }
+        },
     }),
 
     subscriptions() {
         const stream = ServerService.getMainStream();
         return {
-            player: stream.pluck('creature'),
+            player: stream
+                .pluck('creature')
+                .do((player) => {
+                    this.updateDisplayedMats(player.researchMaterials);
+                }),
             node: stream.pluck('node'),
             enemies: stream.pluck('node').pluck('creatures').map(creatures => creatures.filter(c => c.hostile)),
             friendlies: stream.pluck('node').pluck('creatures').map(creatures => creatures.filter(c => !c.hostile)),
@@ -244,18 +249,6 @@ export const MainView = {
     },
 
     computed: {
-        researchMatsSlots() {
-            const none = {
-                item: null,
-                qty: 1,
-            };
-            const mats = Array.apply(null, Array(4)).map(() => none);
-            Object
-                .keys(this.player.researchMaterials)
-                .forEach(material => mats[material] = this.player.researchMaterials[material]);
-            return mats;
-        },
-
         availableResearchMaterials() {
             const mats = {};
             this.player.inventory.forEach(item => {
@@ -273,12 +266,25 @@ export const MainView = {
     },
 
     methods: {
+        updateDisplayedMats(researchMaterials) {
+            const mats = Array.apply(null, Array(4)).map(() => ({
+                item: null,
+                qty: 1,
+            }));
+            Object
+                .keys(researchMaterials)
+                .forEach(material => mats[material] = researchMaterials[material]);
+            this.researchMatsSlots = mats;
+        },
+
         updateResearchMats() {
             const payload = {};
-            this.player.researchMaterials
+            this.researchMatsSlots
+                .filter(mats => mats.item)
                 .forEach(mats => {
                     payload[mats.item.itemCode] = +mats.qty;
                 });
+
             ServerService.request('updateResearchMaterials', payload);
         },
 
@@ -290,15 +296,13 @@ export const MainView = {
 
         selectResearchMaterial(item) {
             if (item === null) {
-                delete this.player.researchMaterials[this.selectResearchMaterialIdx];
+                this.researchMatsSlots[this.selectResearchMaterialIdx] = {
+                    item: null,
+                    qty: 1,
+                };
             } else {
-                if (this.player.researchMaterials[this.selectResearchMaterialIdx]) {
-                    this.player.researchMaterials[this.selectResearchMaterialIdx].item = item;
-                } else {
-                    this.player.researchMaterials[this.selectResearchMaterialIdx] = {
-                        item,
-                        qty: 1,
-                    }
+                if (Object.values(this.researchMatsSlots).every(mats => !mats.item || mats.item.name !== item.name)) {
+                    this.researchMatsSlots[this.selectResearchMaterialIdx].item = item;
                 }
             }
             this.selectResearchMaterialIdx = null;
