@@ -13,6 +13,10 @@ class Fireplace extends Building {
     static research() {
         return research;
     }
+
+    static icon() {
+        return '/iconpack/strategy/sgi_77.png';
+    }
 }
 Object.assign(Fireplace.prototype, {
     name: 'Fireplace',
