@@ -26,6 +26,7 @@ Vue.component('actions', {
 
                     return action &&
                         action.entityId === target.id &&
+                        target.actions &&
                         target.actions.find(a => a.id === action.actionId);
                 }),
         };

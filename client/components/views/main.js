@@ -359,11 +359,11 @@ export const MainView = {
             </section>
             <section v-for="structure in node.structures" v-if="structure.inventory">
                 <header>Storage</header>
-                <inventory :data="structure.inventory" :slots="15"></inventory>
+                <inventory :data="structure.inventory" :slots="50"></inventory>
             </section>
             <section v-if="node.inventory && node.inventory.length">
                 <header>On the ground</header>
-                <inventory :data="node.inventory" :slots="15"></inventory>
+                <inventory :data="node.inventory"></inventory>
             </section>
         </div>
         <div :hidden="mode !== 'crafting'">
@@ -476,14 +476,14 @@ export const MainView = {
             />
             <section>
                 <header>Enemies</header>
-                <div v-for="creature in enemies" class="creature">
+                <div v-for="creature in enemies" class="creature" :key="creature.id">
                     <span class="name">{{creature.name}}</span>
                     <meter-orb color="red" :value="creature.status.health"/><br/>
                 </div>
             </section>
             <section>
                 <header>Friendlies</header>
-                <div v-for="creature in friendlies" class="creature">
+                <div v-for="creature in friendlies" class="creature" :key="creature.id">
                     <span class="name">{{creature.name}}</span>
                     <meter-orb color="red" :value="creature.status.health"/><br/>
                 </div>

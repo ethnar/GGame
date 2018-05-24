@@ -41,7 +41,7 @@ class Structure extends Entity {
 
     getPayload(creature) {
         return {
-            id: this.getId(),
+            id: this.getEntityId(),
             name: this.getName(),
             complete: this.complete,
             actions: this.getActionsPayloads(creature),

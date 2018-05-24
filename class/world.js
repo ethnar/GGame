@@ -41,7 +41,7 @@ class World {
         this.entityMap = utils.cleanup(Entity.getEntityMap());
         Object.values(this.entityMap).forEach((x, i) => {
             if (x.constructor.name === 'Action') {
-                delete this.entityMap[x.getId()];
+                delete this.entityMap[x.getEntityId()];
             }
         });
 

@@ -25,11 +25,17 @@ const fetcher = (url, params) =>
     );
 
 let playerId = null;
+let resetting;
 let openPromise;
+let connection;
 
-const getOpenPromise = () => {
-    if (!openPromise) {
-        const connection = new WebSocket(`${websocketProtocol}//${domain}/api/ws`);
+const getOpenPromise = (reset = false) => {
+    if (!openPromise || reset) {
+        if (connection) {
+            connection.close();
+        }
+
+        connection = new WebSocket(`${websocketProtocol}//${domain}/api/ws`);
 
         connection.onmessage = string => {
             let json = JSON.parse(string.data);
@@ -52,7 +58,10 @@ const getOpenPromise = () => {
         };
 
         connection.onclose = () => {
-            window.location = '/';
+            if (!resetting) {
+                window.location = '/';
+            }
+            resetting = false;
         };
 
         openPromise = new Promise(resolve => connection.onopen = resolve)
@@ -105,6 +114,14 @@ export const ServerService = {
                 previousData = data;
             };
         }
+        window.addEventListener('focus', () => {
+            if (!resetting) {
+                previousData = null;
+                resetting = true;
+                getOpenPromise(true);
+            }
+        }, false);
+
         return Rx.Observable
             .merge(
                 stream.debounceTime(500),

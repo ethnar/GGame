@@ -16,6 +16,7 @@ const actions = [
     new Action({
         name: 'Fight',
         icon: '/actions/icons8-sword-100.png',
+        notification: false,
         valid(entity, creature) {
             if (entity !== creature) {
                 return false;
@@ -83,7 +84,7 @@ class Creature extends Entity {
         console.log(this.getName() + ': ' + action.getName() + '!');
         this.stopAction();
         this.currentAction = {
-            entityId: entity.getId(),
+            entityId: entity.getEntityId(),
             actionId: action.getId(),
             repetitions,
         };
@@ -179,7 +180,9 @@ class Creature extends Entity {
             if (action.finally) {
                 action.finally(entity, this);
             }
-            pushNotifications.send(this, action.name + ': finished!');
+            if (action.notification !== false) {
+                pushNotifications.send(this, action.name + ': finished!');
+            }
         }
 
         this.currentAction = null;
@@ -335,6 +338,9 @@ class Creature extends Entity {
             console.log(enemy.getName() + ' received ' + damage + ' damage from ' + this.getName() + '. (' + weaponName + ')')
 
             enemy.receiveDamage(damage);
+            if (this.weapon) {
+                this.weapon.reduceIntegrity(0.2);
+            }
         } else {
             console.log(this.getName() + ' missed ' + enemy.getName() + '!' + ' (' + weaponName + ')');
         }
@@ -411,7 +417,7 @@ class Creature extends Entity {
 
     getPayload(creature) {
         let result = {
-            id: this.getId(),
+            id: this.getEntityId(),
             name: this.getName(),
             faction: this.faction,
             hostile: this.faction !== creature.faction,

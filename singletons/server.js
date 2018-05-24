@@ -165,6 +165,15 @@ const server = new class Server {
             .connections
             .filter(conn => this.playerMap.get(conn) === player);
     }
+
+    getImage(creature, image) {
+        const player = creature.getPlayer();
+        if (player) {
+            player.icons = player.icons || [];
+            player.icons[image] = true;
+        }
+        return '/resources' + image;
+    }
 };
 
 expressApp.all('/*', function(req, res, next) {

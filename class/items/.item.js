@@ -5,8 +5,9 @@ const utils = require('../../singletons/utils');
 
 const actions = [
     new Action({
-        name: 'Equip as Tool',
+        name: 'Equip Tool',
         icon: '/actions/icons8-hammer-100.png',
+        notification: false,
         valid(item, creature) {
             if (item.getContainer() !== creature) {
                 return false;
@@ -17,12 +18,12 @@ const actions = [
             ) {
                 return false;
             }
+            if (creature.getTool() === item) {
+                return false;
+            }
             return true;
         },
         available(item, creature) {
-            if (creature.getTool() === item) {
-                return 'You already equipped this item as a tool';
-            }
             return true;
         },
         run(item, creature) {
@@ -31,8 +32,27 @@ const actions = [
         }
     }),
     new Action({
-        name: 'Equip as a Weapon',
+        name: 'Unequip Tool',
+        icon: '/actions/icons8-drawstring-bag-100.png',
+        notification: false,
+        valid(item, creature) {
+            if (item.getContainer() !== creature) {
+                return false;
+            }
+            if (item !== creature.getTool()) {
+                return false;
+            }
+            return true;
+        },
+        run(item, creature) {
+            creature.equipTool(null);
+            return false;
+        }
+    }),
+    new Action({
+        name: 'Equip Weapon',
         icon: '/actions/icons8-sword-100.png',
+        notification: false,
         valid(item, creature) {
             if (item.getContainer() !== creature) {
                 return false;
@@ -42,12 +62,12 @@ const actions = [
             ) {
                 return false;
             }
+            if (creature.getWeapon() === item) {
+                return false;
+            }
             return true;
         },
         available(item, creature) {
-            if (creature.getWeapon() === item) {
-                return 'You already equipped this item as a weapon';
-            }
             return true;
         },
         run(item, creature) {
@@ -56,8 +76,27 @@ const actions = [
         }
     }),
     new Action({
+        name: 'Unequip Weapon',
+        icon: '/actions/icons8-drawstring-bag-100.png',
+        notification: false,
+        valid(item, creature) {
+            if (item.getContainer() !== creature) {
+                return false;
+            }
+            if (item !== creature.getWeapon()) {
+                return false;
+            }
+            return true;
+        },
+        run(item, creature) {
+            creature.equipWeapon(null);
+            return false;
+        }
+    }),
+    new Action({
         name: 'Drop', // on the ground
         icon: '/actions/icons8-delete-100.png',
+        notification: false,
         valid(item, creature) {
             if (item.getContainer() !== creature) {
                 return false;
@@ -74,6 +113,7 @@ const actions = [
     new Action({
         name: 'Pick up', // from the ground
         icon: '/actions/icons8-drawstring-bag-100.png',
+        notification: false,
         valid(item, creature) {
             if (
                 !item.getContainer() ||
@@ -99,6 +139,7 @@ const actions = [
     new Action({
         name: 'Store',
         icon: '/actions/icons8-open-box-100.png',
+        notification: false,
         valid(item, creature) {
             if (item.getContainer() !== creature) {
                 return false;
@@ -125,6 +166,7 @@ const actions = [
     new Action({
         name: 'Take', // out of storage
         icon: '/actions/icons8-drawstring-bag-100.png',
+        notification: false,
         valid(item, creature) {
             if (
                 !item.getContainer() ||
@@ -224,7 +266,7 @@ class Item extends Entity {
     getPayload(creature) {
         return {
             ...this.constructor.getPayload(creature),
-            id: this.getId(),
+            id: this.getEntityId(),
             name: this.getName(),
             qty: this.qty,
             integrity: Math.max(Math.floor(this.integrity), 1),

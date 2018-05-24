@@ -1,8 +1,8 @@
-const Entity = require('./.entity');
+const server = require('../singletons/server');
 
-class Action extends Entity {
+class Action {
     constructor(args) {
-        super(args);
+        Object.assign(this, args);
         this.name = args.name;
         this.validCallback = args.valid;
         this.availableCallback = args.available;
@@ -44,6 +44,18 @@ class Action extends Entity {
             available: this.isAvailable(entity, creature),
             message: this.getAvailabilityMessage(entity, creature),
         }
+    }
+
+    getIcon(creature) {
+        return server.getImage(creature, this.icon);
+    }
+
+    getId() {
+        return this.getName();
+    }
+
+    getName() {
+        return this.name || this.constructor.entityName();
     }
 }
 module.exports = global.Action = Action;

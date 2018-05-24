@@ -95,6 +95,10 @@ class Spawners extends Monsters {
                 }
 
                 creatureGroup.creatures.forEach(creature => {
+                    if (creature.hasEnemies() || creature.dead) {
+                        return;
+                    }
+
                     const validTargets = creature
                         .getNode()
                         .getConnectedNodes()
@@ -105,7 +109,7 @@ class Spawners extends Monsters {
                     }
 
                     const target = validTargets[utils.random(0, validTargets.length - 1)];
-                    console.log(creature.getId(), 'goes to', target.getId());
+                    console.log(creature.getEntityId(), 'goes to', target.getEntityId());
                     creature.move(target);
                 });
             }

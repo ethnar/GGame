@@ -172,7 +172,7 @@ class Node extends Entity {
 
     getPayload(creature) {
         let result = {
-            id: this.getId(),
+            id: this.getEntityId(),
             name: this.getName(),
             actions: this.getActionsPayloads(creature),
         };
@@ -189,7 +189,7 @@ class Node extends Entity {
 
     getMapPayload(creature, skipConnections = false) {
         return {
-            id: this.getId(),
+            id: this.getEntityId(),
             name: this.getName(),
             mapping: creature.getNodeMapping(this),
             actions: this.getActionsPayloads(creature),
@@ -238,7 +238,7 @@ const getFullMap = (creature) => {
     const getter = (node, skipConnections = false) => {
         return {
             ...node.getDetailsPayload(creature),
-            id: node.getId(),
+            id: node.getEntityId(),
             name: node.getName(),
             icon: node.icon,
             mapping: creature.getNodeMapping(node),

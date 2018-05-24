@@ -73,7 +73,7 @@ class Resource extends Entity {
 
     getPayload(creature) {
         return {
-            id: this.getId(),
+            id: this.getEntityId(),
             name: this.getName(),
             size: this.size,
             actions: this.getActionsPayloads(creature),

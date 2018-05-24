@@ -39,6 +39,7 @@ const actions = [
     new Action({
         name: 'Sneak',
         icon: '/actions/icons8-fraud-100.png',
+        notification: false,
         valid(entity, creature) {
             if (!creature.stealth) {
                 creature.sneaking = false;
@@ -53,6 +54,22 @@ const actions = [
         },
         run(entity, creature) {
             creature.sneaking = true;
+            return false;
+        }
+    }),
+    new Action({
+        name: 'Stop Sneaking',
+        icon: '/actions/icons8-fraud-100.png',
+        notification: false,
+        valid(entity, creature) {
+            if (!creature.sneaking) {
+                return false;
+            }
+
+            return true;
+        },
+        run(entity, creature) {
+            creature.sneaking = false;
             return false;
         }
     }),
@@ -133,23 +150,9 @@ const actions = [
         }
     }),
     new Action({
-        name: 'Stop Sneaking',
-        icon: '/actions/icons8-fraud-100.png',
-        valid(entity, creature) {
-            if (!creature.sneaking) {
-                return false;
-            }
-
-            return true;
-        },
-        run(entity, creature) {
-            creature.sneaking = false;
-            return false;
-        }
-    }),
-    new Action({
         name: 'Sleep',
         icon: '/actions/icons8-sleep-100.png',
+        notification: false,
         run(entity, creature) {
             creature.sleeping = true;
             const secondsNeededForGoodSleep = 4 * 60 * 60;
@@ -265,7 +268,7 @@ class Humanoid extends Creature {
     }
 
     getNodeMapping(node) {
-        return this.map[node.getId()];
+        return this.map[node.getEntityId()];
     }
 
     getMappedNodes() {
@@ -289,7 +292,7 @@ class Humanoid extends Creature {
     }
 
     mapNode(node, level = 1) {
-        this.map[node.getId()] = level;
+        this.map[node.getEntityId()] = level;
     }
 
     getMapPayload() {
@@ -520,12 +523,13 @@ module.exports = global.Humanoid = Humanoid;
 
 server.registerHandler('action', (params, player, connection) => {
     const target = Entity.getById(params.target);
+    const creature = player.getCreature();
+
     if (!target) {
         return false;
     }
-    const actions = target.getActions();
-    const action = Entity.getById(params.action);
-    if (!actions.includes(action)) {
+    const action = target.getActionById(params.action);
+    if (!action) {
         return false;
     }
 
@@ -533,7 +537,6 @@ server.registerHandler('action', (params, player, connection) => {
         params.repetitions = action.defaultRepetitions || 1;
     }
 
-    const creature = player.getCreature();
     creature.startAction(target, action, params.repetitions);
 
     server.updatePlayer(connection);

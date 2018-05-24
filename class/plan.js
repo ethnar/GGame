@@ -131,7 +131,7 @@ class Plan extends Entity {
 
     getPayload(creature) {
         return {
-            id: this.getId(),
+            id: this.getEntityId(),
             name: this.getName(),
             materials: Item.getMaterialsPayload(this.getMaterials(), creature),
             icon: global[this.buildClassName].getIcon(creature),

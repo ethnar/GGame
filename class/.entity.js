@@ -36,10 +36,10 @@ class Entity {
     }
 
     destroy() {
-        delete entityMap[this.getId()];
+        delete entityMap[this.getEntityId()];
     }
 
-    getId() {
+    getEntityId() {
         return this.id;
     }
 
@@ -68,7 +68,7 @@ class Entity {
     getActionById(actionId) {
         return this
             .getActions()
-            .find(action => action.id === actionId);
+            .find(action => action.getId() === actionId);
     }
 
     getActionByName(actionName) {
