@@ -216,7 +216,7 @@ pre {
       text-align: center;
       background: url("../images/ui/Plank_08.png");
       background-size: 100% 100%;
-      color: #BBBB8A;
+      color: #D1AE7D;
       text-shadow: 1px 1px 2px black;
       position: relative; }
       .main-container .section-selector .toggle.active {
@@ -286,7 +286,7 @@ section header {
   background-size: 100% 100%;
   height: 46px;
   line-height: 46px;
-  color: #BBBB8A;
+  color: #D1AE7D;
   text-shadow: 1px 1px 2px black; }
 
 section header.subheader {
@@ -304,7 +304,7 @@ button, .button {
   padding: 4px 16px;
   position: relative;
   border-radius: 10px;
-  color: #BBBB8A;
+  color: #D1AE7D;
   text-shadow: 1px 1px 2px black; }
   button:active, button:focus, .button:active, .button:focus {
     outline: none; }
@@ -414,7 +414,7 @@ button, .button {
     font-size: 60%;
     text-shadow: 0 0 2px black, 0 0 2px black;
     position: absolute;
-    color: #BBBB8A;
+    color: #D1AE7D;
     top: 6%;
     right: 15%;
     z-index: 6; }
@@ -437,7 +437,7 @@ button, .button {
     line-height: 44px;
     padding-right: 20px;
     top: 60px;
-    color: #BBBB8A;
+    color: #D1AE7D;
     text-shadow: 1px 1px 2px black;
     text-align: right; }
   .dialog-pane-with-logo .main-container .logo {
