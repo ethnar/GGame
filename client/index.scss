@@ -24,11 +24,11 @@
 
 .status-bar {
   display: flex;
-  min-height: 18vw;
+  min-height: 18vmin;
   background: url('../images/ui/Plank_08.png');
   background-size: 120% 100%;
   background-position: center;
-  padding: 1.8vw 1vw 0;
+  padding: 1.8vmin 1vmin 0;
   z-index: 2;
 
   .spacer {
@@ -46,7 +46,7 @@
   flex-wrap: wrap;
 
   .equipment {
-    width: 25vw;
+    width: 25vmin;
     text-align: center;
 
     .item-icon {
@@ -59,8 +59,8 @@
   $padding: 8px;
   display: inline-block;
   position: relative;
-  width: 20vw;
-  height: 20vw;
+  width: 20vmin;
+  height: 20vmin;
   padding: $padding;
   box-sizing: border-box;
   font-size: 70%;
@@ -106,8 +106,8 @@
   }
 
   &.small {
-    width: 12vw;
-    height: 12vw;
+    width: 12vmin;
+    height: 12vmin;
     padding: $padding / 2;
     font-size: 60%;
   }
@@ -122,13 +122,13 @@
   }
 
   .action {
-    height: 10vw;
+    height: 10vmin;
     margin: 4px 0 0;
   }
 }
 .action-modal {
   .number-select {
-    margin-left: 10vw;
+    margin-left: 10vmin;
   }
 }
 .centered .action {
@@ -137,12 +137,12 @@
 }
 
 .creature {
-  padding: 0 2vw;
+  padding: 0 2vmin;
   display: flex;
 
   .name {
     flex-grow: 1;
-    padding: 3vw 0;
+    padding: 3vmin 0;
   }
 }
 
@@ -150,8 +150,8 @@
   display: flex;
 
   .research-material {
-    width: 25vw;
-    margin: 0 2.5vw 12px;
+    width: 25vmin;
+    margin: 0 2.5vmin 12px;
 
     > * {
       vertical-align: middle;
@@ -182,7 +182,7 @@ pre {
   .section-selector {
     $buttons: 6;
     $size: 100vw / 5;
-    $bar-height: $size * 0.75;
+    $bar-height: (100vmin / 5) * 0.75;
     min-height: $bar-height;
     height: $bar-height;
     display: flex;

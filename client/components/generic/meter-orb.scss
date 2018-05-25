@@ -1,12 +1,12 @@
 .meter-orb {
-  $padding: 1.2vw;
-  $orb-size: 13.5vw;
+  $padding: 1.2vmin;
+  $orb-size: 13.5vmin;
   $inner-orb-size: $orb-size - 2 * $padding;
   height: $orb-size;
   width: $orb-size;
   //border: 1px solid gray;
   border-radius: 50%;
-  margin: 0.2vw;
+  margin: 0.2vmin;
   overflow: hidden;
   position: relative;
   display: inline-block;
