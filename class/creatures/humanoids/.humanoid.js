@@ -188,7 +188,7 @@ const actions = [
             if (creature.actionProgress >= 100) {
                 creature.actionProgress -= 100;
 
-                creature.gainSkill(SKILLS.SCOUTING, currentNodeMapping * baseTimeToSearch * 5);
+                creature.gainSkill(SKILLS.SCOUTING, currentNodeMapping * baseTimeToSearch * 2);
 
                 creature.mapNode(creature.getNode(), currentNodeMapping + 1);
 
