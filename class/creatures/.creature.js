@@ -1,7 +1,6 @@
 const Entity = require('../.entity');
 const server = require('../../singletons/server');
 const Action = require('../action');
-const utils = require('../../singletons/utils');
 const pushNotifications = require('../../singletons/push-notifications');
 
 const TIME_BETWEEN_BLOWS = 10;

@@ -1,6 +1,5 @@
 const Entity = require('./.entity');
 const Action = require('./action');
-const utils = require('../singletons/utils');
 
 const actions = [
     new Action({

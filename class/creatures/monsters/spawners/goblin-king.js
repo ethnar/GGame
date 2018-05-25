@@ -33,4 +33,12 @@ Object.assign(GoblinKing.prototype, {
         spawnDelay: 12 * HOURS,
     }],
 });
+Object.assign(GoblinKing.prototype, {
+    drops: {
+        100: {
+            Hide: '8-10',
+            Meat: '8-10',
+        },
+    }
+});
 module.exports = global.GoblinKing = GoblinKing;

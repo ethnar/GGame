@@ -19,4 +19,16 @@ class GoblinPatroller extends Monster {
         return 'Goblin Patroller';
     }
 }
+Object.assign(GoblinPatroller.prototype, {
+    drops: {
+        20: {
+            StoneKnife: '1-1',
+            Meat: '1-2',
+        },
+        50: {
+            Meat: '1-2',
+            Stone: '1-4',
+        }
+    }
+});
 module.exports = global.GoblinPatroller = GoblinPatroller;

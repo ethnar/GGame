@@ -1,6 +1,5 @@
 const Structure = require('./.structure');
 const server = require('../../singletons/server');
-const utils = require('../../singletons/utils');
 
 class Menhir extends Structure {
     constructor(args) {

@@ -1,6 +1,5 @@
 const resurrect = require('resurrect-js');
 const fs = require('fs');
-const utils = require('../singletons/utils');
 
 const necro = new resurrect();
 

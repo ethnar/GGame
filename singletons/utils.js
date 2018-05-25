@@ -90,4 +90,4 @@ const utils = {
         return (1 - maxVariation) + Math.random() * maxVariation * 2;
     }
 };
-module.exports = utils;
+module.exports = global.utils = utils;

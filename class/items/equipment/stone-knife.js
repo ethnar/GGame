@@ -1,5 +1,4 @@
 const Item = require('../.item');
-const utils = require('../../../singletons/utils');
 
 const research = {
     materials: {

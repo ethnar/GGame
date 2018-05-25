@@ -34,5 +34,11 @@ Object.assign(WolfMother.prototype, {
         range: 0,
         spawnDelay: 1 * HOURS,
     }],
+    drops: {
+        100: {
+            'Hide': '8-10',
+            'Meat': '8-10',
+        }
+    }
 });
 module.exports = global.WolfMother = WolfMother;

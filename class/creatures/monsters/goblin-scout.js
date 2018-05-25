@@ -19,4 +19,17 @@ class GoblinScout extends Monster {
         return 'Goblin Scout';
     }
 }
+Object.assign(GoblinScout.prototype, {
+    drops: {
+        50: {
+            Log: '1-1',
+            Meat: '1-2',
+            Stone: '1-4',
+        },
+        100: {
+            Log: '1-1',
+            Meat: '0-2',
+        }
+    }
+});
 module.exports = global.GoblinScout = GoblinScout;

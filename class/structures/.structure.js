@@ -1,5 +1,4 @@
 const Entity = require('../.entity');
-const utils = require('../../singletons/utils');
 
 class Structure extends Entity {
     static getHomeLevel() {

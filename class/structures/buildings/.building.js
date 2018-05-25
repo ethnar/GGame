@@ -1,7 +1,6 @@
 const Structure = require('../.structure');
 const Action = require('../../action');
 const Plan = require('../../plan');
-const utils = require('../../../singletons/utils');
 
 const actions = [
     new Action({

@@ -19,4 +19,12 @@ class Direwolf extends Monster {
         return 1.1;
     }
 }
+Object.assign(Direwolf.prototype, {
+    drops: {
+        100: {
+            'Hide': '4-8',
+            'Meat': '2-4',
+        }
+    }
+});
 module.exports = global.Direwolf = Direwolf;

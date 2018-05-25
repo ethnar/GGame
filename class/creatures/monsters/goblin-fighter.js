@@ -19,4 +19,16 @@ class GoblinFighter extends Monster {
         return 'Goblin Fighter';
     }
 }
+Object.assign(GoblinFighter.prototype, {
+    drops: {
+        20: {
+            StoneHatchet: '1-1',
+            Meat: '1-2',
+        },
+        50: {
+            Meat: '1-2',
+            Stone: '1-4',
+        }
+    }
+});
 module.exports = global.GoblinFighter = GoblinFighter;

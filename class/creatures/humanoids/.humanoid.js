@@ -1,5 +1,4 @@
 const Creature = require('../.creature');
-const utils = require('../../../singletons/utils');
 const server = require('../../../singletons/server');
 
 const SharpenedStone = require('../../items/equipment/sharpened-stone');

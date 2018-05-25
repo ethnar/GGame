@@ -1,5 +1,4 @@
 const Monsters = require('../.monsters');
-const utils = require('../../../../singletons/utils');
 
 class Spawners extends Monsters {
     static entityName() {

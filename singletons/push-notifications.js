@@ -1,7 +1,6 @@
 const server = require('./server');
 const admin = require('firebase-admin');
 const privateKey = require('../firebase-private-key.json');
-const utils = require('./utils');
 
 const firebaseConfig = {
     apiKey: 'AIzaSyC75M7koUSuNQ31mNBZQGz08MsdUwQlZq4',

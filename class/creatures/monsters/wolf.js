@@ -19,4 +19,12 @@ class Wolf extends Monster {
         return 0.3;
     }
 }
+Object.assign(Wolf.prototype, {
+    drops: {
+        100: {
+            'Hide': '2-4',
+            'Meat': '1-2',
+        }
+    }
+});
 module.exports = global.Wolf = Wolf;

@@ -1,5 +1,4 @@
 const Entity = require('./.entity');
-const utils = require('../singletons/utils');
 const crypto = require('crypto');
 
 const hash = method => string => crypto.createHash(method).update(string).digest('hex');

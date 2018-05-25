@@ -1,6 +1,5 @@
 const ws = require('nodejs-websocket');
 const express = require('express');
-const utils = require('./utils');
 const Player = require('../class/player');
 const crypto = require('crypto');
 const proxy = require('http-proxy-middleware');

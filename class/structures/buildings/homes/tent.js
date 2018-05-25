@@ -1,5 +1,4 @@
 const Home = require('./.home');
-const utils = require('../../../../singletons/utils');
 
 const research = {
     materials: {

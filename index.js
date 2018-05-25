@@ -7,11 +7,11 @@ program
     .parse(process.argv);
 
 require('./static');
+const utils = require('./singletons/utils');
 const express = require('express');
 const worldBuilder = require('./singletons/world-builder');
 const World = require('./class/world');
 const server = require('./singletons/server');
-const utils = require('./singletons/utils');
 const resurrect = require('resurrect-js');
 
 const necro = new resurrect();
