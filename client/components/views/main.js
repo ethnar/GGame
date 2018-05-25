@@ -290,8 +290,11 @@ export const MainView = {
         <div :hidden="mode !== 'stats'">
             <section>
                 <header>{{player.name}}</header>
-                <button @click="toggleBehaviour()" class="action">{{player.behaviour.passive ? 'Passive' : 'Defensive'}}</button>
+                <div class="centered">
+                    <button @click="toggleBehaviour()" class="action">{{player.behaviour.passive ? 'Passive' : 'Defensive'}}</button>
+                </div>
                 <actions
+                    class="centered"
                     :target="player"
                     :exclude="['Research', 'Fight', 'Search']" 
                 />
@@ -371,19 +374,22 @@ export const MainView = {
             </section>
             <section>
                 <header>Discover</header>
-                <div v-for="(material, idx) in researchMatsSlots" v-if="material" class="research-material">
-                    <item-icon @click="selectResearchMaterialIdx = idx;" :src="material.item && material.item.icon"></item-icon>
-                    <number-selector v-model="material.qty" @input="updateResearchMats" :min="1" :max="5"></number-selector>
+                <div class="research-materials">
+                    <div v-for="(material, idx) in researchMatsSlots" v-if="material" class="research-material">
+                        <item-icon @click="selectResearchMaterialIdx = idx;" :src="material.item && material.item.icon"></item-icon>
+                        <number-selector v-model="material.qty" @input="updateResearchMats" :min="1" :max="5"></number-selector>
+                    </div>
                 </div>
                 <actions
+                    class="centered"
                     :target="player"
                     name="Research" 
                 />
                 <modal v-if="selectResearchMaterialIdx !== null" @close="selectResearchMaterialIdx = null">
-                    <div class="item-list">
+                    <template slot="main" class="item-list">
                         <item-icon @click="selectResearchMaterial(null)"></item-icon>
                         <item-icon v-for="item in availableResearchMaterials":key="item.name"  @click="selectResearchMaterial(item)" :src="item.icon" :qty="item.qty"></item-icon>
-                    </div>
+                    </template>
                 </modal>
                 <header class="subheader">Recent researches</header>
                 <div v-for="attempt in player.recentResearches" class="list-item-with-props">
@@ -410,10 +416,6 @@ export const MainView = {
             </section>
         </div>
         <div :hidden="mode !== 'location'">
-            <actions
-                :target="player"
-                name="Search" 
-            />
             <section>
                 <header>Structures</header>
                 <div v-for="structure in node.structures" class="list-item-with-props">
@@ -451,19 +453,25 @@ export const MainView = {
                         </div>
                     </div>
                 </div>
+                <actions
+                    class="centered"
+                    :target="player"
+                    name="Search" 
+                />
             </section>
         </div>
         <div :hidden="mode !== 'mobs'">
-            <actions
-                :target="player"
-                name="Fight" 
-            />
             <section>
                 <header>Enemies</header>
                 <div v-for="creature in enemies" class="creature" :key="creature.id">
                     <span class="name">{{creature.name}}</span>
                     <meter-orb color="red" :value="creature.status.health"/><br/>
                 </div>
+                <actions
+                    class="centered"
+                    :target="player"
+                    name="Fight" 
+                />
             </section>
             <section>
                 <header>Friendlies</header>

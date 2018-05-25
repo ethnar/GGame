@@ -10,7 +10,7 @@ Vue.component('actions', {
 
     data: () => ({
         advanced: false,
-        repetitions: Infinity,
+        repetitions: 10,
     }),
 
     subscriptions() {
@@ -35,23 +35,23 @@ Vue.component('actions', {
 
     methods: {
         selectAction(action, targetId, repetitions = null) {
-            if (!action.available) {
-                ToastNotification.notify(action.message);
-                return;
-            }
             if (Math.abs(repetitions) === Infinity) {
                 repetitions = Number.MAX_SAFE_INTEGER;
             }
             ServerService.request('action', {
                 action: action.id,
                 target: targetId,
-                repetitions,
+                repetitions: action.repeatable ? repetitions : 1,
             }).then(() => {
                 this.$emit('action');
             });
         },
 
         advancedAction(action, targetId, event) {
+            if (!action.available) {
+                ToastNotification.notify(action.message);
+                return;
+            }
             event.preventDefault();
             this.advanced = {
                 action,
@@ -63,25 +63,27 @@ Vue.component('actions', {
     template: `
 <div v-if="target.actions">
     <div v-for="action in target.actions" v-if="(!name || action.name === name) && (!exclude || !exclude.includes(action.name))">
-        <v-touch @press.prevent="advancedAction(action, target.id, $event);">
-            <button
-                class="action"
-                @click="selectAction(action, target.id);"
-                :class="{ current: currentAction === action, disabled: !action.available }"
-            >
-                {{action.name}}
-            </button>
-        </v-touch>
-        <modal v-if="advanced">
-            Repeat how many times?<br/>
-            <br/>
-            <number-selector v-model="repetitions" :min="1"></number-selector>
-            <br/>
-            <br/>
-            <button @click="advanced = false;">Cancel</button>
-            <button @click="selectAction(advanced.action, advanced.targetId, repetitions);advanced = false;">Confirm</button>
-        </modal>
+        <button
+            class="action"
+            @click="advancedAction(action, target.id, $event);"
+            :class="{ current: currentAction === action, disabled: !action.available }"
+        >
+            {{action.name}}
+        </button>
     </div>
+    <modal v-if="advanced" @close="advanced = null;" class="action-modal">
+        <template slot="header">{{advanced.action.name}}</template>
+        <template slot="main">
+            <div v-if="advanced.action.repeatable">
+                Repeat?<br/>
+                <br/>
+                <number-selector class="number-select" v-model="repetitions" :min="1" :choices="[1, 10, 100]"></number-selector>
+                <br/>
+                <br/>
+            </div>
+            <button @click="selectAction(advanced.action, advanced.targetId, repetitions);advanced = false;">Confirm</button>
+        </template>
+    </modal>
 </div>
     `
 });

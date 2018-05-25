@@ -6,6 +6,7 @@ const actions = [
     new Action({
         name: 'Erect',
         icon: '/actions/icons8-home-100.png',
+        repeatable: false,
         valid(entity, creature) {
             if (!creature.buildingPlans.includes(entity)) {
                 return false;

@@ -106,6 +106,13 @@
     height: 10vw;
     margin: 4px 0 0; }
 
+.action-modal .number-select {
+  margin-left: 10vw; }
+
+.centered .action {
+  display: block;
+  margin: 0 auto 8px; }
+
 .creature {
   padding: 0 2vw;
   display: -webkit-box;
@@ -117,66 +124,20 @@
     flex-grow: 1;
     padding: 3vw 0; }
 
-.context-menu {
-  position: fixed;
-  width: 60vw;
-  margin-left: -30vw;
-  z-index: 9000; }
-  .context-menu .backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.1);
-    z-index: 1; }
-  .context-menu .contents {
-    background-color: #221912;
-    border: 1px solid grey;
-    text-align: center;
-    z-index: 2;
-    position: relative;
-    font-size: 85%; }
-    .context-menu .contents .title {
-      line-height: 40px;
-      border-bottom: 1px solid grey; }
-
-.research-material > * {
-  vertical-align: middle; }
+.research-materials {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+  .research-materials .research-material {
+    width: 25vw;
+    margin: 0 2.5vw 12px; }
+    .research-materials .research-material > * {
+      vertical-align: middle; }
 
 .list-item-with-props {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex; }
-
-.modal {
-  position: fixed;
-  top: 10%;
-  bottom: 15%;
-  left: 9%;
-  right: 9%;
-  z-index: 9000;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: reverse;
-  -ms-flex-direction: column-reverse;
-  flex-direction: column-reverse; }
-  .modal .backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.1);
-    z-index: 1; }
-  .modal .contents {
-    background-color: white;
-    border: 1px solid grey;
-    text-align: center;
-    z-index: 2;
-    position: relative; }
 
 pre {
   font-size: 60%; }
@@ -279,7 +240,7 @@ input {
     -webkit-box-shadow: 0 0 5px #7f5f2c inset;
     box-shadow: 0 0 5px #7f5f2c inset; }
 
-section header {
+section > header {
   text-align: center;
   font-weight: bold;
   background: url(../images/ui/Plank_04.png);
@@ -289,7 +250,7 @@ section header {
   color: #D1AE7D;
   text-shadow: 1px 1px 2px black; }
 
-section header.subheader {
+section > header.subheader {
   text-align: center;
   font-weight: bold;
   font-size: 90%; }
@@ -309,9 +270,8 @@ button, .button {
   button:active, button:focus, .button:active, .button:focus {
     outline: none; }
   button[disabled], button.disabled, .button[disabled], .button.disabled {
-    opacity: 0.4;
-    -webkit-filter: saturate(0);
-    filter: saturate(0); }
+    -webkit-filter: saturate(0) brightness(50%);
+    filter: saturate(0) brightness(50%); }
   button::before, button::after, .button::before, .button::after {
     content: '';
     position: absolute;
@@ -540,6 +500,20 @@ button, .button {
       border: 1px solid black;
       z-index: 1; }
 
+.context-menu {
+  width: 60vw;
+  margin-left: -30vw; }
+  .context-menu .contents {
+    padding: 10px; }
+    .context-menu .contents .actions {
+      clear: both;
+      margin-top: 8px; }
+      .context-menu .contents .actions .action {
+        margin-bottom: 4px;
+        width: 100%;
+        font-size: 60%;
+        height: 34px; }
+
 .meter-orb {
   height: 13.5vw;
   width: 13.5vw;
@@ -600,14 +574,88 @@ button, .button {
     display: block;
     background: radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 74%, white 80%, white 84%, rgba(255, 255, 255, 0) 100%); }
 
+.modal {
+  position: fixed;
+  top: 10%;
+  bottom: 15%;
+  left: 9%;
+  right: 9%;
+  z-index: 9000;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+  -ms-flex-direction: column-reverse;
+  flex-direction: column-reverse; }
+  .modal .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1; }
+  .modal .contents {
+    background: url("../images/ui/board_dark.png");
+    border: 12px solid;
+    -o-border-image: url("../images/ui/obj_08_full_border.png") 23;
+    border-image: url("../images/ui/obj_08_full_border.png") 23;
+    background-size: 120px;
+    padding: 16px;
+    text-align: center;
+    z-index: 2;
+    position: relative; }
+  .modal .close {
+    float: right;
+    padding: 4px;
+    height: 32px;
+    width: 32px;
+    font-size: 25px;
+    margin: -10px -10px 0 0; }
+  .modal .title {
+    line-height: 31px;
+    margin: -10px 22px 0 -10px;
+    font-size: 80%; }
+  .modal .main {
+    clear: both;
+    margin-top: 8px; }
+
 .number-selector {
-  display: inline-block; }
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+  .number-selector .number {
+    width: 20vw; }
+  .number-selector .choices {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 20vw;
+    margin-left: 15px; }
   .number-selector input {
-    font-size: inherit;
-    width: 50px; }
+    width: 100%;
+    height: 35px;
+    text-align: right;
+    font-size: 85%; }
+  .number-selector .buttons {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row; }
   .number-selector button {
-    height: 40px;
-    width: 43px;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    height: 35px;
+    width: auto;
     padding: 0 0; }
 
 .radial-progress {

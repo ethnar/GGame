@@ -8,6 +8,7 @@ const actions = [
         name: 'Equip Tool',
         icon: '/actions/icons8-hammer-100.png',
         notification: false,
+        repeatable: false,
         valid(item, creature) {
             if (item.getContainer() !== creature) {
                 return false;
@@ -35,6 +36,7 @@ const actions = [
         name: 'Unequip Tool',
         icon: '/actions/icons8-drawstring-bag-100.png',
         notification: false,
+        repeatable: false,
         valid(item, creature) {
             if (item.getContainer() !== creature) {
                 return false;
@@ -53,6 +55,7 @@ const actions = [
         name: 'Equip Weapon',
         icon: '/actions/icons8-sword-100.png',
         notification: false,
+        repeatable: false,
         valid(item, creature) {
             if (item.getContainer() !== creature) {
                 return false;
@@ -79,6 +82,7 @@ const actions = [
         name: 'Unequip Weapon',
         icon: '/actions/icons8-drawstring-bag-100.png',
         notification: false,
+        repeatable: false,
         valid(item, creature) {
             if (item.getContainer() !== creature) {
                 return false;

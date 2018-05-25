@@ -17,6 +17,7 @@ const actions = [
         name: 'Fight',
         icon: '/actions/icons8-sword-100.png',
         notification: false,
+        repeatable: false,
         valid(entity, creature) {
             if (entity !== creature) {
                 return false;
@@ -172,7 +173,7 @@ class Creature extends Entity {
             });
     }
 
-    stopAction() {
+    stopAction(notify = true) {
         if (this.currentAction) {
             const { entityId, actionId } = this.currentAction;
             const entity = Entity.getById(entityId);
@@ -180,7 +181,7 @@ class Creature extends Entity {
             if (action.finally) {
                 action.finally(entity, this);
             }
-            if (action.notification !== false) {
+            if (action.notification !== false && notify) {
                 pushNotifications.send(this, action.name + ': finished!');
             }
         }

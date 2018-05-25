@@ -3,12 +3,16 @@ Vue.component('number-selector', {
         value: 0,
         min: {
             type: Number,
-            default: -Infinity,
+            default: -100,
         },
         max: {
             type: Number,
-            default: Infinity,
+            default: 100,
         },
+        choices: {
+            type: Array,
+            default: () => [],
+        }
     },
 
     data: () => ({
@@ -34,6 +38,10 @@ Vue.component('number-selector', {
 
         change(by) {
             this.$emit('input', this.limit(this.value + by, by));
+        },
+
+        set(to) {
+            this.$emit('input', this.limit(to));
         },
 
         canChange(by) {
@@ -63,11 +71,16 @@ Vue.component('number-selector', {
 
     template: `
 <div class="number-selector">
-    <button @click="change(-Infinity)" :disabled="!canChange(-Infinity)">&lt;&lt;</button>
-    <button @click="change(-1)" :disabled="!canChange(-1)">&lt;</button>
-    <input type="text" v-model="inputValue" @input="$emit('input', limit(stringToNumber(inputValue)));">
-    <button @click="change(1)" :disabled="!canChange(1)">&gt;</button>
-    <button @click="change(Infinity)" :disabled="!canChange(Infinity)">&gt;&gt;</button>
+    <div class="number">
+        <input type="text" v-model="inputValue" @input="$emit('input', limit(stringToNumber(inputValue)));">
+        <div class="buttons">
+            <button @click="change(-1)" :disabled="!canChange(-1)">&lt;</button>
+            <button @click="change(1)" :disabled="!canChange(1)">&gt;</button>
+        </div>
+    </div>
+    <div class="choices" v-if="choices.length">
+        <button v-for="number in choices" @click="set(number)">{{number}}</button>
+    </div>
 </div>
     `,
 });

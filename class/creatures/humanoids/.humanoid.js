@@ -40,6 +40,7 @@ const actions = [
         name: 'Sneak',
         icon: '/actions/icons8-fraud-100.png',
         notification: false,
+        repeatable: false,
         valid(entity, creature) {
             if (!creature.stealth) {
                 creature.sneaking = false;
@@ -61,6 +62,7 @@ const actions = [
         name: 'Stop Sneaking',
         icon: '/actions/icons8-fraud-100.png',
         notification: false,
+        repeatable: false,
         valid(entity, creature) {
             if (!creature.sneaking) {
                 return false;
@@ -76,6 +78,7 @@ const actions = [
     new Action({
         name: 'Research',
         icon: '/actions/icons8-test-tube-100.png',
+        repeatable: false,
         available(entity, creature) {
             const researchMaterials = utils.cleanup(creature.researchMaterials);
             if (!Object.keys(researchMaterials).length) {
@@ -153,6 +156,7 @@ const actions = [
         name: 'Sleep',
         icon: '/actions/icons8-sleep-100.png',
         notification: false,
+        repeatable: false,
         run(entity, creature) {
             creature.sleeping = true;
             const secondsNeededForGoodSleep = 4 * 60 * 60;
@@ -537,6 +541,7 @@ server.registerHandler('action', (params, player, connection) => {
         params.repetitions = action.defaultRepetitions || 1;
     }
 
+    creature.stopAction(false);
     creature.startAction(target, action, params.repetitions);
 
     server.updatePlayer(connection);

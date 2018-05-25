@@ -41,6 +41,7 @@ class Action {
         return {
             id: this.getId(),
             name: this.getName(),
+            repeatable: this.repeatable !== false,
             available: this.isAvailable(entity, creature),
             message: this.getAvailabilityMessage(entity, creature),
         }

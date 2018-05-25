@@ -1,8 +1,10 @@
 let instance;
+let mouse = {};
 
 Vue.component('context-menu', {
     data: () => ({
         visible: false,
+        reallyShow: false,
         name: '',
         data: '',
         html: '',
@@ -14,32 +16,49 @@ Vue.component('context-menu', {
         instance = this;
     },
 
+    watch: {
+        visible() {
+            if (this.visible) {
+                console.log('showing!', mouse.x);
+                setTimeout(() => {
+                    console.log('positioning!', mouse.x, instance.$refs.modal.$el.offsetHeight);
+                    const halfWidth = instance.$refs.modal.$el.offsetWidth / 2;
+                    const height = instance.$refs.modal.$el.offsetHeight;
+                    instance.y = Math.min((window.innerHeight - mouse.y + 20), window.innerHeight - height) + 'px';
+                    const x = Math.min(window.innerWidth - halfWidth, Math.max(halfWidth, mouse.x));
+                    instance.x = x + 'px';
+                    instance.reallyShow = true;
+                });
+            } else {
+                instance.reallyShow = false;
+            }
+        },
+    },
+
     template: `
-<div :hidden="!visible" :style="{ bottom: y, left: x }" class="context-menu">
-    <div class="contents">
-        <div class="title">{{name}}</div>
-        <div v-html="html"></div>
-        <actions
-            v-if="data"
-            :target="data"
-            @action="visible = false"
-        />
-    </div>
-    <div class="backdrop" @click="visible = false"></div>
+<div>
+    <modal v-if="visible" :style="{ top: 'auto', bottom: y, left: x, 'visibility': reallyShow ? 'visible' : 'hidden' }" class="context-menu" @close="visible = false;" ref="modal">
+        <template slot="header">{{name}}</template>
+        <template slot="main">
+            <div v-html="html"></div>
+            <actions
+                class="actions"
+                v-if="data"
+                :target="data"
+                @action="visible = false"
+            />
+        </template>
+    </modal>
 </div>
     `,
 });
 
 window.addEventListener('mousemove', (event) => {
     if (instance && !instance.visible) {
-        const halfWidth = parseInt(window.getComputedStyle(instance.$el).width, 10) / 2;
-        setTimeout(() => {
-            const height = instance.$el.offsetHeight;
-            instance.y = Math.min(parseInt(instance.y, 10), window.innerHeight - height) + 'px';
-        });
-        const x = Math.min(window.innerWidth - halfWidth, Math.max(halfWidth, event.clientX));
-        instance.x = x + 'px';
-        instance.y = (window.innerHeight - event.clientY + 20) + 'px';
+        mouse = {
+            x: event.clientX,
+            y: event.clientY,
+        };
     }
 });
 

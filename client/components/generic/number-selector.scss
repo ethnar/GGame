@@ -1,14 +1,33 @@
 .number-selector {
-  display: inline-block;
+  display: flex;
+
+  .number {
+    width: 20vw;
+  }
+
+  .choices {
+    flex-direction: column;
+    display: flex;
+    width: 20vw;
+    margin-left: 15px;
+  }
 
   input {
-    font-size: inherit;
-    width: 50px;
+    width: 100%;
+    height: 35px;
+    text-align: right;
+    font-size: 85%;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
   }
 
   button {
-    height: 40px;
-    width: 43px;
+    flex-grow: 1;
+    height: 35px;
+    width: auto;
     padding: 0 0;
   }
 }

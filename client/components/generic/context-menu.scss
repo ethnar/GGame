@@ -1,0 +1,20 @@
+.context-menu {
+  width: 60vw;
+  margin-left: -30vw;
+
+  .contents {
+    padding: 10px;
+
+    .actions {
+      clear: both;
+      margin-top: 8px;
+
+      .action {
+        margin-bottom: 4px;
+        width: 100%;
+        font-size: 60%;
+        height: 34px;
+      }
+    }
+  }
+}

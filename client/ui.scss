@@ -39,7 +39,7 @@ input {
 }
 
 section {
-  header {
+  > header {
     text-align: center;
     font-weight: bold;
     background: url(../images/ui/Plank_04.png);
@@ -50,7 +50,7 @@ section {
     text-shadow: $text-shadow;
   }
 
-  header.subheader {
+  > header.subheader {
     text-align: center;
     font-weight: bold;
     font-size: 90%;
@@ -76,8 +76,7 @@ button, .button {
   }
 
   &[disabled], &.disabled {
-    opacity: 0.4;
-    filter: saturate(0);
+    filter: saturate(0) brightness(50%);
   }
 
   &::before, &::after {
