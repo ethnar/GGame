@@ -13,10 +13,10 @@
   padding: $padding;
   background: radial-gradient(
     circle at 50% 55%,
-    rgba(0, 10, 15, 0.9),
-    rgba(0, 10, 15, 0.9) 40%,
-    rgba(10, 15, 20, 0.8) 60%,
-    rgba(255, 255, 255, 0.7)
+    rgba(0, 10, 15, 0.6),
+    rgba(0, 10, 15, 0.6) 40%,
+    rgba(10, 15, 20, 0.5) 60%,
+    rgba(255, 255, 255, 0.4)
   );
 
   .border {
@@ -38,10 +38,10 @@
     transition: clip-path 1s linear;
     background: radial-gradient(
       circle at 50% 55%,
-      rgba(255, 255, 255, 0.4),
-      rgba(255, 255, 255, 0.4) 40%,
-      rgba(225, 255, 255, 0.5) 60%,
-      rgba(43, 43, 43, 0.3)
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1) 40%,
+      rgba(225, 255, 255, 0.2) 60%,
+      rgba(43, 43, 43, 0.0)
     );
     border-radius: 50%;
   }
