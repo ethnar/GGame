@@ -32,13 +32,6 @@
       left: -20px;
     }
 
-    .legal::before {
-      font-family: Arial;
-      font-size: 10px;
-      color: black;
-      content: $legal;
-    }
-
     .error {
       min-height: 30px;
       color: firebrick;

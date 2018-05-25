@@ -129,7 +129,6 @@ Vue.component('world-map', {
                 const resourcesHtml = (node.resources || []).map(resource => {
                     return `<div>${resource.name} (${RESOURCE_SIZES[resource.size]})<div>`;
                 }).join('');
-                console.log(resourcesHtml);
                 ContextMenu.open(node.name, node, resourcesHtml);
             }
         },

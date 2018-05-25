@@ -49,7 +49,7 @@ const server = new class Server {
                 return;
             }
 
-            console.log('New connection');
+            utils.log('New connection');
 
             this.connections.push(conn);
             this.playerMap.set(conn, player);
@@ -70,7 +70,7 @@ const server = new class Server {
                 let idx = this.connections.indexOf(conn);
                 this.connections.splice(idx, 1);
                 this.playerMap.delete(conn);
-                console.log('Connection closed');
+                utils.log('Connection closed');
             });
 
             conn.on('error', () => {});
@@ -156,7 +156,7 @@ const server = new class Server {
     }
 
     setPlayer(conn, player) {
-        console.log(player.name + ' authenticated');
+        utils.log(player.name + ' authenticated');
         this.playerMap.set(conn, player);
     }
 
@@ -271,9 +271,8 @@ expressApp
                     .some(structure => structure.constructor.name === 'Menhir'));
 
             if (!startingNodes.length) {
-                console.log('Registration disabled.');
                 res.status(400);
-                res.send();
+                res.send('Registration disabled.');
                 return;
             }
 
@@ -294,7 +293,7 @@ expressApp
                 return;
             }
 
-            console.log('New Dwarf!');
+            utils.log('New Dwarf! ' + params.name);
             const startingNode = startingNodes[utils.random(0, startingNodes.length - 1)];
 
             const dwarf = new Dwarf({

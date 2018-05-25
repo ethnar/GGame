@@ -1,7 +1,10 @@
+window.LEGAL_HTML = '© All rights reserved. <a href="#/credits">Credits</a>';
+
 import {LoginView} from './components/views/login.js'
 import {MainView} from './components/views/main.js'
 import {RegisterView} from './components/views/register.js';
 import {DisclaimerView} from './components/views/disclaimer.js';
+import {CreditsView} from './components/views/credits.js';
 
 window.RESOURCE_SIZES = {
     1: 'scarce',
@@ -26,6 +29,9 @@ window.router = new VueRouter({
     }, {
         path: '/disclaimer',
         component: DisclaimerView
+    }, {
+        path: '/credits',
+        component: CreditsView
     }, {
         path: '/main',
         component: MainView

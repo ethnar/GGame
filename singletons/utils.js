@@ -80,6 +80,10 @@ const utils = {
 
     reportViolation() {
 
+    },
+
+    log(message) {
+        console.log(new Date().toISOString(), message);
     }
 };
 module.exports = utils;

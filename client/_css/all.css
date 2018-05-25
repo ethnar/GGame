@@ -1,4 +1,3 @@
-@charset "UTF-8";
 @font-face {
   font-family: BaseFont; }
 
@@ -289,219 +288,14 @@ button, .button {
     -webkit-filter: brightness(160%);
     filter: brightness(160%); }
 
-.current-action {
-  height: 13vw;
-  width: 13vw;
-  position: relative;
-  overflow: hidden;
-  -webkit-box-sizing: content-box !important;
-  box-sizing: content-box !important; }
-  .current-action .current-action-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0; }
-    .current-action .current-action-wrapper .half {
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      z-index: 4; }
-      .current-action .current-action-wrapper .half.first-container {
-        width: 50%;
-        left: 50%;
-        overflow: hidden;
-        -webkit-clip-path: inset(3px 4px 4px 0);
-        clip-path: inset(3px 4px 4px 0); }
-      .current-action .current-action-wrapper .half.first {
-        background: radial-gradient(ellipse at left, rgba(150, 255, 0, 0.7) 0%, rgba(150, 255, 0, 0) 100%);
-        -webkit-transform-origin: left center;
-        transform-origin: left center; }
-      .current-action .current-action-wrapper .half.second-container {
-        width: 50%;
-        overflow: hidden;
-        -webkit-clip-path: inset(3px 0 4px 4px);
-        clip-path: inset(3px 0 4px 4px); }
-      .current-action .current-action-wrapper .half.second {
-        background: radial-gradient(ellipse at right, rgba(150, 255, 0, 0.7) 0%, rgba(150, 255, 0, 0) 100%);
-        -webkit-transform-origin: right center;
-        transform-origin: right center; }
-    .current-action .current-action-wrapper .mid-cover {
-      background: url("../images/ui/frame_c3_01.png") center center no-repeat;
-      background-size: 100% 100%;
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      padding: 6px; }
-      .current-action .current-action-wrapper .mid-cover img {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        padding: 8px;
-        z-index: 5; }
-        .current-action .current-action-wrapper .mid-cover img.icon {
-          -webkit-filter: contrast(0) brightness(1.2) sepia(1);
-          filter: contrast(0) brightness(1.2) sepia(1); }
-        .current-action .current-action-wrapper .mid-cover img.shadow {
-          padding: 9px 7px 7px 9px; }
-    .current-action .current-action-wrapper .border {
-      background: url("../images/ui/frame_c2_01_border.png");
-      background-size: 100% 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      z-index: 5; }
-  .current-action .repetitions {
-    font-size: 60%;
-    text-shadow: 0 0 2px black, 0 0 2px black;
-    position: absolute;
-    color: #D1AE7D;
-    top: 6%;
-    right: 15%;
-    z-index: 6; }
-
-.dialog-pane-with-logo .main-container {
-  text-align: center;
-  background: url("../images/ui/bg_01_02.png");
-  background-size: 100% 100%;
-  padding: 40px;
-  width: 300px;
-  margin: 50px auto 20px;
-  position: relative;
-  color: #7a592b; }
-  .dialog-pane-with-logo .main-container header {
-    background: url("../images/ui/Plank_09.png") no-repeat;
-    background-size: 100% auto;
-    height: 44px;
-    width: 220px;
-    position: absolute;
-    line-height: 44px;
-    padding-right: 20px;
-    top: 60px;
-    color: #D1AE7D;
-    text-shadow: 1px 1px 2px black;
-    text-align: right; }
-  .dialog-pane-with-logo .main-container .logo {
-    height: 120px;
-    background: url("../images/ui/logo.png") left center no-repeat;
-    background-size: auto 100%;
-    z-index: 2;
-    position: relative;
-    left: -20px; }
-  .dialog-pane-with-logo .main-container .legal::before {
-    font-family: Arial;
-    font-size: 10px;
-    color: black;
-    content: "© All rights reserved"; }
-  .dialog-pane-with-logo .main-container .error {
-    min-height: 30px;
-    color: firebrick; }
-  .dialog-pane-with-logo .main-container input {
-    margin-bottom: 10px; }
-  .dialog-pane-with-logo .main-container .text {
-    margin: 10px 0 20px; }
-  .dialog-pane-with-logo .main-container p {
-    margin: 10px 0;
-    font-size: 60%;
-    color: black; }
-
-.main-map-container {
-  position: relative;
-  width: 100%;
-  height: 20vh;
-  overflow: hidden;
-  -webkit-transition: height 0.6s;
-  transition: height 0.6s;
-  background: url("../images/ui/bg_01_02.png");
-  background-size: 120vw;
-  background-position: -10vw center; }
-  .main-map-container .toggle-expand {
-    position: absolute;
-    top: 0;
-    right: 3px;
-    width: 5vh;
-    height: 5vh;
-    z-index: 4;
-    margin-top: -5px; }
-    .main-map-container .toggle-expand .icon {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: url("../images/icons8-sort-down-52.png") center center no-repeat;
-      background-size: 50%;
-      -webkit-filter: contrast(0) brightness(1.2) sepia(1);
-      filter: contrast(0) brightness(1.2) sepia(1); }
-  .main-map-container.expanded {
-    height: 60vh; }
-    .main-map-container.expanded .toggle-expand .icon {
-      -webkit-transform: scaleY(-1);
-      transform: scaleY(-1); }
-  .main-map-container::before {
-    content: '';
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    position: absolute;
-    z-index: 4;
-    -webkit-transition: -webkit-box-shadow 0.6s;
-    transition: -webkit-box-shadow 0.6s;
-    transition: box-shadow 0.6s;
-    transition: box-shadow 0.6s, -webkit-box-shadow 0.6s;
-    pointer-events: none; }
-  .main-map-container.sneaking::before {
-    -webkit-box-shadow: 0 0 120px 10px inset black;
-    box-shadow: 0 0 120px 10px inset black; }
-  .main-map-container .draggable-map {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    background-image: url("../images/Arcannan.jpg");
-    border-radius: 20px; }
-    .main-map-container .draggable-map:not(.dragging) {
-      -webkit-transition: margin 0.3s ease-in;
-      transition: margin 0.3s ease-in; }
-    .main-map-container .draggable-map .node-token {
-      position: absolute;
-      border: 1px solid black;
-      width: 20px;
-      height: 20px;
-      margin-left: -10px;
-      margin-top: -10px;
-      border-radius: 50%;
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      z-index: 2;
-      background-color: white;
-      opacity: 0.6; }
-      .main-map-container .draggable-map .node-token .inset, .main-map-container .draggable-map .node-token .mid-cover {
-        border: 4px solid black; }
-      .main-map-container .draggable-map .node-token.current {
-        opacity: 1;
-        z-index: 3; }
-    .main-map-container .draggable-map .path {
-      opacity: 0.8;
-      border-radius: 5px;
-      position: absolute;
-      min-width: 1px;
-      min-height: 5px;
-      margin-top: -2.5px;
-      background-color: lightgrey;
-      border: 1px solid black;
-      z-index: 1; }
+.legal {
+  font-family: Arial;
+  font-size: 10px;
+  color: black; }
+  .legal.bright {
+    color: #7a592b;
+    text-align: center;
+    margin: 6px 0; }
 
 .context-menu {
   width: 60vw;
@@ -745,3 +539,212 @@ button, .button {
   background-size: 100% 100%; }
   .toast-message.visible {
     top: 0; }
+
+.current-action {
+  height: 13vw;
+  width: 13vw;
+  position: relative;
+  overflow: hidden;
+  -webkit-box-sizing: content-box !important;
+  box-sizing: content-box !important; }
+  .current-action .current-action-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0; }
+    .current-action .current-action-wrapper .half {
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 4; }
+      .current-action .current-action-wrapper .half.first-container {
+        width: 50%;
+        left: 50%;
+        overflow: hidden;
+        -webkit-clip-path: inset(3px 4px 4px 0);
+        clip-path: inset(3px 4px 4px 0); }
+      .current-action .current-action-wrapper .half.first {
+        background: radial-gradient(ellipse at left, rgba(150, 255, 0, 0.7) 0%, rgba(150, 255, 0, 0) 100%);
+        -webkit-transform-origin: left center;
+        transform-origin: left center; }
+      .current-action .current-action-wrapper .half.second-container {
+        width: 50%;
+        overflow: hidden;
+        -webkit-clip-path: inset(3px 0 4px 4px);
+        clip-path: inset(3px 0 4px 4px); }
+      .current-action .current-action-wrapper .half.second {
+        background: radial-gradient(ellipse at right, rgba(150, 255, 0, 0.7) 0%, rgba(150, 255, 0, 0) 100%);
+        -webkit-transform-origin: right center;
+        transform-origin: right center; }
+    .current-action .current-action-wrapper .mid-cover {
+      background: url("../images/ui/frame_c3_01.png") center center no-repeat;
+      background-size: 100% 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      padding: 6px; }
+      .current-action .current-action-wrapper .mid-cover img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        padding: 8px;
+        z-index: 5; }
+        .current-action .current-action-wrapper .mid-cover img.icon {
+          -webkit-filter: contrast(0) brightness(1.2) sepia(1);
+          filter: contrast(0) brightness(1.2) sepia(1); }
+        .current-action .current-action-wrapper .mid-cover img.shadow {
+          padding: 9px 7px 7px 9px; }
+    .current-action .current-action-wrapper .border {
+      background: url("../images/ui/frame_c2_01_border.png");
+      background-size: 100% 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 5; }
+  .current-action .repetitions {
+    font-size: 60%;
+    text-shadow: 0 0 2px black, 0 0 2px black;
+    position: absolute;
+    color: #D1AE7D;
+    top: 6%;
+    right: 15%;
+    z-index: 6; }
+
+.dialog-pane-with-logo .main-container {
+  text-align: center;
+  background: url("../images/ui/bg_01_02.png");
+  background-size: 100% 100%;
+  padding: 40px;
+  width: 300px;
+  margin: 50px auto 20px;
+  position: relative;
+  color: #7a592b; }
+  .dialog-pane-with-logo .main-container header {
+    background: url("../images/ui/Plank_09.png") no-repeat;
+    background-size: 100% auto;
+    height: 44px;
+    width: 220px;
+    position: absolute;
+    line-height: 44px;
+    padding-right: 20px;
+    top: 60px;
+    color: #D1AE7D;
+    text-shadow: 1px 1px 2px black;
+    text-align: right; }
+  .dialog-pane-with-logo .main-container .logo {
+    height: 120px;
+    background: url("../images/ui/logo.png") left center no-repeat;
+    background-size: auto 100%;
+    z-index: 2;
+    position: relative;
+    left: -20px; }
+  .dialog-pane-with-logo .main-container .error {
+    min-height: 30px;
+    color: firebrick; }
+  .dialog-pane-with-logo .main-container input {
+    margin-bottom: 10px; }
+  .dialog-pane-with-logo .main-container .text {
+    margin: 10px 0 20px; }
+  .dialog-pane-with-logo .main-container p {
+    margin: 10px 0;
+    font-size: 60%;
+    color: black; }
+
+.main-map-container {
+  position: relative;
+  width: 100%;
+  height: 20vh;
+  overflow: hidden;
+  -webkit-transition: height 0.6s;
+  transition: height 0.6s;
+  background: url("../images/ui/bg_01_02.png");
+  background-size: 120vw;
+  background-position: -10vw center; }
+  .main-map-container .toggle-expand {
+    position: absolute;
+    top: 0;
+    right: 3px;
+    width: 5vh;
+    height: 5vh;
+    z-index: 4;
+    margin-top: -5px; }
+    .main-map-container .toggle-expand .icon {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: url("../images/icons8-sort-down-52.png") center center no-repeat;
+      background-size: 50%;
+      -webkit-filter: contrast(0) brightness(1.2) sepia(1);
+      filter: contrast(0) brightness(1.2) sepia(1); }
+  .main-map-container.expanded {
+    height: 60vh; }
+    .main-map-container.expanded .toggle-expand .icon {
+      -webkit-transform: scaleY(-1);
+      transform: scaleY(-1); }
+  .main-map-container::before {
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    z-index: 4;
+    -webkit-transition: -webkit-box-shadow 0.6s;
+    transition: -webkit-box-shadow 0.6s;
+    transition: box-shadow 0.6s;
+    transition: box-shadow 0.6s, -webkit-box-shadow 0.6s;
+    pointer-events: none; }
+  .main-map-container.sneaking::before {
+    -webkit-box-shadow: 0 0 120px 10px inset black;
+    box-shadow: 0 0 120px 10px inset black; }
+  .main-map-container .draggable-map {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background-image: url("../images/Arcannan.jpg");
+    border-radius: 20px; }
+    .main-map-container .draggable-map:not(.dragging) {
+      -webkit-transition: margin 0.3s ease-in;
+      transition: margin 0.3s ease-in; }
+    .main-map-container .draggable-map .node-token {
+      position: absolute;
+      border: 1px solid black;
+      width: 20px;
+      height: 20px;
+      margin-left: -10px;
+      margin-top: -10px;
+      border-radius: 50%;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      z-index: 2;
+      background-color: white;
+      opacity: 0.6; }
+      .main-map-container .draggable-map .node-token .inset, .main-map-container .draggable-map .node-token .mid-cover {
+        border: 4px solid black; }
+      .main-map-container .draggable-map .node-token.current {
+        opacity: 1;
+        z-index: 3; }
+    .main-map-container .draggable-map .path {
+      opacity: 0.8;
+      border-radius: 5px;
+      position: absolute;
+      min-width: 1px;
+      min-height: 5px;
+      margin-top: -2.5px;
+      background-color: lightgrey;
+      border: 1px solid black;
+      z-index: 1; }

@@ -60,8 +60,6 @@ server.registerHandler('push-notifications', (params, player, conn) => {
         return false;
     }
 
-    console.log('new token', params.token);
-
     player.devices[params.token] = true;
 
     return true;

@@ -19,9 +19,7 @@ Vue.component('context-menu', {
     watch: {
         visible() {
             if (this.visible) {
-                console.log('showing!', mouse.x);
                 setTimeout(() => {
-                    console.log('positioning!', mouse.x, instance.$refs.modal.$el.offsetHeight);
                     const halfWidth = instance.$refs.modal.$el.offsetWidth / 2;
                     const height = instance.$refs.modal.$el.offsetHeight;
                     instance.y = Math.min((window.innerHeight - mouse.y + 20), window.innerHeight - height) + 'px';

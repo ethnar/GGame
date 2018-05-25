@@ -82,7 +82,6 @@ class Creature extends Entity {
             return;
         }
         this.actionProgress = 0;
-        console.log(this.getName() + ': ' + action.getName() + '!');
         this.stopAction();
         this.currentAction = {
             entityId: entity.getEntityId(),
@@ -230,14 +229,12 @@ class Creature extends Entity {
 
     pickUp(item) {
         const node = item.getContainer();
-        console.log(`${this.getName()} picked up: ${item.getName()}`);
         node.removeItem(item);
         this.addItem(item);
     }
 
     drop(item, qty = 1) {
         let toDrop = item;
-        console.log(`${this.getName()} dropped: ${item.getName()}`);
         if (item.qty > qty) {
             toDrop = item.split(qty);
         }
@@ -247,7 +244,6 @@ class Creature extends Entity {
 
     putToStorage(item, qty = 1) {
         let toDrop = item;
-        console.log(`${this.getName()} stored: ${item.getName()}`);
         if (item.qty > qty) {
             toDrop = item.split(qty);
         }
@@ -258,7 +254,6 @@ class Creature extends Entity {
     takeFromStorage(item, qty = 1) {
         const home = item.getContainer();
         let toPick = item;
-        console.log(`${this.getName()} stored: ${item.getName()}`);
         if (item.qty > qty) {
             toPick = item.split(qty);
         }
@@ -336,14 +331,14 @@ class Creature extends Entity {
         ) {
             const damage = this.getDamageDealt() * (1 / Math.max(enemy.getArmour(), 0.1));
 
-            console.log(enemy.getName() + ' received ' + damage + ' damage from ' + this.getName() + '. (' + weaponName + ')')
+            utils.log(enemy.getName() + ' received ' + damage + ' damage from ' + this.getName() + '. (' + weaponName + ')')
 
             enemy.receiveDamage(damage);
             if (this.weapon) {
                 this.weapon.reduceIntegrity(0.2);
             }
         } else {
-            console.log(this.getName() + ' missed ' + enemy.getName() + '!' + ' (' + weaponName + ')');
+            utils.log(this.getName() + ' missed ' + enemy.getName() + '!' + ' (' + weaponName + ')');
         }
     }
 
@@ -401,7 +396,7 @@ class Creature extends Entity {
 
         this.dead = true;
 
-        console.log(this.getName() + ': died');
+        utils.log(this.getName() + ': died');
     }
 
     destroy() {

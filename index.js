@@ -11,6 +11,7 @@ const express = require('express');
 const worldBuilder = require('./singletons/world-builder');
 const World = require('./class/world');
 const server = require('./singletons/server');
+const utils = require('./singletons/utils');
 const resurrect = require('resurrect-js');
 
 const necro = new resurrect();
@@ -18,7 +19,7 @@ const necro = new resurrect();
 const initialise = program.reset;
 
 if (initialise) {
-    console.log('** Creating a new world **');
+    utils.log('** Creating a new world **');
     global.world = worldBuilder.buildNewWorld();
     global.world.save('initial_save.json');
     global.world.save('rolling_save.json');
@@ -26,7 +27,7 @@ if (initialise) {
 
 global.world = World.load('rolling_save.json');
 
-console.log('*** Start ***');
+utils.log('*** Start ***');
 
 let terminate = false;
 
@@ -34,7 +35,7 @@ setInterval(() => {
     world.cycle();
     server.updatePlayers();
     if (terminate) {
-        console.log('*** Terminated ***');
+        utils.log('*** Terminated ***');
         process.exit(0);
     }
 }, program.dev ? 10 : 1000);

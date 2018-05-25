@@ -541,6 +541,8 @@ server.registerHandler('action', (params, player, connection) => {
         params.repetitions = action.defaultRepetitions || 1;
     }
 
+    utils.log(`User action! ${player.name} ${action.name}`);
+
     creature.stopAction(false);
     creature.startAction(target, action, params.repetitions);
 

@@ -3,6 +3,7 @@ import {ContextMenu} from '../generic/context-menu.js';
 import '../generic/toast-notification.js';
 import '../generic/number-selector.js';
 import '../generic/modal.js';
+import '../generic/meter-orb.js';
 import '../game/map.js';
 import '../game/actions.js';
 import '../game/current-action.js';
@@ -32,37 +33,6 @@ const skillNames = {
     9: 'Cooking',
     10: 'Crafting',
 };
-
-Vue.component('meter-orb', {
-    props: [
-        'color',
-        'value',
-        'onlyGrowing'
-    ],
-
-    data: () => ({
-        reseter: false,
-    }),
-
-    watch: {
-        value(to, from) {
-            if (from > to && this.onlyGrowing) {
-                this.reseter = !this.reseter;
-            }
-        }
-    },
-
-    template: `
-<span class="meter-orb" @click="$emit('click', $event);">
-    <div
-        :key="reseter"
-        class="fill"
-        :style="{ 'background-color': color, 'clip-path': 'inset(' + (100 - (value || 0)) + '% 0 0)' }"
-    ></div>
-    <div class="border"></div>
-</span>
-    `,
-});
 
 Vue.component('inventory', {
     props: [
@@ -155,6 +125,7 @@ export const MainView = {
         skillNames,
         researchMatsSlots: [],
         resourceSize: RESOURCE_SIZES,
+        legal: null,
     }),
 
     subscriptions() {
@@ -177,6 +148,7 @@ export const MainView = {
     },
 
     created () {
+        this.legal = window.LEGAL_HTML;
     },
 
     computed: {
@@ -305,6 +277,7 @@ export const MainView = {
                     {{skillNames[skill.id]}}: {{skillLevels[skill.level]}}
                 </div>
             </section>
+            <div class="legal bright" v-html="legal"></div>
         </div>
         <div :hidden="mode !== 'inventory'">
             <section>
