@@ -25,6 +25,7 @@ class Spawners extends Monsters {
         this.moveAround();
         if (!this.dead) {
             this.spawnMore();
+            this.heal();
         }
     }
 
@@ -113,6 +114,25 @@ class Spawners extends Monsters {
                 });
             }
         });
+    }
+
+    heal() {
+        this.healingIn = this.healingIn || 0;
+        this.healingIn += 1;
+
+        if (this.healingIn >= 1 * HOURS) {
+            this.healingIn -= 1 * HOURS;
+
+            this.creatureGroups.forEach(creatureGroup => {
+                creatureGroup.creatures.forEach(creature => {
+                    if (creature.hasEnemies() || creature.dead) {
+                        return;
+                    }
+
+                    creature.receiveDamage(-1 * (this.regeneration || 1));
+                });
+            });
+        }
     }
 }
 module.exports = global.Spawners = Spawners;
