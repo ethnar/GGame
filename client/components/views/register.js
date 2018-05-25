@@ -1,4 +1,5 @@
 import {ServerService} from '../../services/server.js'
+import '../game/dialog-pane-with-logo.js';
 
 export const RegisterView = {
     data: () => ({
@@ -26,11 +27,17 @@ export const RegisterView = {
 
     template: `
 <div>
-    Username <input name="user" v-model="user" /><br/>
-    Password <input name="password" type="password" v-model="password" /><br/>
-    Secret <input name="passphrase" type="text" v-model="passphrase" /><br/>
-    <input type="button" @click="register()" value="Register" />
-    <div>{{error}}</div>
+    <dialog-pane-with-logo>
+        Username
+        <input name="user" v-model="user" />
+        Password
+        <input name="password" type="password" v-model="password" />
+        Secret
+        <input name="passphrase" type="text" v-model="passphrase" />
+        <button @click="register()">Register</button>
+        <div class="error">{{error}}</div>
+        <a class="text" href="#/login">Back to login</a>
+    </dialog-pane-with-logo>
 </div>
 `,
 };

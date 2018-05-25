@@ -260,7 +260,7 @@ expressApp
 
             if (params.passphrase !== 'biscuits') {
                 res.status(400);
-                res.send();
+                res.send('Incorrect secret');
                 return;
             }
 
@@ -271,7 +271,7 @@ expressApp
                     .some(structure => structure.constructor.name === 'Menhir'));
 
             if (!startingNodes.length) {
-                console.log('No menhirs!');
+                console.log('Registration disabled.');
                 res.status(400);
                 res.send();
                 return;
@@ -290,7 +290,7 @@ expressApp
 
             if (Player.list.find(player => player.name === params.name)) {
                 res.status(400);
-                res.send();
+                res.send('Name is taken');
                 return;
             }
 

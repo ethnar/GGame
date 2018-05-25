@@ -419,6 +419,51 @@ button, .button {
     right: 15%;
     z-index: 6; }
 
+.dialog-pane-with-logo .main-container {
+  text-align: center;
+  background: url("../images/ui/bg_01_02.png");
+  background-size: 100% 100%;
+  padding: 40px;
+  width: 300px;
+  margin: 50px auto 20px;
+  position: relative;
+  color: #7a592b; }
+  .dialog-pane-with-logo .main-container header {
+    background: url("../images/ui/Plank_09.png") no-repeat;
+    background-size: 100% auto;
+    height: 44px;
+    width: 220px;
+    position: absolute;
+    line-height: 44px;
+    padding-right: 20px;
+    top: 60px;
+    color: #BBBB8A;
+    text-shadow: 1px 1px 2px black;
+    text-align: right; }
+  .dialog-pane-with-logo .main-container .logo {
+    height: 120px;
+    background: url("../images/ui/logo.png") left center no-repeat;
+    background-size: auto 100%;
+    z-index: 2;
+    position: relative;
+    left: -20px; }
+  .dialog-pane-with-logo .main-container .legal::before {
+    font-family: Arial;
+    font-size: 10px;
+    color: black;
+    content: "© All rights reserved"; }
+  .dialog-pane-with-logo .main-container .error {
+    min-height: 30px;
+    color: firebrick; }
+  .dialog-pane-with-logo .main-container input {
+    margin-bottom: 10px; }
+  .dialog-pane-with-logo .main-container .text {
+    margin: 10px 0 20px; }
+  .dialog-pane-with-logo .main-container p {
+    margin: 10px 0;
+    font-size: 60%;
+    color: black; }
+
 .main-map-container {
   position: relative;
   width: 100%;
@@ -650,44 +695,3 @@ button, .button {
   transition: top 0.3s ease-in-out; }
   .toast-message.visible {
     top: 0; }
-
-.Login .main-container {
-  text-align: center;
-  background: url("../images/ui/bg_01_02.png");
-  background-size: 100% 100%;
-  padding: 40px;
-  width: 300px;
-  margin: 50px auto 20px;
-  position: relative; }
-  .Login .main-container header {
-    background: url("../images/ui/Plank_09.png") no-repeat;
-    background-size: 100% auto;
-    height: 44px;
-    width: 220px;
-    position: absolute;
-    line-height: 44px;
-    padding-right: 20px;
-    top: 60px;
-    color: #BBBB8A;
-    text-shadow: 1px 1px 2px black;
-    text-align: right; }
-  .Login .main-container .error {
-    height: 30px;
-    color: firebrick; }
-  .Login .main-container .logo {
-    height: 120px;
-    background: url("../images/ui/logo.png") left center no-repeat;
-    background-size: auto 100%;
-    z-index: 2;
-    position: relative;
-    left: -20px; }
-  .Login .main-container input {
-    margin-bottom: 10px; }
-  .Login .main-container .register {
-    margin: 10px 0 20px;
-    color: #7a592b; }
-  .Login .main-container .legal::before {
-    font-family: Arial;
-    font-size: 10px;
-    color: black;
-    content: "© All rights reserved"; }

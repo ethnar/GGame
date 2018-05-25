@@ -1,4 +1,5 @@
 import {ServerService} from '../../services/server.js'
+import '../game/dialog-pane-with-logo.js';
 
 export const LoginView = {
     data: () => ({
@@ -25,16 +26,15 @@ export const LoginView = {
 
     template: `
 <div class="Login">
-    <div class="main-container">
-        <header>G the Game</header>
-        <div class="logo"></div>
+    <dialog-pane-with-logo>
+        Username
         <input name="user" v-model="user" />
+        Password
         <input name="password" type="password" v-model="password" />
         <button @click="logIn()">Enter</button>
         <div class="error">{{error}}</div>
-        <a class="register" href="#/register">Register</a>
-        <div class="legal"></div>
-    </div>
+        <a class="text" href="#/disclaimer">Register</a>
+    </dialog-pane-with-logo>
 </div>
 `,
 };

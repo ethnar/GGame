@@ -1,4 +1,4 @@
-.Login {
+.dialog-pane-with-logo {
   .main-container {
     text-align: center;
     background: url('../images/ui/bg_01_02.png');
@@ -7,6 +7,7 @@
     width: 300px;
     margin: 50px auto 20px;
     position: relative;
+    color: $text-color-dark;
 
     header {
       background: url('../images/ui/Plank_09.png') no-repeat;
@@ -22,11 +23,6 @@
       text-align: right;
     }
 
-    .error {
-      height: 30px;
-      color: firebrick;
-    }
-
     .logo {
       height: 120px;
       background: url('../images/ui/logo.png') left center no-repeat;
@@ -36,20 +32,30 @@
       left: -20px;
     }
 
-    input {
-      margin-bottom: 10px;
-    }
-
-    .register {
-      margin: 10px 0 20px;
-      color: $text-color-dark;
-    }
-
     .legal::before {
       font-family: Arial;
       font-size: 10px;
       color: black;
       content: $legal;
+    }
+
+    .error {
+      min-height: 30px;
+      color: firebrick;
+    }
+
+    input {
+      margin-bottom: 10px;
+    }
+
+    .text {
+      margin: 10px 0 20px;
+    }
+
+    p {
+      margin: 10px 0;
+      font-size: 60%;
+      color: black;
     }
   }
 }

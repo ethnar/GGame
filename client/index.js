@@ -1,6 +1,7 @@
 import {LoginView} from './components/views/login.js'
 import {MainView} from './components/views/main.js'
 import {RegisterView} from './components/views/register.js';
+import {DisclaimerView} from './components/views/disclaimer.js';
 
 window.RESOURCE_SIZES = {
     1: 'scarce',
@@ -22,6 +23,9 @@ window.router = new VueRouter({
     }, {
         path: '/register',
         component: RegisterView
+    }, {
+        path: '/disclaimer',
+        component: DisclaimerView
     }, {
         path: '/main',
         component: MainView
