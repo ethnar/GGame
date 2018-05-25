@@ -75,7 +75,8 @@ button, .button {
     outline: none;
   }
 
-  &[disabled] {
+  &[disabled], &.disabled {
+    opacity: 0.4;
     filter: saturate(0);
   }
 
@@ -97,20 +98,8 @@ button, .button {
     right: 0;
     background-position: right center;
   }
-}
 
-.action {
-  height: 40px;
-  margin: 6px 0;
-  font-size: 90%;
-
-  &:focus {
-    outline: none;
-  }
   &.current:not(.disabled) {
     filter: brightness(140%);
-  }
-  &.disabled {
-    opacity: 0.4;
   }
 }

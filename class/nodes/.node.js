@@ -74,6 +74,23 @@ class Node extends Entity {
         resource.setNode(this);
     }
 
+    getVisibleResources(creature) {
+        return Object.values(
+            this.resources
+                .filter(resource => creature.hasRequiredMapping(resource))
+                .reduce((acc, resource) => {
+                    const name = resource.constructor.name;
+                    if (!acc[name] || acc[name].size > resource.size) {
+                        return {
+                            ...acc,
+                            [name]: resource,
+                        };
+                    }
+                    return acc;
+                }, {})
+            );
+    }
+
     removeStructure(structure) {
         const idx = this.structures.indexOf(structure);
         this.structures.splice(idx, 1);
@@ -159,8 +176,8 @@ class Node extends Entity {
                 .filter(c => c !== creature)
                 .map(c => c.getPayload(creature))
                 .filter(creaturePayload => !!creaturePayload),
-            resources: this.resources
-                .filter(resource => creature.hasRequiredMapping(resource))
+            resources: this
+                .getVisibleResources(creature)
                 .map(resource => resource.getPayload(creature))
                 .filter(resourcePayload => !!resourcePayload),
             structures: this.structures
@@ -208,8 +225,8 @@ class Node extends Entity {
                             .getOtherNode(this)
                             .getMapPayload(creature, true)
                     ),
-            resources: this.resources
-                .filter(resource => creature.hasRequiredMapping(resource))
+            resources: this
+                .getVisibleResources(creature)
                 .map(resource => resource.getPayload(creature))
                 .filter(resourcePayload => !!resourcePayload),
         };

@@ -50,6 +50,14 @@ class Structure extends Entity {
         }
     }
 
+    getName() {
+        let postfix = '';
+        if (this.owner && this.getHomeLevel()) {
+            postfix = ' (' + this.owner.getName() + ')';
+        }
+        return super.getName() + postfix;
+    }
+
     cycle() {
 
     }

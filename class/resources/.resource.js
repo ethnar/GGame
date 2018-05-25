@@ -76,8 +76,13 @@ class Resource extends Entity {
             id: this.getEntityId(),
             name: this.getName(),
             size: this.size,
+            icon: this.getIcon(creature),
             actions: this.getActionsPayloads(creature),
         };
+    }
+
+    getIcon(creature) {
+        return this.produces.getIcon(creature);
     }
 }
 module.exports = global.Resource = Resource;

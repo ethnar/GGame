@@ -293,7 +293,7 @@ export const MainView = {
                 <button @click="toggleBehaviour()" class="action">{{player.behaviour.passive ? 'Passive' : 'Defensive'}}</button>
                 <actions
                     :target="player"
-                    :exclude="['Research', 'Fight']" 
+                    :exclude="['Research', 'Fight', 'Search']" 
                 />
             </section>
             <section>
@@ -431,20 +431,25 @@ export const MainView = {
                             />
                         </div>
                     </div>
-
-                    <!--{{structure.name}}-->
-                    <!--<actions-->
-                        <!--:target="structure"-->
-                    <!--/>-->
                 </div>
             </section>
             <section>
                 <header>Resources</header>
-                <div v-for="resource in node.resources">
-                    {{resource.name}} ({{resourceSize[resource.size]}})
-                    <actions
-                        :target="resource"
-                    />
+                <div v-for="resource in node.resources" class="list-item-with-props">
+                    <div class="main-icon">
+                        <item-icon :src="resource.icon"></item-icon>
+                    </div>
+                    <div class="details">
+                        <div class="label">
+                            {{resource.name}} ({{resourceSize[resource.size]}})
+                        </div>
+                        <div class="item-list">
+                            <!--<item-icon v-for="material in resource.materialsNeeded" :key="material.item.name" :src="material.item.icon" :qty="material.qty" :small="true"></item-icon>-->
+                            <actions
+                                :target="resource"
+                            />
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>

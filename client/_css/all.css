@@ -308,7 +308,8 @@ button, .button {
   text-shadow: 1px 1px 2px black; }
   button:active, button:focus, .button:active, .button:focus {
     outline: none; }
-  button[disabled], .button[disabled] {
+  button[disabled], button.disabled, .button[disabled], .button.disabled {
+    opacity: 0.4;
     -webkit-filter: saturate(0);
     filter: saturate(0); }
   button::before, button::after, .button::before, .button::after {
@@ -324,18 +325,9 @@ button, .button {
   button::after, .button::after {
     right: 0;
     background-position: right center; }
-
-.action {
-  height: 40px;
-  margin: 6px 0;
-  font-size: 90%; }
-  .action:focus {
-    outline: none; }
-  .action.current:not(.disabled) {
+  button.current:not(.disabled), .button.current:not(.disabled) {
     -webkit-filter: brightness(140%);
     filter: brightness(140%); }
-  .action.disabled {
-    opacity: 0.4; }
 
 .current-action {
   height: 13vw;
