@@ -52,7 +52,7 @@ Vue.component('meter-orb', {
     },
 
     template: `
-<span class="meter-orb">
+<span class="meter-orb" @click="$emit('click', $event);">
     <div
         :key="reseter"
         class="fill"
@@ -298,7 +298,39 @@ export const MainView = {
             }
             this.selectResearchMaterialIdx = null;
             this.updateResearchMats();
-        }
+        },
+
+        explain(topic) {
+            const instructions = {
+                health: {
+                    name: 'Health',
+                    description: 'Represents your health. If it reaches zero your character will die, permanently. Health regenerates very slowly over time.',
+                },
+                stamina: {
+                    name: 'Stamina',
+                    description: 'Represents your stamina. Stamina is used when fighting and sneaking.',
+                },
+                energy: {
+                    name: 'Energy',
+                    description: 'Represents your energy. Energy slowly drains while you are awake and you need to sleep to regain it.',
+                },
+                satiated: {
+                    name: 'Hunger',
+                    description: 'Represents your hunger. When empty your character will loose health over time, instead of regenerating it.',
+                },
+                stealth: {
+                    name: 'Stealth',
+                    description: 'The level of stealth of your character. As long as you are in stealth, your character won\'t be attacked by enemies. Attacking immediately breaks stealth.',
+                },
+                mood: {
+                    name: 'Mood',
+                    description: 'The mood of your character. Keeping it up enables you to work with much better efficiency, gathering and producting faster as well as fighting better. Mood depends on your health, stamina, energy and hunger level.',
+                },
+            };
+
+            const instruction = instructions[topic];
+            ContextMenu.open(instruction.name, null, instruction.description);
+        },
     },
 
     template: `
@@ -307,12 +339,12 @@ export const MainView = {
     <div class="status-bar">
         <current-action></current-action>
         <div class="spacer"></div>
-        <meter-orb color="red" :value="player.status.health"/>
-        <meter-orb color="limegreen" :value="player.status.stamina"/>
-        <meter-orb color="dodgerblue" :value="player.status.energy"/>
-        <meter-orb color="orange" :value="player.status.satiated"/>
-        <meter-orb color="gray" :value="player.status.stealth"/>
-        <meter-orb color="purple" :value="player.status.mood"/>
+        <meter-orb color="red" :value="player.status.health" @click="explain('health');"/>
+        <meter-orb color="limegreen" :value="player.status.stamina" @click="explain('stamina');"/>
+        <meter-orb color="dodgerblue" :value="player.status.energy" @click="explain('energy');"/>
+        <meter-orb color="orange" :value="player.status.satiated" @click="explain('satiated');"/>
+        <meter-orb color="gray" :value="player.status.stealth" @click="explain('stealth');"/>
+        <meter-orb color="purple" :value="player.status.mood" @click="explain('mood');"/>
     </div>
     <div class="scrollable-contents">
         <div :hidden="mode !== 'stats'">
@@ -321,13 +353,12 @@ export const MainView = {
                 :target="player" 
             />
             Name: {{player.name}}<br/>
-            <div>Health <meter-orb color="red" :value="player.status.health"/></div>
-            <div>Stamina <meter-orb color="limegreen" :value="player.status.stamina"/></div>
-            <div>Energy <meter-orb color="dodgerblue" :value="player.status.energy"/></div>
-            <div>Satiated <meter-orb color="orange" :value="player.status.satiated"/></div>
-            <div>Stealth <meter-orb color="gray" :value="player.status.stealth"/></div>
-            <div>Mood <meter-orb color="purple" :value="player.status.mood"/></div>
-            <hr/>
+            <!--<div>Health <meter-orb color="red" :value="player.status.health"/></div>-->
+            <!--<div>Stamina <meter-orb color="limegreen" :value="player.status.stamina"/></div>-->
+            <!--<div>Energy <meter-orb color="dodgerblue" :value="player.status.energy"/></div>-->
+            <!--<div>Satiated <meter-orb color="orange" :value="player.status.satiated"/></div>-->
+            <!--<div>Stealth <meter-orb color="gray" :value="player.status.stealth"/></div>-->
+            <!--<div>Mood <meter-orb color="purple" :value="player.status.mood"/></div>-->
             <div v-for="skill in player.skills">
                 {{skillNames[skill.id]}}: {{skillLevels[skill.level]}}
             </div>
