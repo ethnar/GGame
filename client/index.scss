@@ -241,7 +241,7 @@ pre {
       background: url('../images/ui/Plank_08.png');
       background-size: 100% 100%;
       color: $bright-text-color;
-      text-shadow: 1px 1px 2px black;
+      text-shadow: $text-shadow;
       position: relative;
 
       &.active {

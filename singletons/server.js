@@ -235,6 +235,8 @@ expressApp
                 res.cookie('authToken', token, { maxAge: 100000000000, httpOnly: true });
             } else {
                 res.status(401);
+                res.send('Invalid credentials');
+                return;
             }
             res.send();
         });

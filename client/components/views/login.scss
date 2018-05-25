@@ -1,0 +1,55 @@
+.Login {
+  .main-container {
+    text-align: center;
+    background: url('../images/ui/bg_01_02.png');
+    background-size: 100% 100%;
+    padding: 40px;
+    width: 300px;
+    margin: 50px auto 20px;
+    position: relative;
+
+    header {
+      background: url('../images/ui/plank_09.png') no-repeat;
+      background-size: 100% auto;
+      height: 44px;
+      width: 220px;
+      position: absolute;
+      line-height: 44px;
+      padding-right: 20px;
+      top: 60px;
+      color: $bright-text-color;
+      text-shadow: $text-shadow;
+      text-align: right;
+    }
+
+    .error {
+      height: 30px;
+      color: firebrick;
+    }
+
+    .logo {
+      height: 120px;
+      background: url('../images/ui/logo.png') left center no-repeat;
+      background-size: auto 100%;
+      z-index: 2;
+      position: relative;
+      left: -20px;
+    }
+
+    input {
+      margin-bottom: 10px;
+    }
+
+    .register {
+      margin: 10px 0 20px;
+      color: $text-color-dark;
+    }
+
+    .legal::before {
+      font-family: Arial;
+      font-size: 10px;
+      color: black;
+      content: $legal;
+    }
+  }
+}

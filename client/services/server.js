@@ -15,7 +15,8 @@ const fetcher = (url, params) =>
                 if (response.ok) {
                     resolve(response);
                 } else {
-                    reject(response);
+                    response.text()
+                        .then(error => reject(error));
                 }
                 return response;
             })
