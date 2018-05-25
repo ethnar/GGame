@@ -1,12 +1,18 @@
 .toast-message {
   position: fixed;
-  background: white;
+  background: url('../images/ui/obj_06_01_flip.png');
+  color: $text-color-dark;
+  //text-shadow: $text-shadow;
+  padding: 10px;
   z-index: 9100;
   width: 100%;
   text-align: center;
   border-bottom: 1px solid black;
   top: -200px;
   transition: top 0.3s ease-in-out;
+  font-size: 90%;
+  background-position: center bottom;
+  background-size: 100% 100%;
 
   &.visible {
     top: 0;

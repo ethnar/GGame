@@ -286,8 +286,8 @@ button, .button {
     right: 0;
     background-position: right center; }
   button.current:not(.disabled), .button.current:not(.disabled) {
-    -webkit-filter: brightness(140%);
-    filter: brightness(140%); }
+    -webkit-filter: brightness(160%);
+    filter: brightness(160%); }
 
 .current-action {
   height: 13vw;
@@ -725,13 +725,18 @@ button, .button {
 
 .toast-message {
   position: fixed;
-  background: white;
+  background: url("../images/ui/obj_06_01_flip.png");
+  color: #7a592b;
+  padding: 10px;
   z-index: 9100;
   width: 100%;
   text-align: center;
   border-bottom: 1px solid black;
   top: -200px;
   -webkit-transition: top 0.3s ease-in-out;
-  transition: top 0.3s ease-in-out; }
+  transition: top 0.3s ease-in-out;
+  font-size: 90%;
+  background-position: center bottom;
+  background-size: 100% 100%; }
   .toast-message.visible {
     top: 0; }
