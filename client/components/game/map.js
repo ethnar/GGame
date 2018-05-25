@@ -163,7 +163,9 @@ Vue.component('world-map', {
         @panmove="drag"
         @panend="dragging = false;"
     >
-        <div @click="toggleExpand" class="toggle-expand"></div>
+        <button @click="toggleExpand" class="toggle-expand">
+            <div class="icon"></div>
+        </button>
         <div
             v-if="size"
             class="draggable-map"

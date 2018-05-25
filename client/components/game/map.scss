@@ -18,21 +18,25 @@
     width: 5vh;
     height: 4vh;
     z-index: 4;
-    border-radius: 0 0 10px 10px;
-    border: 1px solid black;
-    border-top: none;
-    background: url('../images/icons8-sort-down-52.png') white center center no-repeat;
-    background-size: 50%;
+    margin-top: -4px;
+
+    .icon {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: url('../images/icons8-sort-down-52.png') center center no-repeat;
+      background-size: 50%;
+      filter: contrast(0) brightness(1.2) sepia(1);
+    }
   }
 
   &.expanded {
     height: 60vh;
 
-    .toggle-expand {
+    .toggle-expand .icon {
       transform: scaleY(-1);
-      border-radius: 10px 10px 0 0;
-      border: 1px solid black;
-      border-bottom: none;
     }
   }
 
