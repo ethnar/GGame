@@ -51,6 +51,50 @@ const actions = [
         }
     }),
     new Action({
+        name: 'Equip Armor',
+        icon: '/actions/icons8-body-armor-100.png',
+        notification: false,
+        repeatable: false,
+        valid(item, creature) {
+            if (item.getContainer() !== creature) {
+                return false;
+            }
+            if (!item.armor) {
+                return false;
+            }
+            if (creature.getArmor() === item) {
+                return false;
+            }
+            return true;
+        },
+        available(item, creature) {
+            return true;
+        },
+        run(item, creature) {
+            creature.equipArmor(item);
+            return false;
+        }
+    }),
+    new Action({
+        name: 'Unequip Armor',
+        icon: '/actions/icons8-body-armor-100.png',
+        notification: false,
+        repeatable: false,
+        valid(item, creature) {
+            if (item.getContainer() !== creature) {
+                return false;
+            }
+            if (item !== creature.getArmor()) {
+                return false;
+            }
+            return true;
+        },
+        run(item, creature) {
+            creature.equipArmor(null);
+            return false;
+        }
+    }),
+    new Action({
         name: 'Equip Weapon',
         icon: '/actions/icons8-sword-100.png',
         notification: false,

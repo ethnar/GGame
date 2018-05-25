@@ -13,7 +13,7 @@ class WolfMother extends Spawners {
         return claws;
     }
 
-    static defaultArmour() {
+    static defaultArmor() {
         return 20;
     }
 

@@ -15,7 +15,7 @@ class Wolf extends Monster {
         return claws;
     }
 
-    static defaultArmour() {
+    static defaultArmor() {
         return 0.3;
     }
 }

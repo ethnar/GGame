@@ -11,7 +11,7 @@ class GoblinPatroller extends Monster {
         return punch;
     }
 
-    static defaultArmour() {
+    static defaultArmor() {
         return 0.6;
     }
 

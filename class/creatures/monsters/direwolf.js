@@ -15,7 +15,7 @@ class Direwolf extends Monster {
         return claws;
     }
 
-    static defaultArmour() {
+    static defaultArmor() {
         return 1.1;
     }
 }

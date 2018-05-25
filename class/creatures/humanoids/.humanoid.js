@@ -1,27 +1,18 @@
 const Creature = require('../.creature');
 const server = require('../../../singletons/server');
-
-const SharpenedStone = require('../../items/equipment/sharpened-stone');
-const StoneHammer = require('../../items/equipment/stone-hammer');
-const StonePick = require('../../items/equipment/stone-pick');
-const StoneHatchet = require('../../items/equipment/stone-hatchet');
-const StoneKnife = require('../../items/equipment/stone-knife');
-const StoneSpear = require('../../items/equipment/stone-spear');
-const CookedMeat = require('../../items/edibles/cooked-meat');
-const Fireplace = require('../../structures/buildings/fireplace');
-const Tent = require('../../structures/buildings/homes/tent');
 const pushNotifications = require('../../../singletons/push-notifications');
 
 const researchTechs = [
-    SharpenedStone,
-    StoneHammer,
-    StonePick,
-    StoneHatchet,
-    StoneKnife,
-    StoneSpear,
-    CookedMeat,
-    Fireplace,
-    Tent,
+    require('../../items/equipment/sharpened-stone'),
+    require('../../items/equipment/stone-hammer'),
+    require('../../items/equipment/stone-pick'),
+    require('../../items/equipment/stone-hatchet'),
+    require('../../items/equipment/stone-knife'),
+    require('../../items/equipment/stone-spear'),
+    require('../../items/equipment/hide-armor'),
+    require('../../items/edibles/cooked-meat'),
+    require('../../structures/buildings/fireplace'),
+    require('../../structures/buildings/homes/tent'),
 ];
 
 const MAX_SKILL = 2000000;
@@ -241,6 +232,9 @@ class Humanoid extends Creature {
         this.behaviour = {
             passive: false,
         };
+        this.tool = null;
+        this.weapon = null;
+        this.armor = null;
         this.researchMaterials = {};
         this.recentResearches = [];
     }

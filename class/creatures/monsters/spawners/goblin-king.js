@@ -4,7 +4,7 @@ const GoblinPatroller = require('../goblin-patroller');
 const GoblinFighter = require('../goblin-fighter');
 
 class GoblinKing extends Spawners {
-    static defaultArmour() {
+    static defaultArmor() {
         return 20;
     }
 

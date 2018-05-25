@@ -291,6 +291,10 @@ export const MainView = {
                         <span class="slot">Weapon</span>
                         <item :data="player.weapon"></item>
                     </div>
+                    <div class="equipment armor">
+                        <span class="slot">Armor</span>
+                        <item :data="player.armor"></item>
+                    </div>
                 </div>
             </section>
             <section>

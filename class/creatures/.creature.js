@@ -61,10 +61,10 @@ class Creature extends Entity {
     }
 
     /**
-     * Armour can be treated like a multiplier for hitpoints. Minimum 1.
+     * Armor can be treated like a multiplier for hitpoints. Minimum 1.
      * Armor 2 = 200 hitpoints, 10 = 1000 hitpoints
      */
-    static defaultArmour() {
+    static defaultArmor() {
         return 1;
     }
 
@@ -73,7 +73,6 @@ class Creature extends Entity {
         this.health = 100;
         this.node = null;
         this.items = [];
-        this.tool = null;
         this.skills = {};
     }
 
@@ -124,6 +123,10 @@ class Creature extends Entity {
 
     equipWeapon(item) {
         this.weapon = item;
+    }
+
+    equipArmor(item) {
+        this.armor = item;
     }
 
 
@@ -296,6 +299,9 @@ class Creature extends Entity {
         if (this.tool === item) {
             this.tool = null;
         }
+        if (this.armor === item) {
+            this.armor = null;
+        }
         if (this.weapon === item) {
             this.weapon = null;
         }
@@ -329,13 +335,17 @@ class Creature extends Entity {
             utils.random(1, 100) <= chanceToHit &&
             utils.random(1, 100) > chanceToDodge
         ) {
-            const damage = this.getDamageDealt() * (1 / Math.max(enemy.getArmour(), 0.1));
+            console.log(`${enemy.getName()} has armor of ${enemy.getArmorValue()}`);
+            const damage = this.getDamageDealt() * (1 / Math.max(enemy.getArmorValue(), 0.1));
 
             utils.log(enemy.getName() + ' received ' + damage + ' damage from ' + this.getName() + '. (' + weaponName + ')')
 
             enemy.receiveDamage(damage);
             if (this.weapon) {
-                this.weapon.reduceIntegrity(0.2);
+                this.weapon.reduceIntegrity(0.1);
+            }
+            if (enemy.getArmor()) {
+                enemy.getArmor().reduceIntegrity(0.1);
             }
         } else {
             utils.log(this.getName() + ' missed ' + enemy.getName() + '!' + ' (' + weaponName + ')');
@@ -350,8 +360,15 @@ class Creature extends Entity {
         return this.weapon || this.constructor.defaultWeapon();
     }
 
-    getArmour() {
-        return this.armour || this.constructor.defaultArmour();
+    getArmorValue() {
+        if (this.armor) {
+            return this.armor.armor;
+        }
+        return this.constructor.defaultArmor();
+    }
+
+    getArmor() {
+        return this.armor || null;
     }
 
     getHitChance() {
@@ -424,6 +441,7 @@ class Creature extends Entity {
         if (this === creature) {
             const tool = this.getTool();
             const weapon = this.getWeapon();
+            const armor = this.getArmor();
             const recentResearches = utils.cleanup(this.recentResearches);
             result = {
                 ...result,
@@ -431,6 +449,7 @@ class Creature extends Entity {
                 inventorySize: global.CARRY_CAPACITY,
                 tool: tool ? tool.getPayload(creature) : null,
                 weapon: weapon.getPayload ? weapon.getPayload(creature) : weapon,
+                armor: (armor && armor.getPayload) ? armor.getPayload(creature) : armor,
                 actions: this.getActionsPayloads(creature),
                 currentAction: {
                     ...utils.cleanup(this.currentAction),

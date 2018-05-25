@@ -11,7 +11,7 @@ class GoblinScout extends Monster {
         return punch;
     }
 
-    static defaultArmour() {
+    static defaultArmor() {
         return 0.4;
     }
 

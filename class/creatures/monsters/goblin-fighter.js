@@ -11,7 +11,7 @@ class GoblinFighter extends Monster {
         return punch;
     }
 
-    static defaultArmour() {
+    static defaultArmor() {
         return 0.9;
     }
 
