@@ -260,7 +260,7 @@ pre {
     left: 0;
     height: 100%;
     width: 100%;
-    border: 12px solid green; }
+    border: 12px solid lime; }
     .current-action .border.tr {
       border-left: none;
       border-bottom: none;
@@ -312,7 +312,7 @@ pre {
 
 html, body {
   background: #221912;
-  color: #7F5935;
+  color: #b88741;
   font-family: BaseFont, Arial;
   font-size: 30px;
   margin: 0;
@@ -320,7 +320,7 @@ html, body {
 
 input {
   padding: 6px;
-  color: #7F5935;
+  color: #b88741;
   background: #1F1105;
   border-radius: 6px;
   border: 1px solid #6A4A2C;
