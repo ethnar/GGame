@@ -7,6 +7,10 @@ class Menhir extends Structure {
         super(args);
         this.integrity = Infinity;
     }
+
+    static icon() {
+        return '/iconpack/strategy/sgi_115.png';
+    }
 }
 Object.assign(Menhir.prototype, {
     name: 'Menhir',

@@ -45,7 +45,8 @@ class Structure extends Entity {
             name: this.getName(),
             complete: this.complete,
             actions: this.getActionsPayloads(creature),
-            materialsNeeded: this.getNeededMaterials(),
+            icon: this.getIcon(creature),
+            materialsNeeded: Item.getMaterialsPayload(this.getNeededMaterials(), creature),
         }
     }
 

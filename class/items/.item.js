@@ -283,6 +283,9 @@ class Item extends Entity {
     }
 
     static getMaterialsPayload(materials, creature) {
+        if (!materials) {
+            return materials;
+        }
         return Object
             .keys(utils.cleanup(materials))
             .map(material => ({

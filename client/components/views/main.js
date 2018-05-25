@@ -333,7 +333,7 @@ export const MainView = {
         <div :hidden="mode !== 'crafting'">
             <section>
                 <header>Craft</header>
-                <div v-for="recipe in player.recipes" class="tech-recipe">
+                <div v-for="recipe in player.recipes" class="list-item-with-props">
                     <div class="main-icon">
                         <item-icon :src="recipe.icon"></item-icon>
                     </div>
@@ -352,7 +352,7 @@ export const MainView = {
             </section>
             <section>
                 <header>Build</header>
-                <div v-for="plan in player.buildingPlans" class="tech-recipe">
+                <div v-for="plan in player.buildingPlans" class="list-item-with-props">
                     <div class="main-icon">
                         <item-icon :src="plan.icon"></item-icon>
                     </div>
@@ -386,7 +386,7 @@ export const MainView = {
                     </div>
                 </modal>
                 <header class="subheader">Recent researches</header>
-                <div v-for="attempt in player.recentResearches" class="tech-recipe">
+                <div v-for="attempt in player.recentResearches" class="list-item-with-props">
                     <div class="main-icon">
                         <item-icon v-if="attempt.result" :src="attempt.result.icon"></item-icon>
                         <item-icon v-else-if="attempt.rightIngredients" src="images/ui/checkbox_02.png"></item-icon>
@@ -416,11 +416,26 @@ export const MainView = {
             />
             <section>
                 <header>Structures</header>
-                <div v-for="structure in node.structures">
-                    {{structure.name}}
-                    <actions
-                        :target="structure"
-                    />
+                <div v-for="structure in node.structures" class="list-item-with-props">
+                    <div class="main-icon">
+                        <item-icon :src="structure.icon"></item-icon>
+                    </div>
+                    <div class="details">
+                        <div class="label">
+                            {{structure.name}}
+                        </div>
+                        <div class="item-list">
+                            <item-icon v-for="material in structure.materialsNeeded" :key="material.item.name" :src="material.item.icon" :qty="material.qty" :small="true"></item-icon>
+                            <actions
+                                :target="structure"
+                            />
+                        </div>
+                    </div>
+
+                    <!--{{structure.name}}-->
+                    <!--<actions-->
+                        <!--:target="structure"-->
+                    <!--/>-->
                 </div>
             </section>
             <section>

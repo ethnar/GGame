@@ -144,7 +144,7 @@
 .research-material > * {
   vertical-align: middle; }
 
-.tech-recipe {
+.list-item-with-props {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex; }
