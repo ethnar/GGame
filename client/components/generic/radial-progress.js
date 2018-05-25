@@ -32,7 +32,6 @@ export default Vue.component('radial-progress', {
         <div class="half second" :style="{ 'transform': 'rotate(' + secondRotation + 'deg)', 'border-top-color': color }" v-if="percentage > 50"></div>
         <div class="half second-overlay" :style="{ 'border-top-color': background }"></div>
         <div class="mid-cover"></div>
-        <!--<div class="outer-cover"></div>-->
         <div class="shadow"></div>
     </div>
 </div>

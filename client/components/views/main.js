@@ -5,6 +5,7 @@ import '../generic/number-selector.js';
 import '../generic/modal.js';
 import '../game/map.js';
 import '../game/actions.js';
+import '../game/current-action.js';
 
 const skillLevels = {
     0: 'Dabbling',
@@ -97,67 +98,6 @@ Vue.component('inventory', {
     <item v-for="(item, idx) in sorted" :data="item" :key="'i' + idx"></item>
     <item-icon v-for="(emptySlot, idx) in emptySlots" :key="idx"></item-icon>
 </div>
-    `,
-});
-
-Vue.component('current-action', {
-    data: () => ({
-        reseter: false,
-    }),
-
-    computed: {
-        displayRepetitions() {
-            if (this.currentAction.repetitions > 10000) {
-                return '∞';
-            }
-            if (this.currentAction.repetitions === 1) {
-                return '';
-            }
-            return this.currentAction.repetitions;
-        }
-    },
-
-    subscriptions() {
-        const currentActionStream = ServerService
-            .getMainStream()
-            .pluck('creature')
-            .pluck('currentAction');
-
-        const progressStream = currentActionStream
-            .pluck('progress');
-
-        const cut = (min, max) => (number) => {
-            return Math.max(Math.min(100, (number - min * 100) / (max - min)), 0);
-        };
-
-        return {
-            currentAction: currentActionStream,
-            progress: progressStream.scan((acc, item) => {
-                if (acc > item) {
-                    this.reseter = !this.reseter;
-                }
-                return item;
-            }),
-            trProgress: progressStream.map(cut(0/8, 1/8)),
-            rProgress:  progressStream.map(cut(1/8, 3/8)),
-            bProgress:  progressStream.map(cut(3/8, 5/8)),
-            lProgress:  progressStream.map(cut(5/8, 7/8)),
-            tlProgress: progressStream.map(cut(7/8, 8/8)),
-        }
-    },
-
-    template: `
-<span class="current-action" :key="reseter">
-    <div class="border tr" :style="{ 'clip-path': 'inset(0 ' + (100 - (trProgress || 0)) + '% 0 0)' }"></div>
-    <div class="border r"  :style="{ 'clip-path': 'inset(0 0 ' + (100 - (rProgress || 0)) + '% 0)' }"></div>
-    <div class="border b"  :style="{ 'clip-path': 'inset(0 0 0 ' + (100 - (bProgress || 0)) + '%)' }"></div>
-    <div class="border l"  :style="{ 'clip-path': 'inset(' + (100 - (lProgress || 0)) + '% 0 0 0)' }"></div>
-    <div class="border tl" :style="{ 'clip-path': 'inset(0 ' + (100 - (tlProgress || 0)) + '% 0 0)' }"></div>
-    <div class="img-container">
-        <img v-if="currentAction && currentAction.icon" :src="currentAction.icon">
-    </div>
-    <div class="repetitions">{{displayRepetitions}}</div>
-</span>
     `,
 });
 
@@ -348,20 +288,20 @@ export const MainView = {
     </div>
     <div class="scrollable-contents">
         <div :hidden="mode !== 'stats'">
-            Behaviour: <button @click="toggleBehaviour()" class="action">{{player.behaviour.passive ? 'Passive' : 'Defensive'}}</button>
-            <actions
-                :target="player" 
-            />
-            Name: {{player.name}}<br/>
-            <!--<div>Health <meter-orb color="red" :value="player.status.health"/></div>-->
-            <!--<div>Stamina <meter-orb color="limegreen" :value="player.status.stamina"/></div>-->
-            <!--<div>Energy <meter-orb color="dodgerblue" :value="player.status.energy"/></div>-->
-            <!--<div>Satiated <meter-orb color="orange" :value="player.status.satiated"/></div>-->
-            <!--<div>Stealth <meter-orb color="gray" :value="player.status.stealth"/></div>-->
-            <!--<div>Mood <meter-orb color="purple" :value="player.status.mood"/></div>-->
-            <div v-for="skill in player.skills">
-                {{skillNames[skill.id]}}: {{skillLevels[skill.level]}}
-            </div>
+            <section>
+                <header>{{player.name}}</header>
+                <button @click="toggleBehaviour()" class="action">{{player.behaviour.passive ? 'Passive' : 'Defensive'}}</button>
+                <actions
+                    :target="player"
+                    :exclude="['Research', 'Fight']" 
+                />
+            </section>
+            <section>
+                <header>Skills</header>
+                <div v-for="skill in player.skills">
+                    {{skillNames[skill.id]}}: {{skillLevels[skill.level]}}
+                </div>
+            </section>
         </div>
         <div :hidden="mode !== 'inventory'">
             <section>

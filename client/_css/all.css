@@ -249,63 +249,6 @@ pre {
       .main-container .section-selector .toggle.stats .icon, .main-container .section-selector .toggle.stats .shadow {
         background-image: url("../images/icons8-automation-filled-100.png"); }
 
-.current-action {
-  height: 13vw;
-  width: 13vw;
-  border: 1px solid black;
-  position: relative; }
-  .current-action .border {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    border: 12px solid lime; }
-    .current-action .border.tr {
-      border-left: none;
-      border-bottom: none;
-      border-right-color: transparent;
-      width: 50%;
-      left: 50%; }
-    .current-action .border.r {
-      border-bottom-color: transparent;
-      border-top-color: transparent;
-      border-left: none;
-      width: 101%; }
-    .current-action .border.b {
-      border-left-color: transparent;
-      border-right-color: transparent;
-      border-top: none; }
-    .current-action .border.l {
-      border-bottom-color: transparent;
-      border-top-color: transparent;
-      border-right: none; }
-    .current-action .border.tl {
-      border-right: none;
-      border-bottom: none;
-      border-left-color: transparent;
-      width: 50%; }
-  .current-action .img-container {
-    z-index: 2;
-    position: relative;
-    padding: 3px;
-    width: 100%;
-    height: 100%; }
-    .current-action .img-container img {
-      background: white;
-      width: 100%;
-      height: 100%;
-      padding: 4px;
-      border: 1px solid black; }
-  .current-action .repetitions {
-    font-size: 60%;
-    text-shadow: 0 0 2px black, 0 0 2px black;
-    color: white;
-    position: absolute;
-    bottom: 4%;
-    right: 10%;
-    z-index: 3; }
-
 @font-face {
   font-family: BaseFont;
   src: url("../images/fonts/booter/BOOTERFZ.ttf"); }
@@ -361,6 +304,9 @@ button, .button {
   text-shadow: 1px 1px 2px black; }
   button:active, button:focus, .button:active, .button:focus {
     outline: none; }
+  button[disabled], .button[disabled] {
+    -webkit-filter: saturate(0);
+    filter: saturate(0); }
   button::before, button::after, .button::before, .button::after {
     content: '';
     position: absolute;
@@ -381,8 +327,92 @@ button, .button {
   font-size: 90%; }
   .action:focus {
     outline: none; }
+  .action.current:not(.disabled) {
+    -webkit-filter: brightness(140%);
+    filter: brightness(140%); }
   .action.disabled {
     opacity: 0.4; }
+
+.current-action {
+  height: 13vw;
+  width: 13vw;
+  position: relative;
+  overflow: hidden;
+  -webkit-box-sizing: content-box !important;
+  box-sizing: content-box !important; }
+  .current-action .current-action-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0; }
+    .current-action .current-action-wrapper .half {
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 5; }
+      .current-action .current-action-wrapper .half.first-container {
+        width: 50%;
+        left: 50%;
+        overflow: hidden;
+        -webkit-clip-path: inset(3px 4px 4px 0);
+        clip-path: inset(3px 4px 4px 0); }
+      .current-action .current-action-wrapper .half.first {
+        background: radial-gradient(ellipse at left, rgba(150, 255, 0, 0.7) 0%, rgba(150, 255, 0, 0) 100%);
+        -webkit-transform-origin: left center;
+        transform-origin: left center; }
+      .current-action .current-action-wrapper .half.second-container {
+        width: 50%;
+        overflow: hidden;
+        -webkit-clip-path: inset(3px 0 4px 4px);
+        clip-path: inset(3px 0 4px 4px); }
+      .current-action .current-action-wrapper .half.second {
+        background: radial-gradient(ellipse at right, rgba(150, 255, 0, 0.7) 0%, rgba(150, 255, 0, 0) 100%);
+        -webkit-transform-origin: right center;
+        transform-origin: right center; }
+    .current-action .current-action-wrapper .mid-cover {
+      background: url("../images/ui/frame_c3_01.png") center center no-repeat;
+      background-size: 100% 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      padding: 6px; }
+      .current-action .current-action-wrapper .mid-cover img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        padding: 8px; }
+        .current-action .current-action-wrapper .mid-cover img.icon {
+          -webkit-filter: contrast(0) brightness(1.2) sepia(1);
+          filter: contrast(0) brightness(1.2) sepia(1); }
+        .current-action .current-action-wrapper .mid-cover img.shadow {
+          padding: 9px 7px 7px 9px; }
+    .current-action .current-action-wrapper .border {
+      background: url("../images/ui/frame_c2_01_border.png");
+      background-size: 100% 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 5; }
+  .current-action .repetitions {
+    font-size: 60%;
+    text-shadow: 0 0 2px black, 0 0 2px black;
+    position: absolute;
+    color: #BBBB8A;
+    top: 6%;
+    right: 15%;
+    z-index: 6; }
 
 .main-map-container {
   position: relative;
