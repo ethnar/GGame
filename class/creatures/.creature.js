@@ -5,6 +5,7 @@ const utils = require('../../singletons/utils');
 const pushNotifications = require('../../singletons/push-notifications');
 
 const TIME_BETWEEN_BLOWS = 10;
+global.CARRY_CAPACITY = 15;
 
 const prod = {
     name: 'Prod',
@@ -428,6 +429,7 @@ class Creature extends Entity {
             result = {
                 ...result,
                 inventory: this === creature ? this.items.map(item => item.getPayload(creature)) : null,
+                inventorySize: global.CARRY_CAPACITY,
                 tool: tool ? tool.getPayload(creature) : null,
                 weapon: weapon.getPayload ? weapon.getPayload(creature) : weapon,
                 actions: this.getActionsPayloads(creature),

@@ -295,11 +295,11 @@ export const MainView = {
             </section>
             <section>
                 <header>Inventory</header>
-                <inventory :data="player.inventory" :slots="15"></inventory>
+                <inventory :data="player.inventory" :slots="player.inventorySize"></inventory>
             </section>
             <section v-for="structure in node.structures" v-if="structure.inventory">
                 <header>Storage</header>
-                <inventory :data="structure.inventory" :slots="50"></inventory>
+                <inventory :data="structure.inventory" :slots="structure.inventorySize"></inventory>
             </section>
             <section v-if="node.inventory && node.inventory.length">
                 <header>On the ground</header>

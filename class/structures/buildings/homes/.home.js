@@ -35,6 +35,7 @@ class Home extends Building {
             this.isComplete()
         ) {
             result.inventory = this.items.map(item => item.getPayload(creature));
+            result.inventorySize = this.storageCapacity;
         }
         return result;
     }

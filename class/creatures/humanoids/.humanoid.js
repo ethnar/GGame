@@ -27,7 +27,6 @@ const researchTechs = [
 
 const MAX_SKILL = 2000000;
 const MAX_SKILL_SPEED_MULTIPLIER = 3;
-const CARRY_CAPACITY = 15;
 
 const punch = {
     name: 'Punch',
@@ -520,7 +519,7 @@ class Humanoid extends Creature {
     }
 
     isOverburdened() {
-        return this.items.length > CARRY_CAPACITY;
+        return this.items.length > global.CARRY_CAPACITY;
     }
 }
 module.exports = global.Humanoid = Humanoid;
