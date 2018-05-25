@@ -212,6 +212,7 @@ class Node extends Entity {
             actions: this.getActionsPayloads(creature),
             x: this.x,
             y: this.y,
+            icon: this.getIcon(creature),
             currentLocation:
                 creature.getNode() === this ?
                 true :

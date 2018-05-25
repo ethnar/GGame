@@ -7,5 +7,6 @@ class Forest extends Node {
 }
 Object.assign(Forest.prototype, {
     canBuild: false,
+    icon: '/iconpack/strategy/sgi_01.png',
 });
 module.exports = global.Forest = Forest;

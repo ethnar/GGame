@@ -52,7 +52,7 @@ class Entity {
     }
 
     static getIcon(creature) {
-        const icon = this.icon();
+        const icon = this.prototype.icon || this.icon();
         const player = creature.getPlayer();
         if (player) {
             player.icons = player.icons || [];

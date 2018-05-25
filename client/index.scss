@@ -203,7 +203,16 @@ pre {
         filter: brightness(140%);
       }
       &.highlight:not(.active) {
-        box-shadow: 0 0 10px 3px red inset;
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          box-shadow: 0 0 10px 3px yellow inset;
+          border-radius: 4px;
+        }
       }
 
       .icon, .shadow {

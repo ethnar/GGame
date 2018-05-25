@@ -182,9 +182,16 @@ pre {
       .main-container .section-selector .toggle.active {
         -webkit-filter: brightness(140%);
         filter: brightness(140%); }
-      .main-container .section-selector .toggle.highlight:not(.active) {
-        -webkit-box-shadow: 0 0 10px 3px red inset;
-        box-shadow: 0 0 10px 3px red inset; }
+      .main-container .section-selector .toggle.highlight:not(.active)::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        -webkit-box-shadow: 0 0 10px 3px yellow inset;
+        box-shadow: 0 0 10px 3px yellow inset;
+        border-radius: 4px; }
       .main-container .section-selector .toggle .icon, .main-container .section-selector .toggle .shadow {
         position: absolute;
         top: 0;
@@ -490,6 +497,12 @@ button, .button {
       z-index: 2;
       background-color: white;
       opacity: 0.6; }
+      .main-map-container .draggable-map .node-token .mid-cover {
+        background: #ffd79b; }
+      .main-map-container .draggable-map .node-token .icon {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%; }
       .main-map-container .draggable-map .node-token .inset, .main-map-container .draggable-map .node-token .mid-cover {
         border: 4px solid black; }
       .main-map-container .draggable-map .node-token.current {

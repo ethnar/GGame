@@ -180,7 +180,9 @@ Vue.component('world-map', {
                 :size="20"
                 @click="nodeClicked(nodeToken);"
                 :style="{ left: nodeToken.x + 'px', top: nodeToken.y + 'px' }"
-            ></radial-progress>
+            >
+                <!--<img class="icon" :src="nodeToken.icon">-->
+            </radial-progress>
             <div
                 v-for="path in paths"
                 class="path"
