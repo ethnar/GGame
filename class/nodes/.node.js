@@ -25,7 +25,7 @@ const actions = [
         },
         run(entity, creature) {
             const path = creature.getNode().getPath(entity);
-            creature.actionProgress += creature.getEfficiency() * 100 / path.getDistance();
+            creature.actionProgress += creature.getEfficiency() * utils.progressVariation(0.1) * 100 / path.getDistance();
 
             if (creature.actionProgress >= 100) {
                 creature.move(entity);

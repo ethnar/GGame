@@ -21,7 +21,7 @@ const actions = [
 
             const progress = toolMultiplier *
                 creature.getSkillMultiplier(SKILLS.COOKING) *
-                creature.getEfficiency();
+                creature.getEfficiency() * utils.progressVariation(0.1);
 
             creature.actionProgress += progress  * 100 / entity.butcherTime;
 

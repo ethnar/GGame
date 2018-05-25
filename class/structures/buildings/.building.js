@@ -37,7 +37,7 @@ const actions = [
             const toolMultiplier = creature.getToolMultiplier(TOOL_UTILS.HAMMER);
 
             const progress = toolMultiplier *
-                creature.getEfficiency();
+                creature.getEfficiency() * utils.progressVariation(0.1);
 
             creature.actionProgress += progress  * 100 / entity.baseTime;
 

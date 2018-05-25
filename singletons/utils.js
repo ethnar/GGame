@@ -84,6 +84,10 @@ const utils = {
 
     log(message) {
         console.log(new Date().toISOString(), message);
+    },
+
+    progressVariation(maxVariation) {
+        return (1 - maxVariation) + Math.random() * maxVariation * 2;
     }
 };
 module.exports = utils;

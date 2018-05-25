@@ -91,7 +91,7 @@ const actions = [
             return true;
         },
         run(entity, creature) {
-            creature.actionProgress += creature.getEfficiency() * 100 / (15 * MINUTES);
+            creature.actionProgress += creature.getEfficiency() * utils.progressVariation(2) * 100 / (15 * MINUTES);
 
             if (creature.actionProgress >= 100) {
 
@@ -187,7 +187,7 @@ const actions = [
             const currentNodeMapping = creature.getNodeMapping(creature.getNode());
             const baseTimeToSearch = 4 * MINUTES;
 
-            const progress = creature.getEfficiency() * (100 / baseTimeToSearch) / Math.pow(2, currentNodeMapping);
+            const progress = creature.getEfficiency() * utils.progressVariation(0.8) * (100 / baseTimeToSearch) / Math.pow(2, currentNodeMapping);
             // 240
             // 480
             // 960
