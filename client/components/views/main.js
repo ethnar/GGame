@@ -264,7 +264,7 @@ export const MainView = {
                 },
                 mood: {
                     name: 'Mood',
-                    description: 'The mood of your character. Keeping it up enables you to work with much better efficiency, gathering and producting faster as well as fighting better. Mood depends on your health, stamina, energy and hunger level.',
+                    description: 'The mood of your character. Keeping it up enables you to work with much better efficiency, gathering and producing faster as well as fighting better. Mood depends on your health, stamina, energy and hunger level.',
                 },
             };
 
