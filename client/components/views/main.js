@@ -306,6 +306,7 @@ export const MainView = {
     <world-map class="world-map-container"></world-map>
     <div class="status-bar">
         <current-action></current-action>
+        <div class="spacer"></div>
         <meter-orb color="red" :value="player.status.health"/>
         <meter-orb color="limegreen" :value="player.status.stamina"/>
         <meter-orb color="dodgerblue" :value="player.status.energy"/>
@@ -484,30 +485,45 @@ export const MainView = {
     </div>
     <div class="section-selector">
         <div
-            class="toggle"
+            class="toggle location"
             @click="mode = 'location'"
             :class="{ active: mode === 'location' }"
-        >L</div>
+        >
+            <div class="shadow"></div>
+            <div class="icon"></div>
+        </div>
         <div
-            class="toggle"
+            class="toggle mobs"
             @click="mode = 'mobs'"
             :class="{ active: mode === 'mobs', highlight: enemiesPresent }"
-        >M</div>
+        >
+            <div class="shadow"></div>
+            <div class="icon"></div>
+        </div>
         <div
-            class="toggle"
+            class="toggle inventory"
             @click="mode = 'inventory'"
             :class="{ active: mode === 'inventory' }"
-        >I</div>
+        >
+            <div class="shadow"></div>
+            <div class="icon"></div>
+        </div>
         <div
-            class="toggle"
+            class="toggle crafting"
             @click="mode = 'crafting'"
             :class="{ active: mode === 'crafting' }"
-        >C</div>
+        >
+            <div class="shadow"></div>
+            <div class="icon"></div>
+        </div>
         <div
-            class="toggle"
+            class="toggle stats"
             @click="mode = 'stats'"
             :class="{ active: mode === 'stats' }"
-        >S</div>
+        >
+            <div class="shadow"></div>
+            <div class="icon"></div>
+        </div>
     </div>
     <context-menu></context-menu>
     <toast-notification></toast-notification>
