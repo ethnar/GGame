@@ -237,7 +237,7 @@ pre {
         -webkit-filter: contrast(0) brightness(1.2) sepia(1);
         filter: contrast(0) brightness(1.2) sepia(1); }
       .main-container .section-selector .toggle .shadow {
-        margin: 1px 0 0 1px; }
+        background-position: 55% 55%; }
       .main-container .section-selector .toggle.location .icon, .main-container .section-selector .toggle.location .shadow {
         background-image: url("../images/icons8-home-100.png"); }
       .main-container .section-selector .toggle.mobs .icon, .main-container .section-selector .toggle.mobs .shadow {
@@ -383,6 +383,90 @@ button, .button {
     outline: none; }
   .action.disabled {
     opacity: 0.4; }
+
+.main-map-container {
+  position: relative;
+  width: 100%;
+  height: 20vh;
+  overflow: hidden;
+  -webkit-transition: height 0.6s;
+  transition: height 0.6s;
+  background: url("../images/ui/bg_01_02.png");
+  background-size: 120vw;
+  background-position: -10vw center; }
+  .main-map-container .toggle-expand {
+    position: absolute;
+    top: 0;
+    right: 3px;
+    width: 5vh;
+    height: 4vh;
+    z-index: 4;
+    border-radius: 0 0 10px 10px;
+    border: 1px solid black;
+    border-top: none;
+    background: url("../images/icons8-sort-down-52.png") white center center no-repeat;
+    background-size: 50%; }
+  .main-map-container.expanded {
+    height: 60vh; }
+    .main-map-container.expanded .toggle-expand {
+      -webkit-transform: scaleY(-1);
+      transform: scaleY(-1);
+      border-radius: 10px 10px 0 0;
+      border: 1px solid black;
+      border-bottom: none; }
+  .main-map-container::before {
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    z-index: 4;
+    -webkit-transition: -webkit-box-shadow 0.6s;
+    transition: -webkit-box-shadow 0.6s;
+    transition: box-shadow 0.6s;
+    transition: box-shadow 0.6s, -webkit-box-shadow 0.6s;
+    pointer-events: none; }
+  .main-map-container.sneaking::before {
+    -webkit-box-shadow: 0 0 120px 10px inset black;
+    box-shadow: 0 0 120px 10px inset black; }
+  .main-map-container .draggable-map {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background-image: url("../images/Arcannan.jpg");
+    border-radius: 20px; }
+    .main-map-container .draggable-map:not(.dragging) {
+      -webkit-transition: margin 0.3s ease-in;
+      transition: margin 0.3s ease-in; }
+    .main-map-container .draggable-map .node-token {
+      position: absolute;
+      border: 1px solid black;
+      width: 20px;
+      height: 20px;
+      margin-left: -10px;
+      margin-top: -10px;
+      border-radius: 50%;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      z-index: 2;
+      background-color: white;
+      opacity: 0.6; }
+      .main-map-container .draggable-map .node-token .inset, .main-map-container .draggable-map .node-token .mid-cover {
+        border: 4px solid black; }
+      .main-map-container .draggable-map .node-token.current {
+        opacity: 1;
+        z-index: 3; }
+    .main-map-container .draggable-map .path {
+      opacity: 0.8;
+      border-radius: 5px;
+      position: absolute;
+      min-width: 1px;
+      min-height: 5px;
+      margin-top: -2.5px;
+      background-color: lightgrey;
+      border: 1px solid black;
+      z-index: 1; }
 
 .meter-orb {
   height: 13.5vw;
@@ -531,87 +615,3 @@ button, .button {
   transition: top 0.3s ease-in-out; }
   .toast-message.visible {
     top: 0; }
-
-.main-map-container {
-  position: relative;
-  width: 100%;
-  height: 20vh;
-  overflow: hidden;
-  -webkit-transition: height 0.6s;
-  transition: height 0.6s;
-  background: url("../images/ui/bg_01_02.png");
-  background-size: 120vw;
-  background-position: -10vw center; }
-  .main-map-container .toggle-expand {
-    position: absolute;
-    top: 0;
-    right: 3px;
-    width: 5vh;
-    height: 4vh;
-    z-index: 4;
-    border-radius: 0 0 10px 10px;
-    border: 1px solid black;
-    border-top: none;
-    background: url("../images/icons8-sort-down-52.png") white center center no-repeat;
-    background-size: 50%; }
-  .main-map-container.expanded {
-    height: 60vh; }
-    .main-map-container.expanded .toggle-expand {
-      -webkit-transform: scaleY(-1);
-      transform: scaleY(-1);
-      border-radius: 10px 10px 0 0;
-      border: 1px solid black;
-      border-bottom: none; }
-  .main-map-container::before {
-    content: '';
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    position: absolute;
-    z-index: 4;
-    -webkit-transition: -webkit-box-shadow 0.6s;
-    transition: -webkit-box-shadow 0.6s;
-    transition: box-shadow 0.6s;
-    transition: box-shadow 0.6s, -webkit-box-shadow 0.6s;
-    pointer-events: none; }
-  .main-map-container.sneaking::before {
-    -webkit-box-shadow: 0 0 120px 10px inset black;
-    box-shadow: 0 0 120px 10px inset black; }
-  .main-map-container .draggable-map {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    background-image: url("../images/Arcannan.jpg");
-    border-radius: 20px; }
-    .main-map-container .draggable-map:not(.dragging) {
-      -webkit-transition: margin 0.3s ease-in;
-      transition: margin 0.3s ease-in; }
-    .main-map-container .draggable-map .node-token {
-      position: absolute;
-      border: 1px solid black;
-      width: 20px;
-      height: 20px;
-      margin-left: -10px;
-      margin-top: -10px;
-      border-radius: 50%;
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      z-index: 2;
-      background-color: white;
-      opacity: 0.6; }
-      .main-map-container .draggable-map .node-token .inset, .main-map-container .draggable-map .node-token .mid-cover {
-        border: 4px solid black; }
-      .main-map-container .draggable-map .node-token.current {
-        opacity: 1;
-        z-index: 3; }
-    .main-map-container .draggable-map .path {
-      opacity: 0.8;
-      border-radius: 5px;
-      position: absolute;
-      min-width: 1px;
-      min-height: 5px;
-      margin-top: -2.5px;
-      background-color: lightgrey;
-      border: 1px solid black;
-      z-index: 1; }
