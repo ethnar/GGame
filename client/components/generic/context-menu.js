@@ -40,7 +40,7 @@ Vue.component('context-menu', {
     <modal v-if="visible" :style="{ top: 'auto', bottom: y, left: x, 'visibility': reallyShow ? 'visible' : 'hidden' }" class="context-menu" @close="visible = false;" ref="modal">
         <template slot="header">{{name}}</template>
         <template slot="main">
-            <div v-html="html"></div>
+            <div class="html" v-html="html"></div>
             <actions
                 class="actions"
                 v-if="data"

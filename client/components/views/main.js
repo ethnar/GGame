@@ -269,7 +269,7 @@ export const MainView = {
             };
 
             const instruction = instructions[topic];
-            ContextMenu.open(instruction.name, null, instruction.description);
+            ContextMenu.open(instruction.name, null, `<div class="help-text">${instruction.description}</div>`);
         },
     },
 
