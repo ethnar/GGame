@@ -58,6 +58,7 @@ Vue.component('meter-orb', {
         class="fill"
         :style="{ 'background-color': color, 'clip-path': 'inset(' + (100 - (value || 0)) + '% 0 0)' }"
     ></div>
+    <div class="border"></div>
 </span>
     `,
 });

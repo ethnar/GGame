@@ -22,33 +22,12 @@
   }
 }
 
-$size: 13.5vw;
 $margin: 0.2vw;
 
 .status-bar {
   display: flex;
-  min-height: $size + 2 * $margin + 1vw;
+  min-height: 13.5vw + 2 * $margin + 1vw;
   border-bottom: 1px solid grey;
-}
-
-.meter-orb {
-  height: $size;
-  width: $size;
-  border: 1px solid gray;
-  border-radius: 50%;
-  margin: $margin;
-  overflow: hidden;
-  position: relative;
-
-  .fill {
-    position: absolute;
-    bottom: 0;
-    width: 102%;
-    margin-left: -1%;
-    height: 102%;
-    margin-bottom: -1%;
-    transition: clip-path 1s linear;
-  }
 }
 
 .item-list {
@@ -267,8 +246,8 @@ pre {
 
 .current-action {
   $border: 3px;
-  height: $size;
-  width: $size;
+  height: 13vw;
+  width: 13vw;
   border: 1px solid black;
   position: relative;
 

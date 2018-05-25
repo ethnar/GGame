@@ -25,26 +25,6 @@
   min-height: 14.9vw;
   border-bottom: 1px solid grey; }
 
-.meter-orb {
-  height: 13.5vw;
-  width: 13.5vw;
-  border: 1px solid gray;
-  border-radius: 50%;
-  margin: 0.2vw;
-  overflow: hidden;
-  position: relative; }
-  .meter-orb .fill {
-    position: absolute;
-    bottom: 0;
-    width: 102%;
-    margin-left: -1%;
-    height: 102%;
-    margin-bottom: -1%;
-    -webkit-transition: -webkit-clip-path 1s linear;
-    transition: -webkit-clip-path 1s linear;
-    transition: clip-path 1s linear;
-    transition: clip-path 1s linear, -webkit-clip-path 1s linear; }
-
 .item-list {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -233,8 +213,8 @@ pre {
         box-shadow: 0 0 10px 3px red inset; }
 
 .current-action {
-  height: 13.5vw;
-  width: 13.5vw;
+  height: 13vw;
+  width: 13vw;
   border: 1px solid black;
   position: relative; }
   .current-action .border {
@@ -340,7 +320,8 @@ button, .button {
   padding: 4px 16px;
   position: relative;
   border-radius: 10px;
-  color: #BBBB8A; }
+  color: #BBBB8A;
+  text-shadow: 1px 1px 2px black; }
   button:active, button:focus, .button:active, .button:focus {
     outline: none; }
   button::before, button::after, .button::before, .button::after {
@@ -452,32 +433,56 @@ button, .button {
       z-index: 1; }
 
 .meter-orb {
-  display: inline-block;
+  height: 13.5vw;
+  width: 13.5vw;
+  border-radius: 50%;
+  margin: 0.2vw;
+  overflow: hidden;
   position: relative;
-  background: radial-gradient(circle at 50% 55%, rgba(240, 245, 255, 0.9), rgba(240, 245, 255, 0.9) 40%, rgba(225, 238, 255, 0.8) 60%, rgba(43, 130, 255, 0.4)); }
+  display: inline-block;
+  padding: 1.2vw;
+  background: radial-gradient(circle at 50% 55%, rgba(0, 10, 15, 0.9), rgba(0, 10, 15, 0.9) 40%, rgba(10, 15, 20, 0.8) 60%, rgba(255, 255, 255, 0.7)); }
+  .meter-orb .border {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: url("../images/ui/frame_c_01.png");
+    background-size: 100%;
+    z-index: 7; }
   .meter-orb .fill {
-    background: radial-gradient(circle at 50% 55%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4) 40%, rgba(225, 255, 255, 0.5) 60%, rgba(43, 43, 43, 0.3)); }
+    position: absolute;
+    bottom: 1.2vw;
+    width: 11.1vw;
+    height: 11.1vw;
+    -webkit-transition: -webkit-clip-path 1s linear;
+    transition: -webkit-clip-path 1s linear;
+    transition: clip-path 1s linear;
+    transition: clip-path 1s linear, -webkit-clip-path 1s linear;
+    background: radial-gradient(circle at 50% 55%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4) 40%, rgba(225, 255, 255, 0.5) 60%, rgba(43, 43, 43, 0.3));
+    border-radius: 50%; }
   .meter-orb::before {
     content: "";
     position: absolute;
-    top: 1%;
-    left: 5%;
+    top: 1.335vw;
+    left: 1.875vw;
     border-radius: 100%;
     z-index: 2;
     -webkit-filter: blur(0);
     filter: blur(0);
-    height: 80%;
-    width: 40%;
+    height: 8.88vw;
+    width: 4.44vw;
     background: radial-gradient(circle at 130% 130%, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0) 46%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.8) 58%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 100%);
     -webkit-transform: translateX(131%) translateY(58%) rotateZ(168deg) rotateX(10deg);
     transform: translateX(131%) translateY(58%) rotateZ(168deg) rotateX(10deg); }
   .meter-orb::after {
     content: "";
     position: absolute;
-    top: 5%;
-    left: 10%;
-    width: 80%;
-    height: 80%;
+    top: 1.875vw;
+    left: 2.55vw;
+    width: 8.88vw;
+    height: 8.88vw;
     border-radius: 100%;
     -webkit-filter: blur(1px);
     filter: blur(1px);
