@@ -24,4 +24,7 @@ Object.assign(Fireplace.prototype, {
         'Log': 20,
     }
 });
+Object.assign(Fireplace.prototype, {
+    deteriorationRate: 3 * HOURS,
+});
 module.exports = global.Fireplace = Fireplace;

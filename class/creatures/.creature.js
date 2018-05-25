@@ -335,7 +335,6 @@ class Creature extends Entity {
             utils.random(1, 100) <= chanceToHit &&
             utils.random(1, 100) > chanceToDodge
         ) {
-            console.log(`${enemy.getName()} has armor of ${enemy.getArmorValue()}`);
             const damage = this.getDamageDealt() * (1 / Math.max(enemy.getArmorValue(), 0.1));
 
             utils.log(enemy.getName() + ' received ' + damage + ' damage from ' + this.getName() + '. (' + weaponName + ')')

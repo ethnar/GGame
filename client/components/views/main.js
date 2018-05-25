@@ -401,7 +401,7 @@ export const MainView = {
                     </div>
                     <div class="details">
                         <div class="label">
-                            {{structure.name}}
+                            {{structure.name}} <span v-if="structure.integrity">({{structure.integrity}}%)</span>
                         </div>
                         <div class="item-list">
                             <item-icon v-for="material in structure.materialsNeeded" :key="material.item.name" :src="material.item.icon" :qty="material.qty" :small="true"></item-icon>

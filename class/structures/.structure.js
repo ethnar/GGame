@@ -43,6 +43,7 @@ class Structure extends Entity {
             id: this.getEntityId(),
             name: this.getName(),
             complete: this.complete,
+            integrity: Math.ceil(this.integrity),
             actions: this.getActionsPayloads(creature),
             icon: this.getIcon(creature),
             materialsNeeded: Item.getMaterialsPayload(this.getNeededMaterials(), creature),

@@ -22,6 +22,7 @@ global.SECONDS = 1;
 global.MINUTES = 60 * SECONDS;
 global.HOURS = 60 * MINUTES;
 global.DAYS = 24 * HOURS;
+global.MONTHS = 30 * DAYS;
 
 /*
  gather food
