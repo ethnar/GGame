@@ -62,7 +62,7 @@ Vue.component('actions', {
 
     template: `
 <div v-if="target.actions">
-    <div v-for="action in target.actions" v-if="(!name || action.name === name) && !exclude.includes(action.name)">
+    <div v-for="action in target.actions" v-if="(!name || action.name === name) && (!exclude || !exclude.includes(action.name))">
         <v-touch @press.prevent="advancedAction(action, target.id, $event);">
             <button
                 class="action"
