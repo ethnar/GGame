@@ -80,7 +80,7 @@ class Node extends Entity {
                 .filter(resource => creature.hasRequiredMapping(resource))
                 .reduce((acc, resource) => {
                     const name = resource.constructor.name;
-                    if (!acc[name] || acc[name].size > resource.size) {
+                    if (!acc[name] || acc[name].size < resource.size) {
                         return {
                             ...acc,
                             [name]: resource,
