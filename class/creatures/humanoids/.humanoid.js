@@ -85,7 +85,8 @@ const actions = [
             if (creature.actionProgress >= 100) {
 
                 const availableCrafting = researchTechs
-                    .filter(contr => !creature.knowsCrafting(contr));
+                    .filter(contr => !creature.knowsCrafting(contr))
+                    .filter(contr => !creature.knowsBuilding(contr));
 
                 const researchMaterials = utils.cleanup(creature.researchMaterials);
 
@@ -249,6 +250,10 @@ class Humanoid extends Creature {
     knowsCrafting(itemType) {
         return this.craftingRecipes
             .some(recipe => recipe.itemClass === itemType.name);
+    }
+
+    knowsBuilding(buildingType) {
+        return this.buildingPlans.find(plan => buildingType.name === plan.buildClassName);
     }
 
     learnCrafting(itemType) {

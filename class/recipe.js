@@ -84,6 +84,9 @@ class Recipe extends Entity {
     }
 
     getMaterials() {
+        if (this.itemClass) {
+            return global[this.itemClass].crafting().materials;
+        }
         return utils.cleanup(this.materials);
     }
 
