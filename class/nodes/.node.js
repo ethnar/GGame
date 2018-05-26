@@ -12,27 +12,42 @@ const actions = [
                 return false;
             }
 
-            if (!entity.hasPath(creature.getNode())) {
-                return false;
-            }
-
-            if (!creature.hasRequiredMapping(entity.getPath(creature.getNode()))) {
-                return false;
-            }
-
             return true;
         },
         run(entity, creature) {
+            if (!entity.hasPath(creature.getNode()) || !creature.hasRequiredMapping(entity.getPath(creature.getNode()))) {
+                entity = creature.pathfinding(entity);
+                if (!entity) {
+                    return false;
+                }
+            }
+
+
             const path = creature.getNode().getPath(entity);
+
+            if (!creature.travelQueue || !creature.travelQueue.length) {
+                creature.travelQueue = [entity];
+            }
+
             creature.actionProgress += creature.getEfficiency() * utils.progressVariation(0.1) * 100 / path.getDistance();
 
             if (creature.actionProgress >= 100) {
+                creature.actionProgress -= 100;
                 creature.move(entity);
+
+                if (creature.travelQueue && creature.travelQueue.length > 1) {
+                    creature.travelQueue.shift();
+                    creature.currentAction.entityId = creature.travelQueue[0].getEntityId();
+                    return true;
+                }
 
                 return false;
             }
             return true;
         },
+        finally(entity, creature) {
+            creature.travelQueue = [];
+        }
     }),
 ];
 

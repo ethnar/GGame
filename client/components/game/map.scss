@@ -78,10 +78,14 @@
       box-sizing: border-box;
       z-index: 2;
       background-color: white;
-      opacity: 0.6;
+      opacity: 0.45;
 
       .mid-cover {
         background: #ffd79b;
+      }
+
+      &.highlight .mid-cover {
+        //background-color: deepskyblue;
       }
 
       .icon {
@@ -110,7 +114,7 @@
 
     .path {
       $width: 5px;
-      opacity: 0.8;
+      opacity: 0.5;
       border-radius: $width;
       position: absolute;
       min-width: 1px;
@@ -119,6 +123,11 @@
       background-color: lightgrey;
       border: 1px solid black;
       z-index: 1;
+
+      &.highlight {
+        background-color: yellow;
+        opacity: 1;
+      }
     }
   }
 }

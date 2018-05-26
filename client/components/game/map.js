@@ -16,6 +16,7 @@ Vue.component('world-map', {
 
     subscriptions() {
         const mapDataStream = MapService.getMapStream();
+        const playerStream = ServerService.getMainStream().pluck('creature');
         const nodesStream = mapDataStream
             .map(data => {
                 const map = {};
@@ -52,12 +53,14 @@ Vue.component('world-map', {
             .combineLatest([
                 nodesStream,
                 boxStream,
+                playerStream,
             ])
-            .map(([ nodes, box ]) => {
+            .map(([ nodes, box, player ]) => {
                 const offsetX = -box.left * NODE_AREA + NODE_AREA / 2;
                 const offsetY = -box.top * NODE_AREA + NODE_AREA / 2;
                 return nodes.map(node => ({
                     ...node,
+                    highlight: player.travelQueue[player.travelQueue.length - 1] === node.id,
                     x: node.x * NODE_AREA + offsetX,
                     y: node.y * NODE_AREA + offsetY,
                 }));
@@ -66,18 +69,29 @@ Vue.component('world-map', {
             .combineLatest([
                 mapDataStream,
                 boxStream,
+                playerStream,
             ])
-            .map(([nodes, box]) => {
+            .map(([ nodes, box, player ]) => {
                 const paths = {};
                 const offsetX = -box.left * NODE_AREA + NODE_AREA / 2;
                 const offsetY = -box.top * NODE_AREA + NODE_AREA / 2;
+                console.log(player.travelQueue);
 
                 nodes.forEach(node => {
                     node.paths.forEach(travelNode => {
                         let lowerId = Math.min(node.id, travelNode.id);
                         let higherId = Math.max(node.id, travelNode.id);
+                        let highlight = false;
+
+                        if (
+                            (travelNode.currentLocation || player.travelQueue.includes(travelNode.id)) &&
+                            (node.currentLocation || player.travelQueue.includes(node.id))
+                        ) {
+                            highlight = true;
+                        }
 
                         paths[`${lowerId}-${higherId}`] = {
+                            highlight,
                             position: {
                                 x: Math.round((node.x + travelNode.x) / 2 * NODE_AREA + offsetX),
                                 y: Math.round((node.y + travelNode.y) / 2 * NODE_AREA + offsetY),
@@ -116,7 +130,7 @@ Vue.component('world-map', {
             mapCenterOffset: mapOffsetStream,
             paths: pathsStream,
             backgroundOffset: backgroundOffsetStream,
-            player: ServerService.getMainStream().pluck('creature'),
+            player: playerStream,
         };
     },
 
@@ -175,7 +189,7 @@ Vue.component('world-map', {
                 v-for="nodeToken in nodeTokens"
                 class="node-token"
                 :key="nodeToken.id"
-                :class="{ current: nodeToken.currentLocation }"
+                :class="{ current: nodeToken.currentLocation, highlight: nodeToken.highlight }"
                 :percentage="100 * (nodeToken.mapping || 0) / 5"
                 :size="20"
                 @click="nodeClicked(nodeToken);"
@@ -186,8 +200,9 @@ Vue.component('world-map', {
             <div
                 v-for="path in paths"
                 class="path"
+                :class="{ highlight: path.highlight }"
                 :style="{ left: path.position.x + 'px', top: path.position.y + 'px', width: path.length + 'px', 'margin-left': (-path.length / 2) + 'px', transform: 'rotate(' + path.angle + 'rad)' }"
-            ></div>
+            >{{path.id}}</div>
         </div>
     </v-touch>
 </div>

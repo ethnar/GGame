@@ -496,7 +496,7 @@ button, .button {
       box-sizing: border-box;
       z-index: 2;
       background-color: white;
-      opacity: 0.6; }
+      opacity: 0.45; }
       .main-map-container .draggable-map .node-token .mid-cover {
         background: #ffd79b; }
       .main-map-container .draggable-map .node-token .icon {
@@ -509,7 +509,7 @@ button, .button {
         opacity: 1;
         z-index: 3; }
     .main-map-container .draggable-map .path {
-      opacity: 0.8;
+      opacity: 0.5;
       border-radius: 5px;
       position: absolute;
       min-width: 1px;
@@ -518,6 +518,9 @@ button, .button {
       background-color: lightgrey;
       border: 1px solid black;
       z-index: 1; }
+      .main-map-container .draggable-map .path.highlight {
+        background-color: yellow;
+        opacity: 1; }
 
 .context-menu {
   width: 60vmin;

@@ -23,5 +23,5 @@ export const pullNotifications = {
 };
 
 messaging.onMessage(payload => {
-    console.log('onMessage:', payload);
+    console.log('onMessage:', payload.notification.body);
 });

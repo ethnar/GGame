@@ -416,6 +416,62 @@ class Creature extends Entity {
         this.setNode(toNode);
     }
 
+    pathfinding(toNode) {
+        const fromNode = this.getNode();
+        const distances = {
+            [toNode.getEntityId()]: 0,
+        };
+        let checkNodes = [toNode];
+
+        while (checkNodes.length > 0) {
+            const next = [...checkNodes];
+            checkNodes = [];
+            next.forEach(node => {
+                const nodeDistance = distances[node.getEntityId()];
+                const paths = node
+                    .getConnections()
+                    .filter(path => this.hasRequiredMapping(path));
+
+                paths.forEach(path => {
+                    const connected = path.getOtherNode(node);
+                    if (
+                        distances[connected.getEntityId()] === undefined ||
+                        distances[connected.getEntityId()] > nodeDistance + path.getDistance()
+                    ) {
+                        distances[connected.getEntityId()] = nodeDistance + path.getDistance();
+                        checkNodes.push(connected);
+                    }
+                });
+            });
+        }
+
+        if (distances[fromNode.getEntityId()] === undefined) {
+            return false;
+        }
+
+        const nodesToVisit = [];
+
+        let node = fromNode;
+        do {
+            const paths = node
+                .getConnections()
+                .filter(path => this.hasRequiredMapping(path));
+            const path = paths
+                .find(path => {
+                    const connected = path.getOtherNode(node);
+                    return distances[connected.getEntityId()] + path.getDistance() === distances[node.getEntityId()];
+                });
+            node = path.getOtherNode(node);
+            nodesToVisit.push(node);
+        } while (node !== toNode);
+
+        this.travelQueue = nodesToVisit;
+
+        this.currentAction.entityId = nodesToVisit[0].getEntityId();
+
+        return nodesToVisit[0];
+    }
+
     die() {
         [...this.items].forEach(item => {
             this.drop(item, item.qty);
@@ -472,6 +528,7 @@ class Creature extends Entity {
                             .getIcon(creature) :
                         null,
                 },
+                travelQueue: (this.travelQueue || []).map(i => i.getEntityId()),
                 researchMaterials: Item.getMaterialsPayload(this.researchMaterials, creature),
                 recentResearches: Object
                     .keys(recentResearches)

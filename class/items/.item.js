@@ -181,6 +181,7 @@ const actions = [
         },
         run(item, creature) {
             creature.pickUp(item);
+            // TODO: find similar
             creature.reStackItems();
             creature.getNode().reStackItems();
             return false;
@@ -209,7 +210,7 @@ const actions = [
         run(item, creature) {
             creature.putToStorage(item);
             if (item.getContainer() !== creature) {
-                creature.actionOnSimilarItem(item);
+                creature.actionOnSimilarItem(item); // TODO: find similar - fix
             }
             creature.reStackItems();
             creature.getHome().reStackItems();
