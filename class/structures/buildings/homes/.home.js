@@ -38,6 +38,14 @@ class Home extends Building {
         }
         return result;
     }
+
+    destroy() {
+        [...this.items].forEach(item => {
+            this.removeItem(item);
+            this.getNode().addItem(item);
+        });
+        super.destroy();
+    }
 }
 Object.assign(Home.prototype, {
     name: '?Home?',

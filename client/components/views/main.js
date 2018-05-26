@@ -46,7 +46,7 @@ Vue.component('inventory', {
             if (this.slots && this.data) {
                 length = Math.max(this.slots - this.data.length, 0);
             }
-            return new Array(length);
+            return length;
         },
 
         sorted() {
@@ -66,7 +66,7 @@ Vue.component('inventory', {
     template: `
 <div class="item-list">
     <item v-for="(item, idx) in sorted" :data="item" :key="'i' + idx"></item>
-    <item-icon v-for="(emptySlot, idx) in emptySlots" :key="idx"></item-icon>
+    <item-icon v-if="emptySlots" :qty="emptySlots"></item-icon>
 </div>
     `,
 });

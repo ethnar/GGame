@@ -26,7 +26,6 @@ class CookedMeat extends Edible {
         return {
             materials: {
                 'Meat': 1,
-                'Log': 1,
             },
             skill: SKILLS.COOKING,
             building: 'Fireplace',

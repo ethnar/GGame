@@ -234,9 +234,10 @@ class Node extends Entity {
     }
 
     cycle() {
-        this.structures.forEach(structure => structure.cycle());
-        this.creatures.forEach(creature => creature.cycle());
-        this.items.forEach(item => {
+        // Use copies as each cycle may end up deleting the object
+        [...this.structures].forEach(structure => structure.cycle());
+        [...this.creatures].forEach(creature => creature.cycle());
+        [...this.items].forEach(item => {
             item.perishing -= 1;
             if (item.perishing === 0) {
                 item.destroy();
