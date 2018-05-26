@@ -34,12 +34,12 @@ module.exports = {
                     body: message,
                 },
                 webpush: {
-                    headers: {
-                        Urgency: 'high'
-                    },
+                    // headers: {
+                    //     Urgency: 'high'
+                    // },
                     notification: {
                         body: message,
-                        requireInteraction: true,
+                        // requireInteraction: true,
                         click_action: 'https://gthegame.com:8001/#/main', // TODO: not hardcoded
                     }
                 },
