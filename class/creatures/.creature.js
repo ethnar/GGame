@@ -89,6 +89,13 @@ class Creature extends Entity {
         };
     }
 
+    actionOnSimilarItem(item) {
+        const similarItem = this.items.find(i => i.constructor.name === item.constructor.name);
+        if (similarItem) {
+            this.currentAction.entityId = similarItem.getEntityId();
+        }
+    }
+
     setNode(node) {
         this.node = node;
     }
@@ -230,10 +237,14 @@ class Creature extends Entity {
         return toolMultiplier;
     }
 
-    pickUp(item) {
+    pickUp(item, qty = 1) {
         const node = item.getContainer();
-        node.removeItem(item);
-        this.addItem(item);
+        let toPick = item;
+        if (item.qty > qty) {
+            toPick = item.split(qty);
+        }
+        node.removeItem(toPick);
+        this.addItem(toPick);
     }
 
     drop(item, qty = 1) {

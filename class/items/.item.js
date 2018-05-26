@@ -152,6 +152,9 @@ const actions = [
         },
         run(item, creature) {
             creature.drop(item);
+            if (item.getContainer() !== creature) {
+                creature.actionOnSimilarItem(item);
+            }
             creature.reStackItems();
             creature.getNode().reStackItems();
             return false;
@@ -205,6 +208,9 @@ const actions = [
         },
         run(item, creature) {
             creature.putToStorage(item);
+            if (item.getContainer() !== creature) {
+                creature.actionOnSimilarItem(item);
+            }
             creature.reStackItems();
             creature.getHome().reStackItems();
             return false;
@@ -230,9 +236,14 @@ const actions = [
             return true;
         },
         run(item, creature) {
+            const home = creature.getHome();
+
             creature.takeFromStorage(item);
+            if (item.getContainer() !== home) {
+                creature.actionOnSimilarItem(item);
+            }
             creature.reStackItems();
-            creature.getHome().reStackItems();
+            home.reStackItems();
             return false;
         }
     })

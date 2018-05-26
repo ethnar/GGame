@@ -18,7 +18,10 @@ const actions = [
                 creature.satiated += item.constructor.nutrition();
                 creature.satiated = Math.min(creature.satiated, 100);
                 const removed = creature.useUpItem(item);
-                if (creature.satiated >= 100 || removed) {
+                if (removed) {
+                    creature.actionOnSimilarItem(item);
+                }
+                if (creature.satiated >= 100) {
                     creature.currentAction.repetitions = 0;
                     return false;
                 }

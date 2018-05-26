@@ -45,7 +45,11 @@ const actions = [
                         }
                     });
 
-                creature.useUpItem(entity);
+                const removed = creature.useUpItem(entity);
+                if (removed) {
+                    creature.actionOnSimilarItem(entity);
+                }
+
                 return false;
             }
             return true;
