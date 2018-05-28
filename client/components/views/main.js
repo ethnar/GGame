@@ -292,10 +292,6 @@ export const MainView = {
                     </div>
                 </div>
             </section>
-            <section v-if="node.inventory && node.inventory.length">
-                <header>On the ground</header>
-                <inventory :data="node.inventory"></inventory>
-            </section>
             <section>
                 <header>Inventory</header>
                 <inventory :data="player.inventory" :slots="player.inventorySize"></inventory>
@@ -303,6 +299,10 @@ export const MainView = {
             <section v-for="structure in node.structures" v-if="structure.inventory">
                 <header>Storage</header>
                 <inventory :data="structure.inventory" :slots="structure.inventorySize"></inventory>
+            </section>
+            <section v-if="node.inventory && node.inventory.length">
+                <header>On the ground</header>
+                <inventory :data="node.inventory"></inventory>
             </section>
         </div>
         <div :hidden="mode !== 'crafting'">
