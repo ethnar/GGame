@@ -278,6 +278,9 @@ class Humanoid extends Creature {
     }
 
     hasRequiredMapping(entity) {
+        if (this.getPlayer && this.getPlayer().godMode) {
+            return true;
+        }
         let knownMapping;
         if (entity.getNode) {
             knownMapping = this.getNodeMapping(entity.getNode());
@@ -296,6 +299,9 @@ class Humanoid extends Creature {
     }
 
     getMapPayload() {
+        if (this.getPlayer().godMode) {
+            return getFullMap(this);
+        }
         return this
             .getMappedNodes()
             .filter(node => node.x !== undefined)
@@ -567,3 +573,34 @@ server.registerHandler('updateBehaviour', (params, player, connection) => {
 
     return true;
 });
+
+const getFullMap = (creature) => {
+    const start = creature.getNode();
+    const getter = (node, skipConnections = false) => {
+        return {
+            ...node.getDetailsPayload(creature),
+            id: node.getEntityId(),
+            name: node.getName(),
+            icon: node.icon,
+            mapping: creature.getNodeMapping(node),
+            actions: node.getActionsPayloads(creature),
+            x: node.x - creature.getNode().x,
+            y: node.y - creature.getNode().y,
+            currentLocation:
+                creature.getNode() === node ?
+                    true :
+                    undefined,
+            paths: skipConnections ?
+                undefined :
+                node.paths
+                    .map(
+                        path => getter(path.getOtherNode(node), true)
+                    )
+        };
+    };
+
+    return Object
+        .values(Entity.getEntityMap())
+        .filter(entity => entity instanceof Node)
+        .map(node => getter(node));
+};

@@ -7,13 +7,9 @@ const path = require('path');
 const fs = require('fs');
 const https = require('https');
 const jd = require('../client/libs/json-delta');
-const Jimp = require("jimp");
+const Jimp = require('jimp');
 
 const mapFile = 'resources/handpainted_fantasy_map_concept_by_djekspek-d5d17is.jpg';
-const mapOffset = {
-    x: 315,
-    y: 1220,
-};
 const MAP_CACHE = '.map';
 fs.mkdir(MAP_CACHE, () => {});
 
@@ -253,8 +249,8 @@ expressApp
                         const visibleAreaSize = 100;
                         image
                             .crop(
-                                node.x * 50 + mapOffset.x,
-                                node.y * 50 + mapOffset.y,
+                                node.x - visibleAreaSize / 2,
+                                node.y - visibleAreaSize / 2,
                                 visibleAreaSize,
                                 visibleAreaSize
                             )

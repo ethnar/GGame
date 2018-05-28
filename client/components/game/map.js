@@ -46,8 +46,8 @@ Vue.component('world-map', {
             });
         const sizeStream = boxStream
             .map(box => ({
-                width: (box.right - box.left + 1) * NODE_AREA,
-                height: (box.bottom - box.top + 1) * NODE_AREA,
+                width: (box.right - box.left + 1),
+                height: (box.bottom - box.top + 1),
             }));
         const nodeTokensStream = Rx.Observable
             .combineLatest([
@@ -56,13 +56,13 @@ Vue.component('world-map', {
                 playerStream,
             ])
             .map(([ nodes, box, player ]) => {
-                const offsetX = -box.left * NODE_AREA + NODE_AREA / 2;
-                const offsetY = -box.top * NODE_AREA + NODE_AREA / 2;
+                const offsetX = -box.left;
+                const offsetY = -box.top;
                 return nodes.map(node => ({
                     ...node,
                     highlight: player.travelQueue[player.travelQueue.length - 1] === node.id,
-                    x: node.x * NODE_AREA + offsetX,
-                    y: node.y * NODE_AREA + offsetY,
+                    x: node.x + offsetX,
+                    y: node.y + offsetY,
                 }));
             });
         const pathsStream = Rx.Observable
@@ -73,8 +73,8 @@ Vue.component('world-map', {
             ])
             .map(([ nodes, box, player ]) => {
                 const paths = {};
-                const offsetX = -box.left * NODE_AREA + NODE_AREA / 2;
-                const offsetY = -box.top * NODE_AREA + NODE_AREA / 2;
+                const offsetX = -box.left;
+                const offsetY = -box.top;
                 console.log(player.travelQueue);
 
                 nodes.forEach(node => {
@@ -93,14 +93,14 @@ Vue.component('world-map', {
                         paths[`${lowerId}-${higherId}`] = {
                             highlight,
                             position: {
-                                x: Math.round((node.x + travelNode.x) / 2 * NODE_AREA + offsetX),
-                                y: Math.round((node.y + travelNode.y) / 2 * NODE_AREA + offsetY),
+                                x: Math.round((node.x + travelNode.x) / 2 + offsetX),
+                                y: Math.round((node.y + travelNode.y) / 2 + offsetY),
                             },
                             length: Math.round(
                                 Math.sqrt(
                                     Math.pow(Math.abs(node.x - travelNode.x), 2) +
                                     Math.pow(Math.abs(node.y - travelNode.y), 2)
-                                ) * (NODE_AREA) - 25
+                                )  - 25
                             ),
                             angle: Math.atan2(
                                 node.y - travelNode.y,
@@ -117,11 +117,6 @@ Vue.component('world-map', {
             .do(position => (this.mapOffset === null ? this.mapOffset = {
                 ...position,
             } : position));
-        const backgroundOffsetStream = boxStream
-            .map(box => ({
-                x: -1070 - this.box.left * NODE_AREA + NODE_AREA / 2,
-                y: -1170 - this.box.top * NODE_AREA + NODE_AREA / 2,
-            }));
         return {
             data: mapDataStream,
             box: boxStream,
@@ -129,7 +124,6 @@ Vue.component('world-map', {
             nodeTokens: nodeTokensStream,
             mapCenterOffset: mapOffsetStream,
             paths: pathsStream,
-            backgroundOffset: backgroundOffsetStream,
             player: playerStream,
         };
     },
@@ -183,7 +177,7 @@ Vue.component('world-map', {
             v-if="size"
             class="draggable-map"
             :class="{ dragging: dragging }"
-            :style="{ width: size.width + 'px', height: size.height + 'px', 'margin-top': -mapOffset.y + 'px', 'margin-left': -mapOffset.x + 'px', 'background-position': (backgroundOffset.x) + 'px ' + (backgroundOffset.y) + 'px' }"
+            :style="{ width: size.width + 'px', height: size.height + 'px', 'margin-top': -mapOffset.y + 'px', 'margin-left': -mapOffset.x + 'px' }"
         >
             <div
                 v-for="nodeToken in nodeTokens"

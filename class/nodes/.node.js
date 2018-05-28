@@ -225,8 +225,8 @@ class Node extends Entity {
             name: this.getName(),
             mapping: creature.getNodeMapping(this),
             actions: this.getActionsPayloads(creature),
-            x: this.x,
-            y: this.y,
+            x: this.x - creature.getNode().x,
+            y: this.y - creature.getNode().y,
             icon: this.getIcon(creature),
             currentLocation:
                 creature.getNode() === this ?
@@ -265,39 +265,5 @@ module.exports = global.Node = Node;
 server.registerHandler('getMap', (params, player, connection) => {
     const creature = player.getCreature();
 
-    if (player.godMode) {
-        return getFullMap(creature);
-    }
     return creature.getMapPayload();
 });
-
-const getFullMap = (creature) => {
-    const start = creature.getNode();
-    const getter = (node, skipConnections = false) => {
-        return {
-            ...node.getDetailsPayload(creature),
-            id: node.getEntityId(),
-            name: node.getName(),
-            icon: node.icon,
-            mapping: creature.getNodeMapping(node),
-            actions: node.getActionsPayloads(creature),
-            x: node.x,
-            y: node.y,
-            currentLocation:
-                creature.getNode() === node ?
-                    true :
-                    undefined,
-            paths: skipConnections ?
-                undefined :
-                node.paths
-                    .map(
-                        path => getter(path.getOtherNode(node), true)
-                    )
-        };
-    };
-
-    return Object
-        .values(Entity.getEntityMap())
-        .filter(entity => entity instanceof Node)
-        .map(node => getter(node));
-};
