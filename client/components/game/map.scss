@@ -81,7 +81,7 @@
         z-index: 1;
       }
 
-      .radial-progress {
+      .radial-progress:not(.current) {
         opacity: 0.55;
       }
 
