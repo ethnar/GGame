@@ -243,31 +243,6 @@ expressApp
             return;
         }
 
-        // res.sendFile(path.join(__dirname, '../resources/' + icon));
-        // mapImageProcessor.crop(20, 20, 0, 0, (err, data) => {
-        //     if (err) {
-        //         console.error(err);
-        //         res.status(500);
-        //         res.send();
-        //     }
-        //     res.send(data);
-        // });
-
-        // easyimage.crop({
-        //     src: mapFile,
-        //     x: 50,
-        //     y: 200,
-        //     cropHeight: 100,
-        //     cropWidth: 50,
-        // }).then((data) => {
-        //     console.log(data);
-        //     res.send(data);
-        // }).catch((error) => {
-        //     console.error(error);
-        //     res.status(500);
-        //     res.send();
-        // });
-
         let promise;
         const cacheName = path.join(MAP_CACHE, mapFile.replace(/\//g, '_') + '__' + id);
         if (!fs.existsSync(cacheName)) {
