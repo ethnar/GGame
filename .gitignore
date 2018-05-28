@@ -1,5 +1,6 @@
 node_modules/
 .idea/
 .saves/*
+.map/*
 firebase-private-key.json
 *.psd

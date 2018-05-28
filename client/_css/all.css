@@ -81,7 +81,8 @@
   .item-icon img {
     height: 100%;
     width: 100%;
-    display: block; }
+    display: block;
+    border-radius: 7%; }
   .item-icon .qty {
     position: absolute;
     bottom: 2%;
@@ -479,24 +480,28 @@ button, .button {
     position: absolute;
     left: 50%;
     top: 50%;
-    background-image: url("../images/Arcannan.jpg");
     border-radius: 20px; }
     .main-map-container .draggable-map:not(.dragging) {
       -webkit-transition: margin 0.3s ease-in;
       transition: margin 0.3s ease-in; }
     .main-map-container .draggable-map .node-token {
       position: absolute;
-      border: 1px solid black;
       width: 20px;
       height: 20px;
       margin-left: -10px;
       margin-top: -10px;
-      border-radius: 50%;
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
-      z-index: 2;
-      background-color: white;
-      opacity: 0.45; }
+      z-index: 2; }
+      .main-map-container .draggable-map .node-token.background {
+        z-index: 1; }
+      .main-map-container .draggable-map .node-token .radial-progress {
+        opacity: 0.55; }
+      .main-map-container .draggable-map .node-token .map-image {
+        position: absolute;
+        margin: -40px;
+        border-radius: 50%;
+        pointer-events: none; }
       .main-map-container .draggable-map .node-token .mid-cover {
         background: #ffd79b; }
       .main-map-container .draggable-map .node-token .icon {
@@ -505,9 +510,10 @@ button, .button {
         border-radius: 50%; }
       .main-map-container .draggable-map .node-token .inset, .main-map-container .draggable-map .node-token .mid-cover {
         border: 4px solid black; }
-      .main-map-container .draggable-map .node-token.current {
-        opacity: 1;
+      .main-map-container .draggable-map .node-token .current {
         z-index: 3; }
+        .main-map-container .draggable-map .node-token .current.radial-progress {
+          opacity: 1; }
     .main-map-container .draggable-map .path {
       opacity: 0.5;
       border-radius: 5px;
@@ -686,7 +692,8 @@ button, .button {
   position: relative;
   overflow: hidden;
   -webkit-box-sizing: content-box !important;
-  box-sizing: content-box !important; }
+  box-sizing: content-box !important;
+  border-radius: 50%; }
   .radial-progress .radial-progress-wrapper {
     background: #ddd;
     position: absolute;

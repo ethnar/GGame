@@ -4,14 +4,14 @@ import {ContextMenu} from '../generic/context-menu.js';
 import './actions.js';
 import '../generic/radial-progress.js';
 
-const NODE_AREA = 60;
+const NODE_AREA = 50;
 
 Vue.component('world-map', {
     data: () => ({
         NODE_AREA,
         dragging: false,
         expanded: false,
-        mapOffset: {},
+        mapOffset: null,
     }),
 
     subscriptions() {
@@ -114,9 +114,9 @@ Vue.component('world-map', {
             });
         const mapOffsetStream = nodeTokensStream
             .map(nodes => nodes.find(node => node.currentLocation))
-            .do(position => (this.mapOffset = {
+            .do(position => (this.mapOffset === null ? this.mapOffset = {
                 ...position,
-            }));
+            } : position));
         const backgroundOffsetStream = boxStream
             .map(box => ({
                 x: -1070 - this.box.left * NODE_AREA + NODE_AREA / 2,
@@ -185,18 +185,28 @@ Vue.component('world-map', {
             :class="{ dragging: dragging }"
             :style="{ width: size.width + 'px', height: size.height + 'px', 'margin-top': -mapOffset.y + 'px', 'margin-left': -mapOffset.x + 'px', 'background-position': (backgroundOffset.x) + 'px ' + (backgroundOffset.y) + 'px' }"
         >
-            <radial-progress
+            <div
+                v-for="nodeToken in nodeTokens"
+                class="node-token background"
+                :style="{ left: nodeToken.x + 'px', top: nodeToken.y + 'px' }"
+                v-if="nodeToken.mapping"
+            >
+                <img class="map-image" :src="'/mapImage/' + nodeToken.id">
+            </div>
+            <div
                 v-for="nodeToken in nodeTokens"
                 class="node-token"
-                :key="nodeToken.id"
-                :class="{ current: nodeToken.currentLocation, highlight: nodeToken.highlight }"
-                :percentage="100 * (nodeToken.mapping || 0) / 5"
-                :size="20"
-                @click="nodeClicked(nodeToken);"
                 :style="{ left: nodeToken.x + 'px', top: nodeToken.y + 'px' }"
             >
-                <!--<img class="icon" :src="nodeToken.icon">-->
-            </radial-progress>
+                <radial-progress
+                    :key="nodeToken.id"
+                    :class="{ current: nodeToken.currentLocation, highlight: nodeToken.highlight }"
+                    :percentage="100 * (nodeToken.mapping || 0) / 5"
+                    :size="20"
+                    @click="nodeClicked(nodeToken);"
+                >
+                </radial-progress>
+            </div>
             <div
                 v-for="path in paths"
                 class="path"

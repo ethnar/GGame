@@ -56,7 +56,7 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    background-image: url('../images/Arcannan.jpg');
+    //background-image: url('../images/Arcannan.jpg');
     //background-position: -2060px -2212px;
     //background-size: 5016px;
     //background-position: -1000px -1109px;
@@ -68,17 +68,29 @@
 
     .node-token {
       $size: 20px;
+      $map-area-size: 100px;
       position: absolute;
-      border: 1px solid black;
       width: $size;
       height: $size;
       margin-left: -$size / 2;
       margin-top: -$size / 2;
-      border-radius: 50%;
       box-sizing: border-box;
       z-index: 2;
-      background-color: white;
-      opacity: 0.45;
+
+      &.background {
+        z-index: 1;
+      }
+
+      .radial-progress {
+        opacity: 0.55;
+      }
+
+      .map-image {
+        position: absolute;
+        margin: - ($map-area-size - $size) / 2;
+        border-radius: 50%;
+        pointer-events: none;
+      }
 
       .mid-cover {
         background: #ffd79b;
@@ -106,8 +118,10 @@
       //opacity: 1;
       //background-color: black;
 
-      &.current {
-        opacity: 1;
+      .current {
+        &.radial-progress {
+          opacity: 1;
+        }
         z-index: 3;
       }
     }

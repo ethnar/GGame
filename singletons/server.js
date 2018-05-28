@@ -7,6 +7,15 @@ const path = require('path');
 const fs = require('fs');
 const https = require('https');
 const jd = require('../client/libs/json-delta');
+const Jimp = require("jimp");
+
+const mapFile = 'resources/handpainted_fantasy_map_concept_by_djekspek-d5d17is.jpg';
+const mapOffset = {
+    x: 315,
+    y: 1220,
+};
+const MAP_CACHE = '.map';
+fs.mkdir(MAP_CACHE, () => {});
 
 const port = process.env.PORT || 8001;
 
@@ -206,6 +215,90 @@ expressApp
             return;
         }
         res.sendFile(path.join(__dirname, '../resources/' + icon));
+    })
+    .use('/mapImage', (req, res) => {
+        const id = parseInt(req.path.substr(1), 10);
+
+        if (isNaN(id)) {
+            console.error('Incorrect node id');
+            res.status(500);
+            res.send();
+            return;
+        }
+
+        const node = Entity.getById(id);
+
+        if (!(node instanceof Node)) {
+            console.error('Not a node');
+            res.status(500);
+            res.send();
+            return;
+        }
+
+        const player = getPlayerFromCookies(req.headers.cookie);
+        const icon = req.path;
+        if (!player || !player.getCreature().getNodeMapping(node)) {
+            res.status(404);
+            res.send();
+            return;
+        }
+
+        // res.sendFile(path.join(__dirname, '../resources/' + icon));
+        // mapImageProcessor.crop(20, 20, 0, 0, (err, data) => {
+        //     if (err) {
+        //         console.error(err);
+        //         res.status(500);
+        //         res.send();
+        //     }
+        //     res.send(data);
+        // });
+
+        // easyimage.crop({
+        //     src: mapFile,
+        //     x: 50,
+        //     y: 200,
+        //     cropHeight: 100,
+        //     cropWidth: 50,
+        // }).then((data) => {
+        //     console.log(data);
+        //     res.send(data);
+        // }).catch((error) => {
+        //     console.error(error);
+        //     res.status(500);
+        //     res.send();
+        // });
+
+        let promise;
+        const cacheName = path.join(MAP_CACHE, mapFile.replace(/\//g, '_') + '__' + id);
+        if (!fs.existsSync(cacheName)) {
+            promise = new Promise(resolve => {
+                Jimp
+                    .read(mapFile)
+                    .then((image) => {
+                        const visibleAreaSize = 100;
+                        image
+                            .crop(
+                                node.x * 50 + mapOffset.x,
+                                node.y * 50 + mapOffset.y,
+                                visibleAreaSize,
+                                visibleAreaSize
+                            )
+                            .getBuffer(Jimp.MIME_PNG, (err, buffer) => {
+                                fs.writeFileSync(cacheName, buffer);
+                                resolve();
+                            });
+                    }).catch((error) => {
+                        console.error(error);
+                        res.status(500);
+                        res.send();
+                    });
+            });
+        } else {
+            promise = Promise.resolve();
+        }
+        promise.then(() => {
+            res.sendFile(path.join(__dirname, '..', cacheName));
+        });
     })
     .use('/api/ws', wsProxy)
     .post('/api/login', (req, res) => {
