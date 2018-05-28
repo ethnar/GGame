@@ -541,7 +541,6 @@ class Creature extends Entity {
                     ...result.status,
                     satiated: Math.ceil(this.satiated),
                     energy: Math.ceil(this.energy),
-                    stamina: Math.ceil(this.stamina),
                     stealth: Math.ceil(this.stealth),
                     mood: Math.ceil(this.mood),
                 },

@@ -218,10 +218,6 @@ export const MainView = {
                     name: 'Health',
                     description: 'Represents your health. If it reaches zero your character will die, permanently. Health regenerates very slowly over time.',
                 },
-                stamina: {
-                    name: 'Stamina',
-                    description: 'Represents your stamina. Stamina is used when fighting and sneaking.',
-                },
                 energy: {
                     name: 'Energy',
                     description: 'Represents your energy. Energy slowly drains while you are awake and you need to sleep to regain it.',
@@ -236,7 +232,7 @@ export const MainView = {
                 },
                 mood: {
                     name: 'Mood',
-                    description: 'The mood of your character. Keeping it up enables you to work with much better efficiency, gathering and producing faster as well as fighting better. Mood depends on your health, stamina, energy and hunger level.',
+                    description: 'The mood of your character. Keeping it up enables you to work with much better efficiency, gathering and producing faster as well as fighting better. Mood depends on your health, energy and hunger level.',
                 },
             };
 
@@ -252,7 +248,6 @@ export const MainView = {
         <current-action></current-action>
         <div class="spacer"></div>
         <meter-orb color="red" :value="player.status.health" @click="explain('health');"/>
-        <meter-orb color="limegreen" :value="player.status.stamina" @click="explain('stamina');"/>
         <meter-orb color="dodgerblue" :value="player.status.energy" @click="explain('energy');"/>
         <meter-orb color="orange" :value="player.status.satiated" @click="explain('satiated');"/>
         <meter-orb color="gray" :value="player.status.stealth" @click="explain('stealth');"/>

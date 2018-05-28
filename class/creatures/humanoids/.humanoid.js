@@ -223,7 +223,6 @@ class Humanoid extends Creature {
         super(args);
 
         this.energy = 100;
-        this.stamina = 100;
         this.stealth = 100;
         this.satiated = 70;
         this.mood = 100;
@@ -322,20 +321,6 @@ class Humanoid extends Creature {
         }
     }
 
-    updateStamina() {
-        switch (true) {
-            case this.fighting:
-                this.stamina -= 100 / (30 * MINUTES);
-                break;
-            case this.sneaking && this.hasEnemies():
-                this.stamina -= 100 / ((2 + this.getSkillLevel(SKILLS.SCOUTING)) * HOURS);
-                break;
-            default:
-                this.stamina += 100 / 5 * MINUTES;
-        }
-        this.stamina = utils.limit(this.stamina, 0, 100);
-    }
-
     updateEnergy() {
         if (this.sleeping) {
             const sleepNeeded = 6 * HOURS;
@@ -400,7 +385,6 @@ class Humanoid extends Creature {
         const factors = [
             'satiated',
             'health',
-            'stamina',
             'energy',
         ];
         const base = 3;
@@ -417,7 +401,6 @@ class Humanoid extends Creature {
         if (this.dead) {
             return;
         }
-        this.updateStamina();
         this.updateEnergy();
         this.gettingHungry();
         this.updateStealth();
