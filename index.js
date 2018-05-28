@@ -17,29 +17,36 @@ const resurrect = require('resurrect-js');
 const necro = new resurrect();
 
 const initialise = program.reset;
+let worldPromise;
 
 if (initialise) {
     utils.log('** Creating a new world **');
-    global.world = worldBuilder.buildNewWorld();
-    global.world.save('initial_save.json');
-    global.world.save('rolling_save.json');
+    worldPromise = worldBuilder.buildNewWorld();
+    worldPromise.then(world => {
+        world.save('initial_save.json');
+        world.save('rolling_save.json');
+    });
+} else {
+    worldPromise = Promise.resolve(World.load('rolling_save.json'));
 }
 
-global.world = World.load('rolling_save.json');
+worldPromise.then(world => {
+    global.world = world;
 
-utils.log('*** Start ***');
+    utils.log('*** Start ***');
 
-let terminate = false;
+    let terminate = false;
 
-setInterval(() => {
-    world.cycle();
-    server.updatePlayers();
-    if (terminate) {
-        utils.log('*** Terminated ***');
-        process.exit(0);
-    }
-}, program.dev ? 10 : 1000);
+    setInterval(() => {
+        world.cycle();
+        server.updatePlayers();
+        if (terminate) {
+            utils.log('*** Terminated ***');
+            process.exit(0);
+        }
+    }, program.dev ? 100 : 1000);
 
-process.on('SIGTERM', function () {
-    terminate = true;
+    process.on('SIGTERM', function () {
+        terminate = true;
+    });
 });
